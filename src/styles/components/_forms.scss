@@ -1,0 +1,293 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.form-grid {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  color: var(--text);
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  padding: 11px 12px;
+  outline: none;
+  transition: border-color $fast, box-shadow $fast, background $fast;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgb(67 164 255 / 16%);
+}
+
+.composer,
+.bio-form {
+  @include card-shell;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.composer {
+  transition: border-color $fast, transform $fast;
+}
+
+.composer-closed {
+  padding: 10px;
+}
+
+.post-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  padding: 10px;
+  border-radius: $radius;
+  color: var(--text);
+  background: var(--surface-3);
+  border: 1px solid var(--line);
+  text-align: left;
+  line-height: 1.25;
+
+  &:hover {
+    border-color: var(--accent-2);
+    background: var(--surface-2);
+  }
+
+  small {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+  }
+}
+
+.post-trigger__avatar {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #06130c;
+  background: var(--accent);
+
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: #06130c;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.composer-open {
+  gap: 14px;
+}
+
+.composer-head,
+.composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.composer-head {
+  h3 {
+    margin: 0;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+}
+
+.composer-grid {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.72fr) minmax(0, 1.28fr);
+  gap: 10px;
+}
+
+.text-editor-shell {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  background: var(--surface-3);
+
+  textarea {
+    min-height: 132px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface-2) 78%, transparent);
+
+  .toolbar-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 32px;
+    border-radius: $radius-sm;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid transparent;
+    line-height: 1;
+    text-align: center;
+
+    &:hover {
+      color: var(--text);
+      border-color: var(--line);
+      background: var(--surface-2);
+    }
+  }
+}
+
+.attachment-menu {
+  position: relative;
+}
+
+.attachment-popover {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 8px);
+  z-index: 20;
+  width: 160px;
+  display: grid;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  animation: fade-up 140ms ease both;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    bottom: -6px;
+    width: 10px;
+    height: 10px;
+    rotate: 45deg;
+    background: var(--surface);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    min-height: 36px;
+    padding: 8px 10px;
+    border-radius: $radius-sm;
+    color: var(--text);
+    background: transparent;
+    text-align: left;
+    line-height: 1;
+
+    &:hover {
+      background: var(--surface-2);
+    }
+  }
+}
+
+.menu-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+@media (max-width: 520px) {
+  .composer,
+  .bio-form {
+    padding: 13px;
+    box-shadow: none;
+  }
+
+  input,
+  textarea,
+  select {
+    padding: 10px;
+  }
+
+  .form-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .composer-head,
+  .composer-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .composer-head .icon-btn {
+    align-self: flex-end;
+  }
+
+  .composer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .post-trigger {
+    align-items: flex-start;
+  }
+
+  .editor-toolbar {
+    overflow-x: auto;
+  }
+
+  .attachment-popover {
+    bottom: calc(100% + 6px);
+  }
+}

@@ -1,0 +1,33 @@
+@use "../abstracts/variables" as *;
+
+.admin-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+
+  &:hover {
+    color: var(--accent-2);
+  }
+}
+
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media (max-width: 520px) {
+  .admin-row,
+  .profile-row,
+  .stat-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .row-actions,
+  .row-actions .btn {
+    width: 100%;
+  }
+}

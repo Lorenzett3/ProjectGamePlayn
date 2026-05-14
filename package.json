@@ -1,11 +1,14 @@
 {
-  "name": "gamehub-forum-mvp",
+  "name": "gameplayn-mvp",
   "version": "1.0.0",
-  "description": "MVP de forum/rede social de games para apresentacao academica.",
+  "description": "MVP de forum/rede social de games com React, Node e SCSS.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "api": "node server.js",
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "node server.js"
   },
   "keywords": [
     "games",
@@ -13,6 +16,13 @@
     "rede-social",
     "mvp"
   ],
-  "author": "Lorenzode Oliveira Moraes",
-  "license": "MIT"
+  "author": "Lorenzett3",
+  "license": "MIT",
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sass": "^1.80.0"
+  }
 }

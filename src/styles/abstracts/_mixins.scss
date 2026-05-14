@@ -1,0 +1,16 @@
+@use "variables" as *;
+
+@mixin card-shell {
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+@mixin interactive-lift {
+  transition: transform $medium, border-color $medium, background $medium, box-shadow $medium;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}

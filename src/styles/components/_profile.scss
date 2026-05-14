@@ -1,0 +1,170 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.panel {
+  @include card-shell;
+  padding: 16px;
+
+  h3 {
+    margin: 0 0 12px;
+  }
+}
+
+.profile-hero {
+  @include card-shell;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 22px;
+}
+
+.profile-copy {
+  min-width: 0;
+
+  h2 {
+    margin: 8px 0;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    overflow-wrap: anywhere;
+  }
+
+  p {
+    max-width: 72ch;
+    margin: 0;
+    color: var(--text);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+}
+
+.profile-counter {
+  display: grid;
+  justify-items: center;
+  min-width: 94px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  background: var(--surface-3);
+
+  strong {
+    font-size: 2rem;
+  }
+
+  span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+}
+
+.profile-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  span:last-child {
+    display: grid;
+    min-width: 0;
+  }
+
+  strong,
+  small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  small {
+    color: var(--muted);
+  }
+}
+
+.profile-row,
+.admin-row,
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding: 11px 0;
+  min-width: 0;
+
+  &:first-of-type {
+    border-top: 0;
+  }
+
+  strong,
+  span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 14px;
+
+  h3 {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 780px) {
+  .panel,
+  .profile-hero,
+  .bio-form {
+    box-shadow: none;
+  }
+
+  .panel {
+    padding: 13px;
+  }
+
+  .profile-hero {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+
+  .profile-copy {
+    h2 {
+      font-size: clamp(1.25rem, 8vw, 1.9rem);
+    }
+
+    p {
+      font-size: 0.94rem;
+    }
+  }
+
+  .profile-counter {
+    width: 100%;
+    grid-template-columns: auto 1fr;
+    justify-items: start;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .section-title {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .profile-card {
+    align-items: flex-start;
+  }
+
+  .profile-row,
+  .stat-row {
+    gap: 4px;
+  }
+}

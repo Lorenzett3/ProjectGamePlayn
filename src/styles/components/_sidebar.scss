@@ -1,0 +1,163 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.sidebar {
+  @include card-shell;
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  height: calc(100vh - 40px);
+  overflow: hidden;
+}
+
+.brand {
+  padding: 22px;
+  border-bottom: 1px solid var(--line);
+
+  h1 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+}
+
+.nav-list {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-btn,
+.game-btn {
+  width: 100%;
+  border-radius: $radius;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid transparent;
+  text-align: left;
+  transition: transform $fast, border-color $fast, background $fast;
+
+  &:hover,
+  &.active {
+    background: var(--surface-2);
+    border-color: var(--line);
+    transform: translateX(2px);
+  }
+}
+
+.nav-btn {
+  min-height: 40px;
+  padding: 10px 12px;
+}
+
+.game-list {
+  padding: 12px;
+  overflow-y: auto;
+  max-height: calc(100vh - 260px);
+}
+
+.game-btn {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  margin-bottom: 8px;
+
+  strong {
+    font-size: 0.95rem;
+  }
+
+  span {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 780px) {
+  .sidebar {
+    position: static;
+    top: auto;
+    z-index: 10;
+    height: auto;
+    border-width: 0 0 1px;
+    border-radius: 0;
+    box-shadow: none;
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter: blur(14px);
+  }
+
+  .brand {
+    padding: 14px 14px 10px;
+
+    h1 {
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    p {
+      display: none;
+    }
+  }
+
+  .nav-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 10px;
+    border-bottom: 0;
+  }
+
+  .game-list {
+    display: flex;
+    gap: 8px;
+    max-height: none;
+    overflow-x: auto;
+    padding: 0 10px 12px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .nav-btn {
+    min-height: 42px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .game-btn {
+    flex: 0 0 min(72vw, 260px);
+    min-height: 72px;
+    margin-bottom: 0;
+    scroll-snap-align: start;
+    background: var(--surface-3);
+    border-color: var(--line);
+
+    &:hover,
+    &.active {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .brand {
+    h1 {
+      font-size: 0.72rem;
+      text-shadow:
+        2px 2px 0 rgb(67 164 255 / 70%),
+        4px 4px 0 rgb(67 209 125 / 24%),
+        0 0 14px rgb(67 164 255 / 38%);
+    }
+  }
+
+  .game-btn {
+    flex-basis: 82vw;
+  }
+}
