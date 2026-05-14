@@ -1,0 +1,115 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Lorenzode Oliveira Moraes",
+      "username": "lorenzo",
+      "password": "123456",
+      "role": "user",
+      "bio": "Jogador, estudante e criador do projeto GameHub Forum."
+    },
+    {
+      "id": "u2",
+      "name": "Administrador",
+      "username": "admin",
+      "password": "admin123",
+      "role": "admin",
+      "bio": "Conta administrativa para moderacao e gestao do catalogo."
+    }
+  ],
+  "games": [
+    {
+      "id": "g1",
+      "name": "The Legend of Zelda: Breath of the Wild",
+      "genre": "Aventura",
+      "platform": "Nintendo Switch"
+    },
+    {
+      "id": "g2",
+      "name": "Minecraft",
+      "genre": "Sandbox",
+      "platform": "Multiplataforma"
+    },
+    {
+      "id": "g3",
+      "name": "Elden Ring",
+      "genre": "RPG de Acao",
+      "platform": "PC, PlayStation, Xbox"
+    },
+    {
+      "id": "g4",
+      "name": "God of War Ragnarok",
+      "genre": "Acao e Aventura",
+      "platform": "PlayStation, PC"
+    },
+    {
+      "id": "g5",
+      "name": "Fortnite",
+      "genre": "Battle Royale",
+      "platform": "Multiplataforma"
+    },
+    {
+      "id": "g6",
+      "name": "League of Legends",
+      "genre": "MOBA",
+      "platform": "PC"
+    },
+    {
+      "id": "g7",
+      "name": "Counter-Strike 2",
+      "genre": "FPS",
+      "platform": "PC"
+    },
+    {
+      "id": "g8",
+      "name": "Grand Theft Auto V",
+      "genre": "Mundo Aberto",
+      "platform": "Multiplataforma"
+    },
+    {
+      "id": "g9",
+      "name": "Red Dead Redemption 2",
+      "genre": "Acao e Aventura",
+      "platform": "PC, PlayStation, Xbox"
+    },
+    {
+      "id": "g10",
+      "name": "Valorant",
+      "genre": "FPS Tatico",
+      "platform": "PC"
+    }
+  ],
+  "posts": [
+    {
+      "id": "p1",
+      "gameId": "g3",
+      "userId": "u1",
+      "title": "Elden Ring recompensa exploracao como poucos jogos",
+      "content": "A melhor parte para mim e como o jogo deixa o jogador descobrir caminhos, chefes e historias sem ficar explicando tudo o tempo todo.",
+      "createdAt": "2026-05-14T18:49:25.063Z",
+      "likes": [
+        "u2"
+      ],
+      "comments": [
+        {
+          "id": "c1",
+          "userId": "u2",
+          "content": "Boa abertura para demonstrar o formato de discussao por jogo.",
+          "createdAt": "2026-05-14T18:49:25.063Z"
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "gameId": "g2",
+      "userId": "u2",
+      "title": "Minecraft continua forte por causa da criatividade",
+      "content": "Mesmo sendo antigo, o jogo continua relevante porque cada servidor e cada mundo vira uma experiencia diferente.",
+      "createdAt": "2026-05-14T18:49:25.063Z",
+      "likes": [
+        "u1"
+      ],
+      "comments": []
+    }
+  ]
+}
