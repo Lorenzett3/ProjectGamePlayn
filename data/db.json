@@ -2,19 +2,19 @@
   "users": [
     {
       "id": "u1",
-      "name": "Lorenzode Oliveira Moraes",
+      "name": "Lorenzett3",
       "username": "lorenzo",
       "password": "123456",
       "role": "user",
-      "bio": "Jogador, estudante e criador do projeto GameHub Forum. Além de futuro GameDev."
+      "bio": "Jogador, estudante e criador do projeto GameHub Forum. Al�m de futuro GameDev. dwadwadadwa"
     },
     {
       "id": "u2",
-      "name": "Administrador",
+      "name": "admin",
       "username": "admin",
       "password": "admin123",
       "role": "admin",
-      "bio": "Conta administrativa para moderacao e gestao do catalogo."
+      "bio": "Conta administrativa para moderação e gestao do catalogo."
     },
     {
       "id": "u3",
@@ -31,14 +31,6 @@
       "password": "rafa123",
       "role": "user",
       "bio": "Jogador competitivo de FPS, viciado em mapas taticos, mira limpa e boas callouts."
-    },
-    {
-      "id": "u5",
-      "name": "Bianca Souza",
-      "username": "bia",
-      "password": "bia123",
-      "role": "user",
-      "bio": "Curto sandbox, construcao, sobrevivencia e qualquer jogo que deixe criar coisas do zero."
     },
     {
       "id": "u6",
@@ -59,10 +51,18 @@
   ],
   "games": [
     {
+      "id": "ge4c53072a7aa",
+      "name": "The Sims 4",
+      "genre": "Simulador",
+      "platform": "PC",
+      "pinned": false
+    },
+    {
       "id": "g1",
       "name": "The Legend of Zelda: Breath of the Wild",
       "genre": "Aventura",
-      "platform": "Nintendo Switch"
+      "platform": "Nintendo Switch",
+      "pinned": false
     },
     {
       "id": "g2",
@@ -73,31 +73,26 @@
     {
       "id": "g3",
       "name": "Elden Ring",
-      "genre": "RPG de Acao",
-      "platform": "PC, PlayStation, Xbox"
+      "genre": "RPG de ação",
+      "platform": "PC, PlayStation, Xbox",
+      "pinned": false
     },
     {
       "id": "g4",
       "name": "God of War Ragnarok",
-      "genre": "Acao e Aventura",
+      "genre": "ação e Aventura",
       "platform": "PlayStation, PC"
     },
     {
       "id": "g5",
       "name": "Fortnite",
-      "genre": "Battle Royale",
+      "genre": "BattleRoyale",
       "platform": "Multiplataforma"
     },
     {
       "id": "g6",
       "name": "League of Legends",
       "genre": "MOBA",
-      "platform": "PC"
-    },
-    {
-      "id": "g7",
-      "name": "Counter-Strike 2",
-      "genre": "FPS",
       "platform": "PC"
     },
     {
@@ -109,17 +104,61 @@
     {
       "id": "g9",
       "name": "Red Dead Redemption 2",
-      "genre": "Acao e Aventura",
+      "genre": "ação e Aventura",
       "platform": "PC, PlayStation, Xbox"
     },
     {
       "id": "g10",
       "name": "Valorant",
       "genre": "FPS Tatico",
-      "platform": "PC"
+      "platform": "PC",
+      "pinned": false
     }
   ],
   "posts": [
+    {
+      "id": "p8af9159b2ef3",
+      "gameId": "g6",
+      "userId": "u1",
+      "title": "Sobre a nova atualização do jogo",
+      "content": "ah eu nao gostei",
+      "createdAt": "2026-05-16T00:29:08.130Z",
+      "likes": [
+        "u1"
+      ],
+      "comments": [
+        {
+          "id": "cb291ddbe6ff1",
+          "userId": "u1",
+          "content": "ah eu gostei",
+          "createdAt": "2026-05-16T00:29:19.018Z"
+        }
+      ]
+    },
+    {
+      "id": "p3fafc726de04",
+      "gameId": "ge4c53072a7aa",
+      "userId": "u2",
+      "title": "Queria jogar mas nao tenho",
+      "content": "alguem compra essa porcaria pra mim?",
+      "createdAt": "2026-05-15T23:30:08.245Z",
+      "likes": [
+        "u2"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pe124a6d94a6c",
+      "gameId": "g2",
+      "userId": "u1",
+      "title": "AMAR MINECRAFT",
+      "content": "EU AMO MINECRAFT",
+      "createdAt": "2026-05-15T23:27:24.314Z",
+      "likes": [
+        "u1"
+      ],
+      "comments": []
+    },
     {
       "id": "peaf30105b50c",
       "gameId": "g1",
@@ -148,7 +187,6 @@
       "createdAt": "2026-05-14T18:49:25.063Z",
       "likes": [
         "u1",
-        "u5",
         "u6"
       ],
       "comments": [
@@ -157,12 +195,6 @@
           "userId": "u1",
           "content": "Melhor game da galaxia",
           "createdAt": "2026-05-14T20:14:52.084Z"
-        },
-        {
-          "id": "cseed01",
-          "userId": "u5",
-          "content": "O modo sobrevivencia ainda rende muita historia boa com amigos.",
-          "createdAt": "2026-05-14T20:20:00.000Z"
         }
       ]
     },
@@ -171,12 +203,13 @@
       "gameId": "g3",
       "userId": "u3",
       "title": "Elden Ring fica melhor quando voce aceita se perder",
-      "content": "A exploracao funciona porque quase todo caminho estranho recompensa o jogador com uma arma, chefe, caverna ou historia pequena.",
+      "content": "A exploração funciona porque quase todo caminho estranho recompensa o jogador com uma arma, chefe, caverna ou historia pequena.",
       "createdAt": "2026-05-14T20:21:00.000Z",
       "likes": [
         "u1",
         "u6",
-        "u7"
+        "u7",
+        "u2"
       ],
       "comments": [
         {
@@ -197,8 +230,8 @@
       "id": "pseed02",
       "gameId": "g10",
       "userId": "u4",
-      "title": "Valorant recompensa comunicacao mais do que mira pura",
-      "content": "Mira ajuda, mas o round muda quando o time usa utilidade junto, troca informacao e sabe esperar o retake.",
+      "title": "Valorant recompensa comunicação mais do que mira pura",
+      "content": "Mira ajuda, mas o round muda quando o time usa utilidade junto, troca informação e sabe esperar o retake.",
       "createdAt": "2026-05-14T20:24:00.000Z",
       "likes": [
         "u2",
@@ -218,12 +251,11 @@
       "gameId": "g4",
       "userId": "u6",
       "title": "God of War Ragnarok mistura combate e narrativa muito bem",
-      "content": "O jogo consegue alternar momentos cinematograficos, exploracao e lutas pesadas sem perder ritmo.",
+      "content": "O jogo consegue alternar momentos cinematograficos, exploração e lutas pesadas sem perder ritmo.",
       "createdAt": "2026-05-14T20:26:00.000Z",
       "likes": [
         "u1",
-        "u3",
-        "u5"
+        "u3"
       ],
       "comments": [
         {
@@ -235,7 +267,7 @@
         {
           "id": "cseed06",
           "userId": "u2",
-          "content": "Bom topico para discutir narrativa em jogos de acao.",
+          "content": "Bom topico para discutir narrativa em jogos de ação.",
           "createdAt": "2026-05-14T20:28:00.000Z"
         }
       ]
@@ -248,8 +280,7 @@
       "content": "Muita gente foca so em mecanica, mas wave, visao e tempo de objetivo decidem a partida antes da luta comecar.",
       "createdAt": "2026-05-14T20:29:00.000Z",
       "likes": [
-        "u4",
-        "u5"
+        "u4"
       ],
       "comments": [
         {
@@ -281,47 +312,6 @@
       ]
     },
     {
-      "id": "pseed06",
-      "gameId": "g7",
-      "userId": "u4",
-      "title": "Counter-Strike 2 ainda vive de fundamentos",
-      "content": "Mesmo com mudancas tecnicas, o basico segue decidindo: mira na altura certa, granada bem usada e economia organizada.",
-      "createdAt": "2026-05-14T20:33:00.000Z",
-      "likes": [
-        "u2",
-        "u7",
-        "u1"
-      ],
-      "comments": [
-        {
-          "id": "cseed09",
-          "userId": "u7",
-          "content": "Economia e o detalhe que iniciante mais ignora.",
-          "createdAt": "2026-05-14T20:34:00.000Z"
-        }
-      ]
-    },
-    {
-      "id": "pseed07",
-      "gameId": "g5",
-      "userId": "u5",
-      "title": "Fortnite muda tanto que sempre parece uma temporada nova",
-      "content": "As colaboracoes, eventos e mecanicas novas fazem o jogo continuar comentavel mesmo para quem joga casualmente.",
-      "createdAt": "2026-05-14T20:35:00.000Z",
-      "likes": [
-        "u7",
-        "u3"
-      ],
-      "comments": [
-        {
-          "id": "cseed10",
-          "userId": "u3",
-          "content": "Eu nem jogo todo dia, mas sempre vejo gente falando da temporada atual.",
-          "createdAt": "2026-05-14T20:36:00.000Z"
-        }
-      ]
-    },
-    {
       "id": "pseed08",
       "gameId": "g1",
       "userId": "u6",
@@ -329,18 +319,10 @@
       "content": "O jogo quase nunca interrompe. Ele coloca um ponto estranho no horizonte e deixa voce decidir se quer ir ate la.",
       "createdAt": "2026-05-14T20:37:00.000Z",
       "likes": [
-        "u1",
         "u3",
-        "u5"
+        "u1"
       ],
-      "comments": [
-        {
-          "id": "cseed11",
-          "userId": "u5",
-          "content": "Esse tipo de liberdade combina muito com fisica emergente.",
-          "createdAt": "2026-05-14T20:38:00.000Z"
-        }
-      ]
+      "comments": []
     }
   ]
 }

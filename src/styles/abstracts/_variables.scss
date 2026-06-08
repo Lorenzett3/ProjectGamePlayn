@@ -19,22 +19,34 @@ $font-retro: "Press Start 2P", "Courier New", monospace;
   --accent-2: #43a4ff;
   --danger: #ff5f66;
   --warning: #ffd166;
+  --danger-bg: rgb(255 95 102 / 18%);
+  --danger-border: rgb(255 95 102 / 45%);
+  --danger-text: #ffffff;
+  --focus-ring: rgb(67 164 255 / 16%);
+  --hover-surface: color-mix(in srgb, var(--surface-2) 48%, transparent);
+  --toolbar-bg: color-mix(in srgb, var(--surface-2) 78%, transparent);
   --shadow: #{$shadow};
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f4f6f8;
-  --bg-soft: #e9eef4;
-  --surface: rgb(255 255 255 / 94%);
-  --surface-2: #eef2f6;
-  --surface-3: #ffffff;
-  --line: #d2d9e3;
-  --text: #141922;
-  --muted: #607086;
-  --accent: #16834a;
-  --accent-2: #176fc3;
-  --danger: #d33841;
-  --warning: #9a6500;
-  --shadow: 0 16px 38px rgb(18 27 40 / 12%);
+  --bg: #d0e0f1;
+  --bg-soft: #ccd7e4;
+  --surface: #ffffff;
+  --surface-2: #e7edf5;
+  --surface-3: #f8fafc;
+  --line: #aab7c8;
+  --text: #111827;
+  --muted: #43546a;
+  --accent: #40c276;
+  --accent-2: #0b65b9;
+  --danger: #b4232c;
+  --warning: #8f6003;
+  --danger-bg: #f0e3e4;
+  --danger-border: #df5760;
+  --danger-text: #a5222b;
+  --focus-ring: rgba(15, 91, 161, 0.2);
+  --hover-surface: #cad7e4;
+  --toolbar-bg: #c8d0d8;
+  --shadow: 0 14px 32px rgb(30 41 59 / 14%);
 }

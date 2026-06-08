@@ -2,33 +2,33 @@
 
 Projeto academico desenvolvido por **Lorenzett3** como MVP de uma rede social/forum voltada ao universo dos games.
 
-A proposta e criar uma plataforma onde jogadores possam publicar opinioes, recomendacoes, dicas, curiosidades e discussoes sobre jogos digitais em topicos separados por jogo, seguindo uma ideia parecida com comunidades/subreddits.
+A proposta e criar uma plataforma onde jogadores possam publicar opinioes, recomendações, dicas, curiosidades e discussoes sobre jogos digitais em topicos separados por jogo, seguindo uma ideia parecida com comunidades/subreddits.
 
 ## Objetivo do projeto
 
-O problema identificado e a falta de uma plataforma centralizada e organizada exclusivamente para troca de experiencias sobre jogos. Hoje, jogadores costumam usar redes sociais genericas, foruns espalhados ou plataformas de avaliacao que nao foram pensadas especificamente para esse tipo de interacao.
+O problema identificado e a falta de uma plataforma centralizada e organizada exclusivamente para troca de experiencias sobre jogos. Hoje, jogadores costumam usar redes sociais genericas, foruns espalhados ou plataformas de avaliação que nao foram pensadas especificamente para esse tipo de interação.
 
 O **GamePlayn** busca resolver isso oferecendo:
 
 - Catalogo de jogos organizado.
 - Topicos de discussao separados por jogo.
 - Posts textuais criados por usuarios.
-- Interacao por curtidas e comentarios.
+- Interação por curtidas e comentarios.
 - Perfil de usuario com avatar em emoji, nickname, bio e posts.
 - Bio personalizavel com limite de 200 caracteres.
-- Criacao de post em fluxo colapsado, abrindo o formulario apenas ao clicar em **Postar**.
+- Criação de post em fluxo colapsado, abrindo o formulario apenas ao clicar em **Postar**.
 - Editor textual com toolbar visual no estilo comunidade/reddit.
 - Menu estetico de anexos com opcoes de foto, video e camera.
 - Topicos fixados no topo da lista.
 - Tema claro e tema escuro.
-- Moderacao e manutencao do catalogo por administrador.
+- Moderação e manutencao do catalogo por administrador.
 
 ## Tecnologias utilizadas
 
 - **Node.js** com HTTP nativo para servidor, API e persistencia simples.
 - **React** para a interface em componentes.
 - **Vite** para build e servidor de desenvolvimento do frontend.
-- **SCSS/Sass** para estilos, variaveis, temas e organizacao visual.
+- **SCSS/Sass** para estilos, variaveis, temas e organização visual.
 - **JSON local** para armazenamento simples em `data/db.json`.
 
 ## Como executar
@@ -84,16 +84,16 @@ http://127.0.0.1:3000
 | Jogador | `marina` | `marina123` | Perfil de exemplo com foco em RPG e mundo aberto |
 | Jogador | `rafa` | `rafa123` | Perfil de exemplo com foco em FPS competitivo |
 | Jogador | `bia` | `bia123` | Perfil de exemplo com foco em sandbox e criatividade |
-| Jogador | `diego` | `diego123` | Perfil de exemplo com foco em exploracao |
+| Jogador | `diego` | `diego123` | Perfil de exemplo com foco em exploração |
 | Jogador | `camila` | `camila123` | Perfil de exemplo com foco em MOBA e battle royale |
 
 ## Funcionalidades
 
 - Login de usuario comum e administrador.
 - Feed geral com posts de todos os jogos.
-- Visualizacao de posts por jogo/topico.
+- Visualização de posts por jogo/topico.
 - Foto de capa tematica ao entrar em um topico de jogo.
-- Criacao de posts por botao **Postar**, que abre selecao de topico, titulo e conteudo.
+- Criação de posts por botao **Postar**, que abre selecao de topico, titulo e conteudo.
 - Editor de conteudo com icones esteticos de anexo, link, enquete, codigo e emoji.
 - Menu de anexo visual com opcoes de Foto, Video e Camera.
 - Comentarios em posts.
@@ -101,11 +101,11 @@ http://127.0.0.1:3000
 - Exclusao de posts e comentarios por icone de lixeira.
 - Curtidas em posts.
 - Pagina de perfil com avatar fake em emoji, nickname, bio, contador de posts e posts do usuario.
-- Personalizacao da bio com limite de 200 caracteres.
+- Personalização da bio com limite de 200 caracteres.
 - Alternancia entre tema claro e escuro.
 - Topicos fixados no topo da lista.
 - Painel administrativo para cadastrar/remover jogos, fixar/desfixar topicos e excluir usuarios.
-- Dados de demonstracao com 7 usuarios, posts e comentarios em diferentes topicos de jogos.
+- Dados de demonstração com 7 usuarios, posts e comentarios em diferentes topicos de jogos.
 
 ## Estrutura do projeto
 
@@ -131,18 +131,18 @@ http://127.0.0.1:3000
 │   │   └── gameCovers.js          # Capas tematicas dos topicos
 │   ├── styles/
 │   │   ├── abstracts/             # Variaveis e mixins SCSS
-│   │   ├── base/                  # Reset e animacoes
+│   │   ├── base/                  # Reset e animações
 │   │   ├── components/            # Estilos por componente
 │   │   ├── layout/                # Grid principal responsivo
 │   │   └── main.scss
-│   ├── App.jsx                    # Estado principal e orquestracao
+│   ├── App.jsx                    # Estado principal e orquestração
 │   ├── main.jsx                   # Entrada React
 │   └── utils.js                   # Helpers de avatar, data e bio
 ├── index.html                     # Entrada do Vite
 ├── package.json                   # Scripts e dependencias
 ├── package-lock.json              # Versoes travadas das dependencias
 ├── server.js                      # Servidor, API e regras de negocio
-└── vite.config.js                 # Configuracao do Vite e proxy da API
+└── vite.config.js                 # Configuração do Vite e proxy da API
 ```
 
 ## Principais rotas da API
@@ -175,7 +175,7 @@ data/db.json
 
 Esse arquivo guarda usuarios, jogos, posts, curtidas, comentarios e o estado de topicos fixados quando alterado pela interface.
 
-## Roteiro rapido para apresentacao
+## Roteiro rapido para apresentação
 
 1. Rodar `npm install`.
 2. Rodar `npm run build`.
@@ -194,4 +194,4 @@ Esse arquivo guarda usuarios, jogos, posts, curtidas, comentarios e o estado de 
 
 ## Status
 
-MVP funcional para demonstracao academica, agora com frontend em React, arquitetura de componentes, SCSS organizado, responsividade aprimorada, animacoes, temas claro/escuro, capas tematicas por topico, compositor colapsado e dados de exemplo para preencher a comunidade.
+MVP funcional para demonstração academica, agora com frontend em React, arquitetura de componentes, SCSS organizado, responsividade aprimorada, animações, temas claro/escuro, capas tematicas por topico, compositor colapsado e dados de exemplo para preencher a comunidade.

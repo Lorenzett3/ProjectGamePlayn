@@ -55,6 +55,25 @@
   }
 }
 
+.game-cover__top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.game-cover__pin {
+  color: #fff;
+  background: rgb(0 0 0 / 38%);
+  border-color: rgb(255 255 255 / 24%);
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+}
+
 .feed {
   display: grid;
   gap: 14px;
@@ -110,7 +129,7 @@
 .comment {
   border-left: 3px solid var(--line);
   padding: 8px 10px;
-  background: rgb(255 255 255 / 4%);
+  background: var(--surface-2);
   border-radius: 0 $radius-sm $radius-sm 0;
 }
 
@@ -163,6 +182,11 @@
     p {
       font-size: 0.92rem;
     }
+  }
+
+  .game-cover__top {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .feed {

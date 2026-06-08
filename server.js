@@ -26,7 +26,7 @@ const initialData = {
       username: "admin",
       password: "admin123",
       role: "admin",
-      bio: "Conta administrativa para moderacao e gestao do catalogo."
+      bio: "Conta administrativa para moderação e gestao do catalogo."
     },
     {
       id: "u3",
@@ -72,13 +72,13 @@ const initialData = {
   games: [
     { id: "g1", name: "The Legend of Zelda: Breath of the Wild", genre: "Aventura", platform: "Nintendo Switch", pinned: false },
     { id: "g2", name: "Minecraft", genre: "Sandbox", platform: "Multiplataforma", pinned: false },
-    { id: "g3", name: "Elden Ring", genre: "RPG de Acao", platform: "PC, PlayStation, Xbox", pinned: true },
-    { id: "g4", name: "God of War Ragnarok", genre: "Acao e Aventura", platform: "PlayStation, PC", pinned: false },
+    { id: "g3", name: "Elden Ring", genre: "RPG de ação", platform: "PC, PlayStation, Xbox", pinned: true },
+    { id: "g4", name: "God of War Ragnarok", genre: "ação e Aventura", platform: "PlayStation, PC", pinned: false },
     { id: "g5", name: "Fortnite", genre: "Battle Royale", platform: "Multiplataforma", pinned: false },
     { id: "g6", name: "League of Legends", genre: "MOBA", platform: "PC", pinned: false },
     { id: "g7", name: "Counter-Strike 2", genre: "FPS", platform: "PC", pinned: false },
     { id: "g8", name: "Grand Theft Auto V", genre: "Mundo Aberto", platform: "Multiplataforma", pinned: false },
-    { id: "g9", name: "Red Dead Redemption 2", genre: "Acao e Aventura", platform: "PC, PlayStation, Xbox", pinned: false },
+    { id: "g9", name: "Red Dead Redemption 2", genre: "ação e Aventura", platform: "PC, PlayStation, Xbox", pinned: false },
     { id: "g10", name: "Valorant", genre: "FPS Tatico", platform: "PC", pinned: false }
   ],
   posts: [
@@ -86,7 +86,7 @@ const initialData = {
       id: "p1",
       gameId: "g3",
       userId: "u1",
-      title: "Elden Ring recompensa exploracao como poucos jogos",
+      title: "Elden Ring recompensa exploração como poucos jogos",
       content: "A melhor parte para mim e como o jogo deixa o jogador descobrir caminhos, chefes e historias sem ficar explicando tudo o tempo todo.",
       createdAt: new Date().toISOString(),
       likes: ["u2", "u3", "u6"],
@@ -111,8 +111,8 @@ const initialData = {
       id: "pseed02",
       gameId: "g10",
       userId: "u4",
-      title: "Valorant recompensa comunicacao mais do que mira pura",
-      content: "Mira ajuda, mas o round muda quando o time usa utilidade junto, troca informacao e sabe esperar o retake.",
+      title: "Valorant recompensa comunicação mais do que mira pura",
+      content: "Mira ajuda, mas o round muda quando o time usa utilidade junto, troca informação e sabe esperar o retake.",
       createdAt: new Date().toISOString(),
       likes: ["u2", "u7"],
       comments: [
@@ -124,12 +124,12 @@ const initialData = {
       gameId: "g4",
       userId: "u6",
       title: "God of War Ragnarok mistura combate e narrativa muito bem",
-      content: "O jogo consegue alternar momentos cinematograficos, exploracao e lutas pesadas sem perder ritmo.",
+      content: "O jogo consegue alternar momentos cinematograficos, exploração e lutas pesadas sem perder ritmo.",
       createdAt: new Date().toISOString(),
       likes: ["u1", "u3", "u5"],
       comments: [
         { id: "cseed05", userId: "u3", content: "A evolucao dos personagens e o que mais prende. Nao e so pancadaria bonita.", createdAt: new Date().toISOString() },
-        { id: "cseed06", userId: "u2", content: "Bom topico para discutir narrativa em jogos de acao.", createdAt: new Date().toISOString() }
+        { id: "cseed06", userId: "u2", content: "Bom topico para discutir narrativa em jogos de ação.", createdAt: new Date().toISOString() }
       ]
     },
     {
@@ -173,7 +173,7 @@ const initialData = {
       gameId: "g5",
       userId: "u5",
       title: "Fortnite muda tanto que sempre parece uma temporada nova",
-      content: "As colaboracoes, eventos e mecanicas novas fazem o jogo continuar comentavel mesmo para quem joga casualmente.",
+      content: "As colaborações, eventos e mecanicas novas fazem o jogo continuar comentavel mesmo para quem joga casualmente.",
       createdAt: new Date().toISOString(),
       likes: ["u7", "u3"],
       comments: [
@@ -338,11 +338,25 @@ async function handleApi(req, res) {
       return sendJson(res, 200, { game });
     }
 
-    const gameDelete = url.pathname.match(/^\/api\/games\/([^/]+)$/);
-    if (req.method === "DELETE" && gameDelete) {
+    const gameRoute = url.pathname.match(/^\/api\/games\/([^/]+)$/);
+    if (req.method === "PATCH" && gameRoute) {
       const admin = requireAdmin(req, res, db);
       if (!admin) return;
-      const gameId = gameDelete[1];
+      const game = db.games.find(item => item.id === gameRoute[1]);
+      if (!game) return sendJson(res, 404, { error: "Jogo nao encontrado." });
+      const body = await readBody(req);
+      if (!body.name?.trim()) return sendJson(res, 400, { error: "Nome do jogo e obrigatorio." });
+      game.name = body.name.trim();
+      game.genre = body.genre?.trim() || "Nao informado";
+      game.platform = body.platform?.trim() || "Nao informado";
+      writeDb(db);
+      return sendJson(res, 200, { game });
+    }
+
+    if (req.method === "DELETE" && gameRoute) {
+      const admin = requireAdmin(req, res, db);
+      if (!admin) return;
+      const gameId = gameRoute[1];
       db.games = db.games.filter(game => game.id !== gameId);
       db.posts = db.posts.filter(post => post.gameId !== gameId);
       writeDb(db);
@@ -462,11 +476,38 @@ async function handleApi(req, res) {
       return sendJson(res, 200, { users });
     }
 
-    const userDelete = url.pathname.match(/^\/api\/users\/([^/]+)$/);
-    if (req.method === "DELETE" && userDelete) {
+    const userRoute = url.pathname.match(/^\/api\/users\/([^/]+)$/);
+    if (req.method === "PATCH" && userRoute) {
       const admin = requireAdmin(req, res, db);
       if (!admin) return;
-      const userId = userDelete[1];
+      const target = db.users.find(user => user.id === userRoute[1]);
+      if (!target) return sendJson(res, 404, { error: "Usuario nao encontrado." });
+      const body = await readBody(req);
+      const name = String(body.name || "").trim();
+      const username = String(body.username || "").trim().toLowerCase();
+      const role = String(body.role || "").trim();
+      const bio = String(body.bio || "").trim();
+      if (!name || !username) return sendJson(res, 400, { error: "Nome e usuario sao obrigatorios." });
+      if (!["admin", "user"].includes(role)) return sendJson(res, 400, { error: "Tipo de usuario invalido." });
+      if (bio.length > 200) return sendJson(res, 400, { error: "A bio deve ter no maximo 200 caracteres." });
+      if (db.users.some(user => user.id !== target.id && user.username.toLowerCase() === username)) {
+        return sendJson(res, 409, { error: "Nome de usuario ja existe." });
+      }
+      if (target.id === admin.id && role !== "admin") {
+        return sendJson(res, 400, { error: "O admin logado nao pode remover o proprio acesso admin." });
+      }
+      target.name = name;
+      target.username = username;
+      target.role = role;
+      target.bio = bio;
+      writeDb(db);
+      return sendJson(res, 200, { user: publicUser(target) });
+    }
+
+    if (req.method === "DELETE" && userRoute) {
+      const admin = requireAdmin(req, res, db);
+      if (!admin) return;
+      const userId = userRoute[1];
       if (userId === admin.id) return sendJson(res, 400, { error: "O admin logado nao pode excluir a propria conta." });
       db.users = db.users.filter(user => user.id !== userId);
       db.posts = db.posts.filter(post => post.userId !== userId).map(post => ({

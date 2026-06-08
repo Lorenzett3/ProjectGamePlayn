@@ -32,9 +32,9 @@
 }
 
 .btn.danger {
-  color: #fff;
-  background: rgb(255 95 102 / 18%);
-  border-color: rgb(255 95 102 / 45%);
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  border-color: var(--danger-border);
 }
 
 .icon-btn {
@@ -68,14 +68,14 @@
   }
 
   &.danger {
-    color: #ffd6d8;
-    background: rgb(255 95 102 / 10%);
-    border-color: rgb(255 95 102 / 24%);
+    color: var(--danger);
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
 
     &:hover {
-      color: #fff;
-      background: rgb(255 95 102 / 22%);
-      border-color: rgb(255 95 102 / 55%);
+      color: var(--danger-text);
+      background: var(--danger-bg);
+      border-color: var(--danger);
     }
   }
 
@@ -100,4 +100,16 @@
 
 .theme-toggle {
   background: var(--surface);
+  width: 38px;
+  padding: 0;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 }

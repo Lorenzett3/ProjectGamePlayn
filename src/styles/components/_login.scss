@@ -57,9 +57,9 @@
 }
 
 .error {
-  color: #ffd6d8;
-  background: rgb(255 95 102 / 14%);
-  border: 1px solid rgb(255 95 102 / 35%);
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
   padding: 10px;
   border-radius: $radius;
 }

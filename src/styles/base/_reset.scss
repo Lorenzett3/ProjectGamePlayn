@@ -28,6 +28,13 @@ h1,
     0 0 18px rgb(67 164 255 / 42%);
 }
 
+:root[data-theme="light"] h1,
+:root[data-theme="light"] .brand h1 {
+  text-shadow:
+    2px 2px 0 rgb(11 95 171 / 26%),
+    4px 4px 0 rgb(18 115 63 / 14%);
+}
+
 button,
 input,
 textarea,

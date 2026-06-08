@@ -157,6 +157,11 @@ export default function App() {
     await refresh();
   }
 
+  async function updateGame(gameId, payload) {
+    await request(`/api/games/${gameId}`, { method: "PATCH", body: JSON.stringify(payload) });
+    await refresh();
+  }
+
   async function deleteGame(gameId) {
     if (!confirm("Excluir jogo e todos os posts desse topico?")) return;
     await request(`/api/games/${gameId}`, { method: "DELETE" });
@@ -175,9 +180,23 @@ export default function App() {
     await refresh();
   }
 
+  async function updateUser(userId, payload) {
+    const data = await request(`/api/users/${userId}`, { method: "PATCH", body: JSON.stringify(payload) });
+    if (userId === user.id) setUser(data.user);
+    await refresh();
+  }
+
   function openProfile(userId) {
     setSelectedProfileId(userId);
     setView("profile");
+  }
+
+  function openAdmin() {
+    if (user?.role !== "admin") return;
+    setView("admin");
+    window.setTimeout(() => {
+      document.getElementById("adminPanel")?.scrollIntoView({ block: "start" });
+    }, 0);
   }
 
   function openGame(gameId) {
@@ -197,19 +216,24 @@ export default function App() {
     onLike: toggleLike
   };
 
+  const isAdminView = view === "admin" && user.role === "admin";
+
   return (
-    <div className="app-shell">
-      <Sidebar
-        games={games}
-        postsCount={posts.length}
-        selectedGameId={selectedGameId}
-        view={view}
-        profileUser={profileUser}
-        currentUser={user}
-        onGameSelect={openGame}
-        onProfileSelect={openProfile}
-        onViewChange={setView}
-      />
+    <div className={`app-shell ${isAdminView ? "admin-shell" : ""}`}>
+      {!isAdminView && (
+        <Sidebar
+          games={games}
+          postsCount={posts.length}
+          selectedGameId={selectedGameId}
+          view={view}
+          profileUser={profileUser}
+          currentUser={user}
+          onGameSelect={openGame}
+          onPinGame={pinGame}
+          onProfileSelect={openProfile}
+          onViewChange={setView}
+        />
+      )}
 
       <main className="main-view">
         <div className="top-actions">
@@ -217,7 +241,21 @@ export default function App() {
           <button className="btn" type="button" onClick={logout}>Sair</button>
         </div>
 
-        {view === "profile" ? (
+        {view === "admin" && user.role === "admin" ? (
+          <AdminPanel
+            games={games}
+            users={users}
+            currentUser={user}
+            onBack={() => setView("feed")}
+            onCreateGame={createGame}
+            onDeleteGame={deleteGame}
+            onDeleteUser={deleteUser}
+            onPinGame={pinGame}
+            onProfileSelect={openProfile}
+            onUpdateGame={updateGame}
+            onUpdateUser={updateUser}
+          />
+        ) : view === "profile" ? (
           <ProfilePage
             user={profileUser}
             currentUser={user}
@@ -228,7 +266,11 @@ export default function App() {
           />
         ) : (
           <>
-            <FeedHeader selectedGame={selectedGame} />
+            <FeedHeader
+              selectedGame={selectedGame}
+              currentUser={user}
+              onPinGame={pinGame}
+            />
             <Composer games={games} selectedGame={selectedGame} onSubmit={createPost} />
             <section className="feed">
               {posts.length ? posts.map(post => <PostCard key={post.id} post={post} {...commonPostProps} />) : (
@@ -239,22 +281,20 @@ export default function App() {
         )}
       </main>
 
-      <aside className="right-column">
-        <ProfilePanel user={user} posts={allPosts} onProfileSelect={openProfile} />
-        <StatsPanel games={games} posts={posts} />
-        {user.role === "admin" && (
-          <AdminPanel
-            games={games}
-            users={users}
-            currentUser={user}
-            onCreateGame={createGame}
-            onDeleteGame={deleteGame}
-            onDeleteUser={deleteUser}
-            onPinGame={pinGame}
-            onProfileSelect={openProfile}
-          />
-        )}
-      </aside>
+      {!isAdminView && (
+        <aside className="right-column">
+          <ProfilePanel user={user} posts={allPosts} onProfileSelect={openProfile} />
+          {user.role === "admin" && (
+            <section className="panel admin-shortcut">
+              <h3>Painel admin</h3>
+              <button className="btn primary panel-action" type="button" onClick={openAdmin}>
+                Abrir painel admin
+              </button>
+            </section>
+          )}
+          <StatsPanel games={games} posts={posts} />
+        </aside>
+      )}
     </div>
   );
 }
