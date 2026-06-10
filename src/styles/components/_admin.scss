@@ -51,14 +51,6 @@
   }
 }
 
-.admin-page__actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
 .admin-section {
   @include card-shell;
   padding: 16px;
@@ -70,16 +62,9 @@
 
 .admin-create-form {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
   align-items: end;
   gap: 10px;
-
-  .btn {
-    width: fit-content;
-    min-width: 156px;
-    justify-self: end;
-    grid-column: 1 / -1;
-  }
 }
 
 .admin-error {
@@ -92,40 +77,11 @@
   font-size: 0.9rem;
 }
 
-.admin-tabs {
-  display: inline-flex;
-  width: fit-content;
-  max-width: 100%;
-  padding: 4px;
-  border: 1px solid var(--line);
-  border-radius: $radius;
-  background: var(--surface-3);
-
-  button {
-    min-height: 36px;
-    padding: 8px 12px;
-    border-radius: $radius;
-    color: var(--muted);
-    background: transparent;
-    font-weight: 800;
-    white-space: nowrap;
-
-    &.active {
-      color: var(--text);
-      background: var(--surface-2);
-    }
-  }
-}
-
 .admin-table-wrap {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: $radius;
   background: var(--surface-3);
-}
-
-.admin-card-list {
-  display: none;
 }
 
 .admin-table {
@@ -171,12 +127,12 @@
 .admin-table--games {
   th:nth-child(1),
   td:nth-child(1) {
-    width: 41%;
+    width: 36%;
   }
 
   th:nth-child(2),
   td:nth-child(2) {
-    width: 19%;
+    width: 18%;
   }
 
   th:nth-child(3),
@@ -191,19 +147,19 @@
 
   th:nth-child(5),
   td:nth-child(5) {
-    width: 13%;
+    width: 19%;
   }
 }
 
 .admin-table--users {
   th:nth-child(1),
   td:nth-child(1) {
-    width: 47%;
+    width: 42%;
   }
 
   th:nth-child(2),
   td:nth-child(2) {
-    width: 29%;
+    width: 28%;
   }
 
   th:nth-child(3),
@@ -213,7 +169,7 @@
 
   th:nth-child(4),
   td:nth-child(4) {
-    width: 12%;
+    width: 18%;
   }
 }
 
@@ -262,7 +218,6 @@
 .admin-table .row-actions {
   flex-wrap: nowrap;
   justify-content: flex-start;
-  width: max-content;
 
   .icon-btn {
     width: 34px;
@@ -282,62 +237,9 @@
   }
 }
 
-.mat-dialog-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  display: grid;
-  place-items: center;
-  overflow-y: auto;
-  padding: 16px;
-  background: rgb(0 0 0 / 56%);
-  backdrop-filter: blur(8px);
-}
-
-.mat-dialog {
-  @include card-shell;
-  width: min(100%, 460px);
-  max-height: min(720px, 92vh);
-  overflow-y: auto;
-  padding: 16px;
-  background: var(--surface);
-  animation: fade-up 180ms ease both;
-}
-
-.mat-dialog__header,
-.mat-dialog__actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.mat-dialog__header {
-  margin-bottom: 14px;
-
-  h3 {
-    margin: 0;
-  }
-}
-
-.mat-dialog__form {
-  display: grid;
-  gap: 12px;
-}
-
-.mat-dialog__actions {
-  justify-content: flex-end;
-  margin-top: 4px;
-}
-
 @media (max-width: 900px) {
   .admin-create-form {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    .btn {
-      justify-self: stretch;
-      width: 100%;
-    }
   }
 }
 
@@ -357,118 +259,114 @@
     }
   }
 
-  .admin-page__actions {
-    width: 100%;
-    justify-content: stretch;
-
-    .btn {
-      width: 100%;
-    }
-  }
-
   .admin-create-form {
     grid-template-columns: 1fr;
   }
 
-  .admin-tabs {
-    width: 100%;
-
-    button {
-      flex: 1;
-    }
+  .admin-table-wrap {
+    overflow: visible;
+    border: 0;
+    background: transparent;
   }
 
-  .admin-table-wrap {
+  .admin-table,
+  .admin-table thead,
+  .admin-table tbody,
+  .admin-table tr,
+  .admin-table th,
+  .admin-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table thead {
     display: none;
   }
 
-  .admin-card-list {
+  .admin-table tr {
     display: grid;
     gap: 10px;
-  }
-
-  .admin-mobile-card {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 12px;
-    align-items: center;
+    overflow: hidden;
+    margin-bottom: 10px;
     padding: 12px;
     border: 1px solid var(--line);
     border-radius: $radius;
     background: var(--surface-3);
+    box-shadow: var(--shadow);
   }
 
-  .admin-mobile-card__main {
-    min-width: 0;
-
-    h4 {
-      display: -webkit-box;
-      margin: 0 0 5px;
-      overflow: hidden;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      font-size: 1rem;
-      line-height: 1.3;
-    }
-
-    p {
-      margin: 0;
-      color: var(--muted);
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    > span {
-      display: inline-flex;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 0.84rem;
-    }
+  .admin-table tbody tr:last-child {
+    margin-bottom: 0;
   }
 
-  .admin-mobile-user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    color: inherit;
-    background: transparent;
-    border: 0;
+  .admin-table th,
+  .admin-table td {
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr);
+    align-items: start;
+    min-height: 0;
+    height: auto;
     padding: 0;
+    border-right: 0;
+    border-bottom: 0;
+    gap: 10px;
+    overflow: visible;
+    white-space: normal;
+    line-height: 1.35;
+
+    &::before {
+      content: attr(data-label);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .admin-table--games th,
+  .admin-table--games td,
+  .admin-table--users th,
+  .admin-table--users td {
+    width: 100%;
+  }
+
+  .admin-user {
+    justify-content: flex-start;
+    width: 100%;
+    overflow: hidden;
+
+    &::before {
+      margin-right: auto;
+    }
+  }
+
+  .cell-text {
+    white-space: normal;
     text-align: left;
   }
 
-  .admin-mobile-card__actions {
-    display: flex;
-    align-items: center;
+  .admin-table-title,
+  .admin-user strong {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .admin-table-title .cell-text,
+  .admin-user .cell-text {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .admin-table .row-actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
     gap: 8px;
-  }
-
-  .admin-mobile-card__actions .icon-btn {
-    width: 36px;
-    height: 36px;
-
-    &.active {
-      color: #ffe4a3;
-      background: rgb(255 209 102 / 16%);
-      border-color: rgb(255 209 102 / 46%);
-    }
-  }
-
-  .mat-dialog {
-    width: 100%;
-    max-height: calc(100vh - 20px);
-  }
-
-  .mat-dialog-backdrop {
-    align-items: center;
-    padding: 10px;
-  }
-
-  .mat-dialog__actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -484,6 +382,7 @@
   .row-actions .btn {
     width: 100%;
   }
+
 }
 
 .select-tipo {

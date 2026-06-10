@@ -29,18 +29,23 @@ const icons = {
   )
 };
 
+const PAGE_SIZE = 10;
+
 export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, onDeleteGame, onDeleteUser, onPinGame, onProfileSelect, onUpdateGame, onUpdateUser }) {
-  const [name, setName] = useState("");
-  const [genre, setGenre] = useState("");
-  const [platform, setPlatform] = useState("");
   const [editingGameId, setEditingGameId] = useState("");
   const [editingUserId, setEditingUserId] = useState("");
   const [gameDraft, setGameDraft] = useState({ name: "", genre: "", platform: "" });
   const [userDraft, setUserDraft] = useState({ name: "", username: "", role: "user", bio: "" });
   const [editDialog, setEditDialog] = useState(null);
   const [adminTab, setAdminTab] = useState("users");
+  const [gamesPage, setGamesPage] = useState(1);
+  const [usersPage, setUsersPage] = useState(1);
   const [adminError, setAdminError] = useState("");
   const dialogRef = useRef(null);
+  const gamesPageCount = Math.max(1, Math.ceil(games.length / PAGE_SIZE));
+  const usersPageCount = Math.max(1, Math.ceil(users.length / PAGE_SIZE));
+  const visibleGames = games.slice((gamesPage - 1) * PAGE_SIZE, gamesPage * PAGE_SIZE);
+  const visibleUsers = users.slice((usersPage - 1) * PAGE_SIZE, usersPage * PAGE_SIZE);
 
   useEffect(() => {
     if (!editDialog) return undefined;
@@ -55,12 +60,29 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
     };
   }, [editDialog]);
 
-  function submit(event) {
-    event.preventDefault();
-    onCreateGame({ name, genre, platform });
-    setName("");
-    setGenre("");
-    setPlatform("");
+  useEffect(() => {
+    setGamesPage(page => Math.min(page, gamesPageCount));
+  }, [gamesPageCount]);
+
+  useEffect(() => {
+    setUsersPage(page => Math.min(page, usersPageCount));
+  }, [usersPageCount]);
+
+  function startCreateGame() {
+    setAdminError("");
+    setGameDraft({ name: "", genre: "", platform: "" });
+    setEditDialog({ type: "createGame", id: "", title: "Novo jogo" });
+  }
+
+  async function saveNewGame() {
+    try {
+      setAdminError("");
+      await onCreateGame(gameDraft);
+      setEditDialog(null);
+      setGameDraft({ name: "", genre: "", platform: "" });
+    } catch (error) {
+      setAdminError(error.message);
+    }
   }
 
   function startGameEdit(game) {
@@ -103,6 +125,22 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
     setEditingUserId("");
   }
 
+  function Pagination({ page, pageCount, total, onPageChange }) {
+    const start = total ? (page - 1) * PAGE_SIZE + 1 : 0;
+    const end = Math.min(page * PAGE_SIZE, total);
+
+    return (
+      <div className="admin-pagination">
+        <span>{start}-{end} de {total}</span>
+        <div className="admin-pagination__actions">
+          <button className="btn" type="button" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>Anterior</button>
+          <span>Página {page} de {pageCount}</span>
+          <button className="btn" type="button" disabled={page >= pageCount} onClick={() => onPageChange(page + 1)}>Próxima</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section className="admin-page" id="adminPanel">
       <header className="admin-page__header">
@@ -129,23 +167,10 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
       {adminTab === "games" && (
         <>
       <section className="admin-section">
-        <h3>Novo jogo/tópico</h3>
-        <form className="admin-create-form" onSubmit={submit}>
-          <label>Nome
-            <input value={name} onChange={event => setName(event.target.value)} placeholder="Nome do jogo" required />
-          </label>
-          <label>Genero
-            <input value={genre} onChange={event => setGenre(event.target.value)} placeholder="RPG, FPS, MOBA..." />
-          </label>
-          <label>Plataforma
-            <input value={platform} onChange={event => setPlatform(event.target.value)} placeholder="PC, PlayStation..." />
-          </label>
-          <button className="btn primary" type="submit">Cadastrar jogo</button>
-        </form>
-      </section>
-
-      <section className="admin-section">
-        <h3>Topicos e jogos</h3>
+        <div className="admin-section-title">
+          <h3>Topicos e jogos</h3>
+          <button className="btn primary" type="button" onClick={startCreateGame}>Cadastrar jogo</button>
+        </div>
         <div className="admin-table-wrap">
           <table className="admin-table admin-table--games">
             <thead>
@@ -158,7 +183,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
               </tr>
             </thead>
             <tbody>
-              {games.map(game => (
+              {visibleGames.map(game => (
                 <tr key={game.id}>
                   <td className="admin-table-title" data-label="Jogo">
                     {editingGameId === game.id ? (
@@ -205,7 +230,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
         </div>
 
         <div className="admin-card-list">
-          {games.map(game => (
+          {visibleGames.map(game => (
             <article className="admin-mobile-card" key={game.id}>
               <div className="admin-mobile-card__main">
                 <h4>{game.name}</h4>
@@ -220,6 +245,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
             </article>
           ))}
         </div>
+        <Pagination page={gamesPage} pageCount={gamesPageCount} total={games.length} onPageChange={setGamesPage} />
       </section>
         </>
       )}
@@ -238,7 +264,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
               </tr>
             </thead>
             <tbody>
-              {users.map(user => (
+              {visibleUsers.map(user => (
                 <tr key={user.id}>
                   <td data-label="Usuario">
                     {editingUserId === user.id ? (
@@ -289,7 +315,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
         </div>
 
         <div className="admin-card-list">
-          {users.map(user => (
+          {visibleUsers.map(user => (
             <article className="admin-mobile-card" key={user.id}>
               <button className="admin-mobile-card__main admin-mobile-user" type="button" onClick={() => onProfileSelect(user.id)}>
                 <span className="avatar" aria-hidden="true">{avatarFor(user)}</span>
@@ -305,6 +331,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
             </article>
           ))}
         </div>
+        <Pagination page={usersPage} pageCount={usersPageCount} total={users.length} onPageChange={setUsersPage} />
       </section>
       )}
 
@@ -312,24 +339,24 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
         <div className="mat-dialog-backdrop" role="presentation" onMouseDown={closeDialog}>
           <section ref={dialogRef} className="mat-dialog" role="dialog" aria-modal="true" aria-labelledby="adminEditTitle" onMouseDown={event => event.stopPropagation()}>
             <header className="mat-dialog__header">
-              <h3 id="adminEditTitle">{editDialog.type === "game" ? "Editar topico" : "Editar usuario"}</h3>
+              <h3 id="adminEditTitle">{editDialog.type === "createGame" ? "Cadastrar jogo" : editDialog.type === "game" ? "Editar topico" : "Editar usuario"}</h3>
               <button className="icon-btn" type="button" title="Fechar" aria-label="Fechar modal" onClick={closeDialog}>{icons.cancel}</button>
             </header>
 
-            {editDialog.type === "game" ? (
-              <form className="mat-dialog__form" onSubmit={event => { event.preventDefault(); saveGameEdit(editDialog.id); }}>
+            {editDialog.type === "game" || editDialog.type === "createGame" ? (
+              <form className="mat-dialog__form" onSubmit={event => { event.preventDefault(); editDialog.type === "createGame" ? saveNewGame() : saveGameEdit(editDialog.id); }}>
                 <label>Nome
-                  <input value={gameDraft.name} onChange={event => setGameDraft({ ...gameDraft, name: event.target.value })} required />
+                  <input value={gameDraft.name} onChange={event => setGameDraft({ ...gameDraft, name: event.target.value })} placeholder="Nome do jogo" required />
                 </label>
                 <label>Genero
-                  <input value={gameDraft.genre} onChange={event => setGameDraft({ ...gameDraft, genre: event.target.value })} />
+                  <input value={gameDraft.genre} onChange={event => setGameDraft({ ...gameDraft, genre: event.target.value })} placeholder="RPG, FPS, MOBA..." />
                 </label>
                 <label>Plataforma
-                  <input value={gameDraft.platform} onChange={event => setGameDraft({ ...gameDraft, platform: event.target.value })} />
+                  <input value={gameDraft.platform} onChange={event => setGameDraft({ ...gameDraft, platform: event.target.value })} placeholder="PC, PlayStation..." />
                 </label>
                 <footer className="mat-dialog__actions">
                   <button className="btn" type="button" onClick={closeDialog}>Cancelar</button>
-                  <button className="btn primary" type="submit">Salvar</button>
+                  <button className="btn primary" type="submit">{editDialog.type === "createGame" ? "Cadastrar" : "Salvar"}</button>
                 </footer>
               </form>
             ) : (

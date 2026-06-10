@@ -51,6 +51,13 @@
   ],
   "games": [
     {
+      "id": "g0c19395a3a70",
+      "name": "Death Stranding",
+      "genre": "Aventura",
+      "platform": "PC",
+      "pinned": false
+    },
+    {
       "id": "ge4c53072a7aa",
       "name": "The Sims 4",
       "genre": "Simulador",
