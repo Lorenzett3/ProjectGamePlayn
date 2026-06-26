@@ -255,6 +255,7 @@ function hydratePost(post, db) {
     author: publicUser(author),
     comments: post.comments.map(comment => ({
       ...comment,
+      likes: Array.isArray(comment.likes) ? comment.likes : [],
       author: publicUser(db.users.find(item => item.id === comment.userId))
     }))
   };
@@ -434,10 +435,27 @@ async function handleApi(req, res) {
         id: id("c"),
         userId: user.id,
         content: body.content.trim(),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        likes: []
       });
       writeDb(db);
       return sendJson(res, 201, { post: hydratePost(post, db) });
+    }
+
+    const commentLike = url.pathname.match(/^\/api\/posts\/([^/]+)\/comments\/([^/]+)\/like$/);
+    if (req.method === "POST" && commentLike) {
+      const user = requireAuth(req, res, db);
+      if (!user) return;
+      const post = db.posts.find(item => item.id === commentLike[1]);
+      if (!post) return sendJson(res, 404, { error: "Post nao encontrado." });
+      const comment = post.comments.find(item => item.id === commentLike[2]);
+      if (!comment) return sendJson(res, 404, { error: "Comentario nao encontrado." });
+      const likes = Array.isArray(comment.likes) ? comment.likes : [];
+      comment.likes = likes.includes(user.id)
+        ? likes.filter(item => item !== user.id)
+        : [...likes, user.id];
+      writeDb(db);
+      return sendJson(res, 200, { post: hydratePost(post, db) });
     }
 
     const commentDelete = url.pathname.match(/^\/api\/posts\/([^/]+)\/comments\/([^/]+)$/);
@@ -513,7 +531,12 @@ async function handleApi(req, res) {
       db.posts = db.posts.filter(post => post.userId !== userId).map(post => ({
         ...post,
         likes: post.likes.filter(like => like !== userId),
-        comments: post.comments.filter(comment => comment.userId !== userId)
+        comments: post.comments
+          .filter(comment => comment.userId !== userId)
+          .map(comment => ({
+            ...comment,
+            likes: Array.isArray(comment.likes) ? comment.likes.filter(like => like !== userId) : []
+          }))
       }));
       writeDb(db);
       return sendJson(res, 200, { ok: true });

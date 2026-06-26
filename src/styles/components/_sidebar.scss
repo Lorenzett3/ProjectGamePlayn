@@ -10,6 +10,13 @@
   overflow: hidden;
 }
 
+.mobile-menu-bar,
+.mobile-menu,
+.mobile-search,
+.mobile-menu__footer {
+  display: none;
+}
+
 .brand {
   padding: 22px;
   border-bottom: 1px solid var(--line);
@@ -102,50 +109,149 @@
   }
 
   &.active {
-    color: #ffe4a3;
-    border-color: rgb(255 209 102 / 46%);
-    background: rgb(255 209 102 / 16%);
+    color: var(--warning);
+    border-color: color-mix(in srgb, var(--warning) 46%, transparent);
+    background: color-mix(in srgb, var(--warning) 16%, transparent);
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 1180px) {
   .sidebar {
-    position: static;
-    top: auto;
+    position: sticky;
+    top: 0;
     z-index: 10;
     height: auto;
+    max-height: 100vh;
     border-width: 0 0 1px;
     border-radius: 0;
     box-shadow: none;
     background: color-mix(in srgb, var(--surface) 94%, transparent);
     backdrop-filter: blur(14px);
+    overflow: auto;
   }
 
-  .brand {
-    padding: 14px 14px 10px;
+  .mobile-menu-bar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(16px);
 
-    h1 {
-      font-size: 0.88rem;
-      line-height: 1.7;
+    strong,
+    span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    p {
+    strong {
+      text-shadow:
+        0 0 12px var(--brand-glow),
+        2px 2px 0 var(--brand-shadow-2);
+    }
+
+    span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+  }
+
+  .mobile-menu-toggle {
+    &.active {
+      color: var(--accent-2);
+      border-color: var(--accent-2);
+      background: color-mix(in srgb, var(--accent-2) 18%, var(--surface-2));
+    }
+  }
+
+  .brand,
+  .nav-list {
+    display: none;
+  }
+
+  .mobile-menu.open {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-menu__actions {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
       display: none;
     }
   }
 
-  .nav-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 10px;
-    border-bottom: 0;
+  .mobile-menu__actions .nav-btn {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 112px;
+    min-height: 38px;
+    text-align: center;
+  }
+
+  .mobile-search {
+    display: none;
+    gap: 6px;
+    padding: 0 10px 10px;
+
+    span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    input {
+      min-height: 40px;
+    }
+  }
+
+  .mobile-menu__footer {
+    display: none;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+    padding: 0 10px 10px;
+
+    .btn {
+      min-height: 38px;
+    }
   }
 
   .game-list {
+    display: none;
+  }
+
+  .sidebar.mobile-open {
+    .game-list {
+      display: flex;
+    }
+
+    .mobile-search {
+      display: grid;
+    }
+
+    .mobile-menu__footer {
+      display: grid;
+    }
+  }
+
+  .sidebar.mobile-open .game-list {
     display: flex;
     gap: 8px;
     max-height: none;
     overflow-x: auto;
-    padding: 0 10px 12px;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
 
@@ -161,21 +267,20 @@
   }
 
   .game-btn {
-    flex: 0 0 min(72vw, 260px);
+    flex: 0 0 min(68vw, 260px);
     min-height: 72px;
     margin-bottom: 0;
     scroll-snap-align: start;
     background: var(--surface-3);
     border-color: var(--line);
 
-    &:hover,
-    &.active {
-      transform: translateY(-2px);
+    &:hover{
+      transform: translateY(-4px);
     }
   }
 
   .game-item {
-    flex: 0 0 min(82vw, 320px);
+    flex: 0 0 min(78vw, 320px);
     margin-bottom: 0;
 
     .game-btn {
@@ -185,14 +290,8 @@
 }
 
 @media (max-width: 520px) {
-  .brand {
-    h1 {
-      font-size: 0.72rem;
-      text-shadow:
-        2px 2px 0 rgb(67 164 255 / 70%),
-        4px 4px 0 rgb(67 209 125 / 24%),
-        0 0 14px rgb(67 164 255 / 38%);
-    }
+  .mobile-menu__actions .nav-btn {
+    min-width: 104px;
   }
 
   .game-btn,

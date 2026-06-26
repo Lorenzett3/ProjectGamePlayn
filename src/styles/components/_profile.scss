@@ -102,6 +102,51 @@
   }
 }
 
+.recent-panel {
+  position: sticky;
+  top: 20px;
+}
+
+.recent-list {
+  display: grid;
+  gap: 8px;
+}
+
+.recent-post {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 9px;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  border-radius: $radius;
+  color: var(--text);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface-2) 84%, transparent), color-mix(in srgb, var(--surface-3) 72%, transparent));
+  text-align: left;
+  transition: transform $fast, border-color $fast, background $fast;
+
+  strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    color: var(--muted);
+    font-size: 0.78rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent-2);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, var(--surface-2)), color-mix(in srgb, var(--accent-2) 10%, var(--surface-3)));
+  }
+}
+
 .section-title {
   display: flex;
   align-items: center;

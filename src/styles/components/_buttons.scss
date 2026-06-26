@@ -6,9 +6,9 @@
   align-items: center;
   justify-content: center;
   justify-items: center;
-  gap: 8px;
+  gap: 4px;
   min-height: 25px;
-  padding: 7px 11px;
+  padding: 11px 20px;
   border-radius: $radius;
   color: var(--text);
   background: var(--surface-2);
@@ -25,10 +25,11 @@
 }
 
 .btn.primary {
-  color: #06130c;
-  background: var(--accent);
+  color: var(--accent-text);
+  background: var(--accent-gradient);
   border-color: var(--accent);
   font-weight: 800;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 24%, transparent);
 }
 
 .btn.danger {

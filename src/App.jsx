@@ -5,10 +5,10 @@ import { Composer } from "./components/Composer.jsx";
 import { FeedHeader } from "./components/FeedHeader.jsx";
 import { LoginPage } from "./components/LoginPage.jsx";
 import { PostCard } from "./components/PostCard.jsx";
+import { PostPage } from "./components/PostPage.jsx";
 import { ProfilePage } from "./components/ProfilePage.jsx";
-import { ProfilePanel } from "./components/ProfilePanel.jsx";
+import { RecentPostsPanel } from "./components/RecentPostsPanel.jsx";
 import { Sidebar } from "./components/Sidebar.jsx";
-import { StatsPanel } from "./components/StatsPanel.jsx";
 import { ThemeToggle } from "./components/ThemeToggle.jsx";
 
 const initialTheme = localStorage.getItem("gameplayn_theme") || "dark";
@@ -22,8 +22,10 @@ export default function App() {
   const [users, setUsers] = useState([]);
   const [selectedGameId, setSelectedGameId] = useState("all");
   const [selectedProfileId, setSelectedProfileId] = useState("");
+  const [selectedPostId, setSelectedPostId] = useState("");
   const [view, setView] = useState("feed");
   const [theme, setTheme] = useState(initialTheme);
+  const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -37,6 +39,43 @@ export default function App() {
     if (!profileId || user?.id === profileId) return user;
     return users.find(item => item.id === profileId) || allPosts.find(post => post.author?.id === profileId)?.author || null;
   }, [allPosts, selectedProfileId, user, users]);
+
+  const selectedPost = useMemo(() => (
+    allPosts.find(post => post.id === selectedPostId) || posts.find(post => post.id === selectedPostId) || null
+  ), [allPosts, posts, selectedPostId]);
+
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+  const filteredGames = useMemo(() => {
+    if (!normalizedSearch) return games;
+    return games.filter(game => [
+      game.name,
+      game.genre,
+      game.platform
+    ].some(value => String(value || "").toLowerCase().includes(normalizedSearch)));
+  }, [games, normalizedSearch]);
+
+  const filteredPosts = useMemo(() => {
+    if (!normalizedSearch) return posts;
+    return posts.filter(post => {
+      const game = games.find(item => item.id === post.gameId);
+      return [
+        post.title,
+        post.content,
+        post.author?.name,
+        post.author?.username,
+        game?.name,
+        game?.genre,
+        game?.platform
+      ].some(value => String(value || "").toLowerCase().includes(normalizedSearch));
+    });
+  }, [games, normalizedSearch, posts]);
+
+  const recentPosts = useMemo(() => (
+    [...allPosts]
+      .sort((left, right) => new Date(right.createdAt) - new Date(left.createdAt))
+      .slice(0, 6)
+  ), [allPosts]);
 
   async function request(path, options = {}) {
     return api(path, options, token);
@@ -112,6 +151,8 @@ export default function App() {
     setUsers([]);
     setSelectedGameId("all");
     setSelectedProfileId("");
+    setSelectedPostId("");
+    setSearchQuery("");
     setView("feed");
   }
 
@@ -134,9 +175,18 @@ export default function App() {
     await refresh();
   }
 
+  async function toggleCommentLike(postId, commentId) {
+    await request(`/api/posts/${postId}/comments/${commentId}/like`, { method: "POST" });
+    await refresh();
+  }
+
   async function deletePost(postId) {
     if (!confirm("Excluir este post?")) return;
     await request(`/api/posts/${postId}`, { method: "DELETE" });
+    if (selectedPostId === postId) {
+      setSelectedPostId("");
+      setView("feed");
+    }
     await refresh();
   }
 
@@ -191,6 +241,14 @@ export default function App() {
     setView("profile");
   }
 
+  function openPost(postId) {
+    setSelectedPostId(postId);
+    setView("post");
+    window.setTimeout(() => {
+      document.querySelector(".main-view")?.scrollIntoView({ block: "start" });
+    }, 0);
+  }
+
   function openAdmin() {
     if (user?.role !== "admin") return;
     setView("admin");
@@ -201,11 +259,12 @@ export default function App() {
 
   function openGame(gameId) {
     setSelectedGameId(gameId);
+    setSelectedPostId("");
     setView("feed");
   }
 
   if (loading) return <main className="loading-screen">Carregando...</main>;
-  if (!user) return <LoginPage error={error} onLogin={login} />;
+  if (!user) return <LoginPage error={error} theme={theme} onThemeToggle={() => setTheme(theme === "dark" ? "light" : "dark")} onLogin={login} />;
 
   const commonPostProps = {
     currentUser: user,
@@ -213,30 +272,49 @@ export default function App() {
     onComment: addComment,
     onDeleteComment: deleteComment,
     onDeletePost: deletePost,
-    onLike: toggleLike
+    onLikeComment: toggleCommentLike,
+    onLike: toggleLike,
+    onOpenPost: openPost
   };
 
   const isAdminView = view === "admin" && user.role === "admin";
+  const isFocusedView = isAdminView || view === "post";
 
   return (
-    <div className={`app-shell ${isAdminView ? "admin-shell" : ""}`}>
-      {!isAdminView && (
+    <div className={`app-shell ${isFocusedView ? "admin-shell" : ""}`}>
+      {!isFocusedView && (
         <Sidebar
-          games={games}
-          postsCount={posts.length}
+          games={filteredGames}
+          postsCount={filteredPosts.length}
+          searchQuery={searchQuery}
           selectedGameId={selectedGameId}
+          theme={theme}
           view={view}
           profileUser={profileUser}
           currentUser={user}
+          onAdminOpen={openAdmin}
           onGameSelect={openGame}
+          onLogout={logout}
           onPinGame={pinGame}
           onProfileSelect={openProfile}
+          onSearchChange={setSearchQuery}
+          onThemeToggle={() => setTheme(theme === "dark" ? "light" : "dark")}
           onViewChange={setView}
         />
       )}
 
       <main className="main-view">
         <div className="top-actions">
+          {!isFocusedView && (
+            <label className="desktop-search">
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={event => setSearchQuery(event.target.value)}
+                placeholder="Buscar posts, tópicos ou pessoas"
+              />
+            </label>
+          )}
           <ThemeToggle theme={theme} onToggle={() => setTheme(theme === "dark" ? "light" : "dark")} />
           <button className="btn" type="button" onClick={logout}>Sair</button>
         </div>
@@ -264,6 +342,18 @@ export default function App() {
             onSaveBio={saveBio}
             postProps={commonPostProps}
           />
+        ) : view === "post" ? (
+          <PostPage
+            post={selectedPost}
+            currentUser={user}
+            onAuthorClick={openProfile}
+            onBack={() => setView("feed")}
+            onComment={addComment}
+            onDeleteComment={deleteComment}
+            onDeletePost={deletePost}
+            onLike={toggleLike}
+            onLikeComment={toggleCommentLike}
+          />
         ) : (
           <>
             <FeedHeader
@@ -273,7 +363,7 @@ export default function App() {
             />
             <Composer games={games} selectedGame={selectedGame} onSubmit={createPost} />
             <section className="feed">
-              {posts.length ? posts.map(post => <PostCard key={post.id} post={post} {...commonPostProps} />) : (
+              {filteredPosts.length ? filteredPosts.map(post => <PostCard key={post.id} post={post} {...commonPostProps} />) : (
                 <div className="empty">Nenhum post neste topico ainda.</div>
               )}
             </section>
@@ -281,18 +371,9 @@ export default function App() {
         )}
       </main>
 
-      {!isAdminView && (
+      {!isFocusedView && (
         <aside className="right-column">
-          <ProfilePanel user={user} posts={allPosts} onProfileSelect={openProfile} />
-          {user.role === "admin" && (
-            <section className="panel admin-shortcut">
-              <h3>Painel admin</h3>
-              <button className="btn primary panel-action" type="button" onClick={openAdmin}>
-                Abrir painel admin
-              </button>
-            </section>
-          )}
-          <StatsPanel games={games} posts={posts} />
+          <RecentPostsPanel posts={recentPosts} onOpenPost={openPost} />
         </aside>
       )}
     </div>

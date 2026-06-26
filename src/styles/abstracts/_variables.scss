@@ -7,46 +7,80 @@ $font-retro: "Press Start 2P", "Courier New", monospace;
 
 :root {
   color-scheme: dark;
-  --bg: #101114;
-  --bg-soft: #141922;
-  --surface: rgb(23 26 32 / 92%);
-  --surface-2: #20242d;
-  --surface-3: #0d0f13;
-  --line: #313746;
-  --text: #f2f5f9;
-  --muted: #9aa7b8;
-  --accent: #43d17d;
-  --accent-2: #43a4ff;
-  --danger: #ff5f66;
-  --warning: #ffd166;
-  --danger-bg: rgb(255 95 102 / 18%);
-  --danger-border: rgb(255 95 102 / 45%);
-  --danger-text: #ffffff;
-  --focus-ring: rgb(67 164 255 / 16%);
+  --bg: #12071a;
+  --bg-soft: #2b123d;
+  --surface: rgb(30 18 44 / 94%);
+  --surface-2: #3a1d56;
+  --surface-3: #1a0d26;
+  --line: #6f3d8f;
+  --text: #fff4fb;
+  --muted: #c9a8d7;
+  --accent: #ff4fbf;
+  --accent-2: #20e4ff;
+  --accent-text: #240019;
+  --danger: #ff3f6e;
+  --warning: #ffb24a;
+  --danger-bg: rgb(255 63 110 / 18%);
+  --danger-border: rgb(255 63 110 / 48%);
+  --danger-text: #fff7fb;
+  --focus-ring: rgb(32 228 255 / 22%);
+  --brand-shadow-1: rgb(255 79 191 / 70%);
+  --brand-shadow-2: rgb(32 228 255 / 34%);
+  --brand-glow: rgb(255 79 191 / 45%);
+  --skyline-glow: radial-gradient(circle at 72% 18%, rgb(255 178 74 / 28%) 0 12%, transparent 33%);
+  --horizon-glow: radial-gradient(circle at 18% 82%, rgb(255 79 191 / 30%) 0 16%, transparent 42%);
+  --neon-glow: radial-gradient(circle at 84% 76%, rgb(32 228 255 / 18%) 0 12%, transparent 34%);
+  --page-gradient:
+    var(--skyline-glow),
+    var(--horizon-glow),
+    var(--neon-glow),
+    linear-gradient(135deg, #12071a 0%, #2c1043 42%, #0f1b3d 72%, #070511 100%);
+  --surface-gradient:
+    linear-gradient(145deg, rgb(49 23 72 / 94%) 0%, rgb(30 18 44 / 94%) 48%, rgb(18 14 38 / 94%) 100%);
+  --surface-soft-gradient:
+    linear-gradient(145deg, rgb(63 28 91 / 92%) 0%, rgb(47 23 72 / 92%) 52%, rgb(26 13 38 / 92%) 100%);
+  --accent-gradient: linear-gradient(135deg, #ff4fbf 0%, #ff7a59 48%, #20e4ff 100%);
   --hover-surface: color-mix(in srgb, var(--surface-2) 48%, transparent);
   --toolbar-bg: color-mix(in srgb, var(--surface-2) 78%, transparent);
-  --shadow: #{$shadow};
+  --shadow: 0 18px 45px rgb(11 3 18 / 38%);
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #d0e0f1;
-  --bg-soft: #ccd7e4;
-  --surface: #ffffff;
-  --surface-2: #e7edf5;
-  --surface-3: #f8fafc;
-  --line: #aab7c8;
-  --text: #111827;
-  --muted: #43546a;
-  --accent: #40c276;
-  --accent-2: #0b65b9;
-  --danger: #b4232c;
-  --warning: #8f6003;
-  --danger-bg: #f0e3e4;
-  --danger-border: #df5760;
-  --danger-text: #a5222b;
-  --focus-ring: rgba(15, 91, 161, 0.2);
-  --hover-surface: #cad7e4;
-  --toolbar-bg: #c8d0d8;
-  --shadow: 0 14px 32px rgb(30 41 59 / 14%);
+  --bg: #ffd7ed;
+  --bg-soft: #aaf4ff;
+  --surface: #fff7fc;
+  --surface-2: #ffe3f4;
+  --surface-3: #f4fbff;
+  --line: #df86cc;
+  --text: #24102f;
+  --muted: #72527f;
+  --accent: #e91e9c;
+  --accent-2: #007f9f;
+  --accent-text: #fff7fc;
+  --danger: #c51f4f;
+  --warning: #9a5b00;
+  --danger-bg: #ffe2eb;
+  --danger-border: #eb6d91;
+  --danger-text: #9d173c;
+  --focus-ring: rgb(0 127 159 / 22%);
+  --brand-shadow-1: rgb(233 30 156 / 42%);
+  --brand-shadow-2: rgb(0 127 159 / 30%);
+  --brand-glow: rgb(233 30 156 / 28%);
+  --skyline-glow: radial-gradient(circle at 75% 12%, rgb(255 177 96 / 44%) 0 12%, transparent 34%);
+  --horizon-glow: radial-gradient(circle at 16% 80%, rgb(233 30 156 / 24%) 0 18%, transparent 42%);
+  --neon-glow: radial-gradient(circle at 84% 76%, rgb(0 127 159 / 18%) 0 12%, transparent 34%);
+  --page-gradient:
+    var(--skyline-glow),
+    var(--horizon-glow),
+    var(--neon-glow),
+    linear-gradient(135deg, #ffd7ed 0%, #ffc0df 34%, #aaf4ff 72%, #fff7fc 100%);
+  --surface-gradient:
+    linear-gradient(145deg, rgb(255 247 252 / 96%) 0%, rgb(255 227 244 / 94%) 54%, rgb(244 251 255 / 96%) 100%);
+  --surface-soft-gradient:
+    linear-gradient(145deg, rgb(255 227 244 / 94%) 0%, rgb(255 214 238 / 92%) 52%, rgb(244 251 255 / 94%) 100%);
+  --accent-gradient: linear-gradient(135deg, #e91e9c 0%, #ff7b54 48%, #00a9c7 100%);
+  --hover-surface: #f7c6e6;
+  --toolbar-bg: #f2d0ec;
+  --shadow: 0 14px 32px rgb(120 30 100 / 18%);
 }

@@ -51,6 +51,20 @@
   ],
   "games": [
     {
+      "id": "g23266853b663",
+      "name": "Deux Ex: Mankind Divided",
+      "genre": "Aventura, RPG, Ação, FPS, Estratégia",
+      "platform": "PC, PlayStation, Xbox, Nintendo Switch",
+      "pinned": true
+    },
+    {
+      "id": "g473f81d0f6a0",
+      "name": "Grand Theft Auto VI",
+      "genre": "Ação",
+      "platform": "PC, PS5, XBOX",
+      "pinned": false
+    },
+    {
       "id": "g0c19395a3a70",
       "name": "Death Stranding",
       "genre": "Aventura",
@@ -124,6 +138,23 @@
   ],
   "posts": [
     {
+      "id": "p7a82af04ad3f",
+      "gameId": "g473f81d0f6a0",
+      "userId": "u2",
+      "title": "e os preços do gta 6??",
+      "content": "eu achei bem caro nossa, não da pra acreditar, ainda por cima colocaram conteúdo adicional pago caso pague a mais.",
+      "createdAt": "2026-06-26T15:24:26.530Z",
+      "likes": [],
+      "comments": [
+        {
+          "id": "c0a292e40549e",
+          "userId": "u2",
+          "content": "realmente, nao aguento mais morar no bostil",
+          "createdAt": "2026-06-26T15:57:06.697Z"
+        }
+      ]
+    },
+    {
       "id": "p8af9159b2ef3",
       "gameId": "g6",
       "userId": "u1",
@@ -131,7 +162,8 @@
       "content": "ah eu nao gostei",
       "createdAt": "2026-05-16T00:29:08.130Z",
       "likes": [
-        "u1"
+        "u1",
+        "u2"
       ],
       "comments": [
         {

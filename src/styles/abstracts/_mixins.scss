@@ -3,7 +3,7 @@
 @mixin card-shell {
   border: 1px solid var(--line);
   border-radius: $radius;
-  background: var(--surface);
+  background: var(--surface-gradient);
   box-shadow: var(--shadow);
 }
 

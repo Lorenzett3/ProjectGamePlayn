@@ -30,6 +30,76 @@ const icons = {
 };
 
 const PAGE_SIZE = 10;
+const MAX_MARKERS = 5;
+const POPULAR_GENRES = ["Aventura", "RPG", "Ação", "FPS", "MOBA", "Sandbox", "Battle Royale", "Estratégia", "Corrida", "Esporte", "Terror", "Indie"];
+const POPULAR_PLATFORMS = ["PC", "PlayStation", "Xbox", "Nintendo Switch", "Mobile", "Multiplataforma"];
+
+function markerList(value) {
+  const markers = String(value || "")
+    .split(",")
+    .map(marker => marker.trim())
+    .filter(Boolean);
+
+  return markers.filter((marker, index) => (
+    markers.findIndex(item => item.toLowerCase() === marker.toLowerCase()) === index
+  ));
+}
+
+function markerText(markers) {
+  return markers.join(", ");
+}
+
+function toggleMarker(value, option) {
+  const markers = markerList(value);
+  const markerIndex = markers.findIndex(marker => marker.toLowerCase() === option.toLowerCase());
+
+  if (markerIndex >= 0) {
+    return markerText(markers.filter((_, index) => index !== markerIndex));
+  }
+
+  if (markers.length >= MAX_MARKERS) return markerText(markers);
+  return markerText([...markers, option]);
+}
+
+function normalizeGameDraft(draft) {
+  return {
+    ...draft,
+    genre: markerText(markerList(draft.genre)),
+    platform: markerText(markerList(draft.platform))
+  };
+}
+
+function hasTooManyMarkers(draft) {
+  return markerList(draft.genre).length > MAX_MARKERS || markerList(draft.platform).length > MAX_MARKERS;
+}
+
+function SuggestionChips({ label, options, value, onSelect }) {
+  const selectedMarkers = markerList(value);
+
+  return (
+    <>
+      <div className="admin-suggestion-chips" aria-label={label}>
+        {options.map(option => {
+          const isActive = selectedMarkers.some(marker => marker.toLowerCase() === option.toLowerCase());
+          const isDisabled = !isActive && selectedMarkers.length >= MAX_MARKERS;
+
+          return (
+            <button
+              className={isActive ? "active" : ""}
+              disabled={isDisabled}
+              key={option}
+              type="button"
+              onClick={() => onSelect(option)}
+            >
+              {option}
+            </button>
+          );
+        })}
+      </div>
+      <span className="admin-marker-count">{selectedMarkers.length}/{MAX_MARKERS}</span>
+    </>
+  );
+}
 
 export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, onDeleteGame, onDeleteUser, onPinGame, onProfileSelect, onUpdateGame, onUpdateUser }) {
   const [editingGameId, setEditingGameId] = useState("");
@@ -50,13 +120,18 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
   useEffect(() => {
     if (!editDialog) return undefined;
     const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = event => {
+      if (event.key === "Escape") closeDialog();
+    };
+
     document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
     window.requestAnimationFrame(() => {
-      dialogRef.current?.scrollIntoView({ block: "center" });
-      dialogRef.current?.querySelector("input, select, button")?.focus();
+      dialogRef.current?.querySelector("form input, form select, form button")?.focus();
     });
     return () => {
       document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [editDialog]);
 
@@ -77,7 +152,13 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
   async function saveNewGame() {
     try {
       setAdminError("");
-      await onCreateGame(gameDraft);
+      if (hasTooManyMarkers(gameDraft)) {
+        setAdminError(`Use no maximo ${MAX_MARKERS} marcadores em genero e plataforma.`);
+        return;
+      }
+
+      const normalizedDraft = normalizeGameDraft(gameDraft);
+      await onCreateGame(normalizedDraft);
       setEditDialog(null);
       setGameDraft({ name: "", genre: "", platform: "" });
     } catch (error) {
@@ -94,7 +175,12 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
   async function saveGameEdit(gameId) {
     try {
       setAdminError("");
-      await onUpdateGame(gameId, gameDraft);
+      if (hasTooManyMarkers(gameDraft)) {
+        setAdminError(`Use no maximo ${MAX_MARKERS} marcadores em genero e plataforma.`);
+        return;
+      }
+
+      await onUpdateGame(gameId, normalizeGameDraft(gameDraft));
       setEditingGameId("");
       setEditDialog(null);
     } catch (error) {
@@ -153,7 +239,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
             <span><strong>{games.length}</strong> jogos</span>
             <span><strong>{users.length}</strong> usuarios</span>
           </div>
-          <button className="btn" type="button" onClick={onBack}>Voltar</button>
+          <button className="btn" style={{ padding: "0.7rem 1.2rem" }} type="button" onClick={onBack}>Voltar</button>
         </div>
       </header>
 
@@ -161,14 +247,13 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
 
       <div className="admin-tabs" role="tablist" aria-label="Visualizacao do painel admin">
         <button className={adminTab === "users" ? "active" : ""} type="button" role="tab" aria-selected={adminTab === "users"} onClick={() => setAdminTab("users")}>Usuários</button>
-        <button className={adminTab === "games" ? "active" : ""} type="button" role="tab" aria-selected={adminTab === "games"} onClick={() => setAdminTab("games")}>Tópicos/Jogos</button>
+        <button className={adminTab === "games" ? "active" : ""} type="button" role="tab" aria-selected={adminTab === "games"} onClick={() => setAdminTab("games")}>Tópicos</button>
       </div>
 
       {adminTab === "games" && (
         <>
       <section className="admin-section">
         <div className="admin-section-title">
-          <h3>Topicos e jogos</h3>
           <button className="btn primary" type="button" onClick={startCreateGame}>Cadastrar jogo</button>
         </div>
         <div className="admin-table-wrap">
@@ -252,7 +337,6 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
 
       {adminTab === "users" && (
       <section className="admin-section">
-        <h3>Usuarios</h3>
         <div className="admin-table-wrap">
           <table className="admin-table admin-table--users">
             <thead>
@@ -303,7 +387,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
                       ) : (
                         <>
                           <button className="icon-btn" type="button" title="Editar" aria-label={`Editar ${user.name}`} onClick={() => startUserEdit(user)}>{icons.edit}</button>
-                          {user.id === currentUser.id ? <span className="muted">Logado</span> : <button className="icon-btn danger" type="button" title="Excluir" aria-label={`Excluir ${user.name}`} onClick={() => onDeleteUser(user.id)}>{icons.delete}</button>}
+                          {user.id === currentUser.id ? <span className="muted" style={{ padding: "0.3rem", color: "green" }}>Logado</span> : <button className="icon-btn danger" type="button" title="Excluir" aria-label={`Excluir ${user.name}`} onClick={() => onDeleteUser(user.id)}>{icons.delete}</button>}
                         </>
                       )}
                     </div>
@@ -317,7 +401,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
         <div className="admin-card-list">
           {visibleUsers.map(user => (
             <article className="admin-mobile-card" key={user.id}>
-              <button className="admin-mobile-card__main admin-mobile-user" type="button" onClick={() => onProfileSelect(user.id)}>
+              <button className="admin-mobile-card__main admin-mobile-user" style={{ backgroundColor: "var(--surface-3)" }} type="button" onClick={() => onProfileSelect(user.id)}>
                 <span className="avatar" aria-hidden="true">{avatarFor(user)}</span>
                 <span>
                   <h4>{user.name}</h4>
@@ -326,7 +410,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
               </button>
               <div className="admin-mobile-card__actions">
                 <button className="icon-btn" type="button" title="Editar" aria-label={`Editar ${user.name}`} onClick={() => startUserEdit(user)}>{icons.edit}</button>
-                {user.id === currentUser.id ? <span className="muted">Logado</span> : <button className="icon-btn danger" type="button" title="Excluir" aria-label={`Excluir ${user.name}`} onClick={() => onDeleteUser(user.id)}>{icons.delete}</button>}
+                {user.id === currentUser.id ? <span className="muted" style={{ padding: "0.3rem", color: "green" }}>Logado</span> : <button className="icon-btn danger" type="button" title="Excluir" aria-label={`Excluir ${user.name}`} onClick={() => onDeleteUser(user.id)}>{icons.delete}</button>}
               </div>
             </article>
           ))}
@@ -345,15 +429,30 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
 
             {editDialog.type === "game" || editDialog.type === "createGame" ? (
               <form className="mat-dialog__form" onSubmit={event => { event.preventDefault(); editDialog.type === "createGame" ? saveNewGame() : saveGameEdit(editDialog.id); }}>
-                <label>Nome
-                  <input value={gameDraft.name} onChange={event => setGameDraft({ ...gameDraft, name: event.target.value })} placeholder="Nome do jogo" required />
-                </label>
-                <label>Genero
-                  <input value={gameDraft.genre} onChange={event => setGameDraft({ ...gameDraft, genre: event.target.value })} placeholder="RPG, FPS, MOBA..." />
-                </label>
-                <label>Plataforma
-                  <input value={gameDraft.platform} onChange={event => setGameDraft({ ...gameDraft, platform: event.target.value })} placeholder="PC, PlayStation..." />
-                </label>
+                <div className="mat-dialog__field">
+                  <label htmlFor="gameName">Nome</label>
+                  <input id="gameName" value={gameDraft.name} onChange={event => setGameDraft({ ...gameDraft, name: event.target.value })} placeholder="Nome do jogo" required />
+                </div>
+                <div className="mat-dialog__field">
+                  <label htmlFor="gameGenre">Genero</label>
+                  <input id="gameGenre" value={gameDraft.genre} onChange={event => setGameDraft({ ...gameDraft, genre: event.target.value })} placeholder="RPG, FPS, MOBA..." />
+                  <SuggestionChips
+                    label="Generos populares"
+                    options={POPULAR_GENRES}
+                    value={gameDraft.genre}
+                    onSelect={genre => setGameDraft({ ...gameDraft, genre: toggleMarker(gameDraft.genre, genre) })}
+                  />
+                </div>
+                <div className="mat-dialog__field">
+                  <label htmlFor="gamePlatform">Plataforma</label>
+                  <input id="gamePlatform" value={gameDraft.platform} onChange={event => setGameDraft({ ...gameDraft, platform: event.target.value })} placeholder="PC, PlayStation..." />
+                  <SuggestionChips
+                    label="Plataformas populares"
+                    options={POPULAR_PLATFORMS}
+                    value={gameDraft.platform}
+                    onSelect={platform => setGameDraft({ ...gameDraft, platform: toggleMarker(gameDraft.platform, platform) })}
+                  />
+                </div>
                 <footer className="mat-dialog__actions">
                   <button className="btn" type="button" onClick={closeDialog}>Cancelar</button>
                   <button className="btn primary" type="submit">{editDialog.type === "createGame" ? "Cadastrar" : "Salvar"}</button>

@@ -11,9 +11,10 @@
 
 .tag {
   gap: 6px;
-  border: 1px solid rgb(67 164 255 / 42%);
-  color: #bfe0ff;
-  background: rgb(67 164 255 / 18%);
+  border: 1px solid color-mix(in srgb, var(--accent-2) 54%, transparent);
+  color: var(--accent-2);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 18%, transparent), color-mix(in srgb, var(--accent-2) 18%, transparent));
   padding: 4px 9px;
   font-size: 0.8rem;
 }
@@ -24,9 +25,9 @@
   width: 22px;
   height: 22px;
   padding: 0;
-  border: 1px solid rgb(255 209 102 / 42%);
-  color: #ffe4a3;
-  background: rgb(255 209 102 / 18%);
+  border: 1px solid color-mix(in srgb, var(--warning) 48%, transparent);
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 18%, transparent);
 
   svg {
     width: 13px;
@@ -74,18 +75,4 @@
   padding: 24px;
   color: var(--muted);
   text-align: center;
-}
-
-:root[data-theme="light"] {
-  .tag {
-    color: #064f91;
-    background: #e8f3ff;
-    border-color: #7cb2e4;
-  }
-
-  .pin-label {
-    color: #6f4a00;
-    background: #fff6d8;
-    border-color: #d8a928;
-  }
 }

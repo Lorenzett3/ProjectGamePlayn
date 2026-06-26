@@ -2,7 +2,7 @@
 
 .app-shell {
   display: grid;
-  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr) minmax(260px, 320px);
+  grid-template-columns: minmax(340px, 260px) minmax(0, 1fr) minmax(240px, 300px);
   gap: clamp(12px, 2vw, 20px);
   min-height: 100vh;
   padding: clamp(10px, 2vw, 20px);
@@ -34,9 +34,28 @@
 
 .top-actions {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 10px;
   margin-bottom: 14px;
+}
+
+.desktop-search {
+  flex: 1 1 auto;
+  display: grid;
+  gap: 5px;
+  min-width: 220px;
+  margin-right: auto;
+
+  span {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  input {
+    min-height: 38px;
+  }
 }
 
 .loading-screen {
@@ -46,34 +65,61 @@
   color: var(--muted);
 }
 
-@media (max-width: 1160px) {
+@media (max-width: 1180px) {
   .app-shell {
-    grid-template-columns: minmax(210px, 250px) minmax(0, 1fr);
-  }
-
-  .right-column {
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 780px) {
-  .app-shell,
-  .right-column {
-    grid-template-columns: 1fr;
-  }
-
-  .app-shell {
+    grid-template-columns: minmax(0, 1fr);
     gap: 10px;
     padding: 0;
   }
 
-  .main-view {
-    padding: 0 10px 10px;
+  .right-column {
+    display: none;
   }
 
-  .right-column {
+  .main-view {
     padding: 0 10px 14px;
+  }
+
+  .app-shell:not(.admin-shell) {
+    .top-actions {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 1161px) {
+  .admin-shell {
+    grid-template-columns: minmax(0, 1fr);
+    justify-content: stretch;
+    gap: 0;
+    padding: 0;
+
+    .main-view {
+      width: 100%;
+      padding: 12px;
+    }
+
+    .top-actions {
+      position: sticky;
+      top: 0;
+      z-index: 8;
+      justify-content: stretch;
+      margin: -12px -12px 12px;
+      padding: 8px 12px;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+
+      > * {
+        flex: 1;
+      }
+    }
+  }
+}
+
+@media (max-width: 780px) {
+  .main-view {
+    padding: 0 10px 10px;
   }
 
   .top-actions {
@@ -96,5 +142,9 @@
 @media (max-width: 520px) {
   .right-column {
     gap: 10px;
+  }
+
+  .desktop-search {
+    min-width: 0;
   }
 }

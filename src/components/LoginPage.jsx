@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { ThemeToggle } from "./ThemeToggle.jsx";
 
-export function LoginPage({ error, onLogin }) {
+export function LoginPage({ error, theme, onThemeToggle, onLogin }) {
   const [username, setUsername] = useState("lorenzo");
   const [password, setPassword] = useState("123456");
 
@@ -11,18 +12,21 @@ export function LoginPage({ error, onLogin }) {
 
   return (
     <main className="login-page">
+      <div className="login-theme">
+        <ThemeToggle theme={theme} onToggle={onThemeToggle} />
+      </div>
+
       <section className="login-box">
         <div className="login-hero">
+          <div className="login-sun" aria-hidden="true" />
+          <div className="login-grid" aria-hidden="true" />
           <h1>GamePlayn</h1>
-          <p>Uma comunidade gamer organizada por topicos, perfis e conversas sobre jogos.</p>
+          <p>Converse sobre jogos, descubra tópicos e ache comunidades</p>
         </div>
+
         <form className="login-form" onSubmit={submit}>
-          <div>
-            <h2>Entrar no MVP</h2>
-            <p className="muted">Use um dos usuarios prontos para demonstrar o sistema.</p>
-          </div>
           {error && <div className="error">{error}</div>}
-          <label>Usuario
+          <label>Usuário
             <input value={username} onChange={event => setUsername(event.target.value)} autoComplete="username" required />
           </label>
           <label>Senha

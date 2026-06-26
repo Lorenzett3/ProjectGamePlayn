@@ -81,7 +81,7 @@ select:focus {
   padding: 10px;
   border-radius: $radius;
   color: var(--text);
-  background: var(--surface-3);
+  background: var(--surface-soft-gradient);
   border: 1px solid var(--line);
   text-align: left;
   line-height: 1.25;
@@ -105,14 +105,14 @@ select:focus {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: #06130c;
-  background: var(--accent);
+  color: var(--accent-text);
+  background: var(--accent-gradient);
 
   svg {
     width: 22px;
     height: 22px;
     fill: none;
-    stroke: #06130c;
+    stroke: var(--accent-text);
     stroke-width: 2.6;
     stroke-linecap: round;
     stroke-linejoin: round;
