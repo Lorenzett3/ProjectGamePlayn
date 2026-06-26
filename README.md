@@ -1,52 +1,165 @@
 # GamePlayn
 
-MVP acadêmico de uma rede social/fórum para jogadores, desenvolvido por **Lorenzett3**. A aplicação organiza discussões por jogo, permitindo publicar posts, comentar, curtir, buscar tópicos e administrar o catálogo.
+> MVP acadêmico de uma rede social voltada para jogadores, desenvolvida como projeto da disciplina **Projeto de Desenvolvimento II**.
 
-## Visão geral
+O **GamePlayn** é uma aplicação web inspirada em fóruns e comunidades de jogos, criada com o objetivo de centralizar discussões sobre títulos específicos em um único ambiente.
 
-O GamePlayn centraliza conversas sobre games em tópicos separados por jogo, em vez de espalhar discussões por redes sociais genéricas. A ideia segue um modelo próximo de comunidades: cada jogo funciona como um espaço próprio para recomendações, opiniões, dicas e debates.
+Diferente de redes sociais generalistas, onde o conteúdo fica disperso entre grupos, páginas e servidores, o GamePlayn organiza toda a interação por jogo, permitindo que jogadores encontrem rapidamente recomendações, opiniões, dicas, curiosidades e discussões relacionadas aos seus títulos favoritos.
 
-## Funcionalidades principais
+---
 
-- Login de usuários comuns e administrador.
-- Feed geral e feed filtrado por jogo.
-- Criação, exclusão, curtida e fixação de posts.
-- Página individual de post com comentários e curtidas em comentários.
-- Busca por posts, jogos, gêneros, plataformas e usuários.
-- Perfil de usuário com avatar visual, bio editável e posts publicados.
-- Temas claro e escuro.
-- Painel lateral com posts recentes.
-- Painel administrativo para gerenciar jogos/tópicos e usuários.
-- Persistência local em arquivo JSON.
+# ✨ Principais funcionalidades
 
-## Tecnologias
+## Autenticação
 
-- **React 19** para a interface.
-- **Vite 7** para desenvolvimento e build.
-- **SCSS/Sass** para estilos organizados por base, layout e componentes.
-- **Node.js HTTP nativo** para servir a API e o build de produção.
-- **JSON local** em `data/db.json` como banco simples para o MVP.
+* Login de usuários
+* Controle de permissões
+* Perfis de jogador e administrador
 
-## Como executar
+---
 
-Requisitos:
+## Publicações
 
-- Node.js
-- NPM
+* Criar posts
+* Excluir posts
+* Curtir posts
+* Fixar posts
+* Feed geral
+* Feed por jogo
 
-Instale as dependências:
+---
+
+## Comentários
+
+* Criar comentários
+* Curtir comentários
+* Excluir comentários
+
+---
+
+## Pesquisa
+
+Busca por:
+
+* Jogos
+* Posts
+* Usuários
+* Gêneros
+* Plataformas
+
+---
+
+## Perfil do usuário
+
+* Avatar visual
+* Biografia editável
+* Histórico de publicações
+
+---
+
+## Interface
+
+* Tema claro
+* Tema escuro
+* Layout responsivo
+* Barra lateral com posts recentes
+
+---
+
+## Painel administrativo
+
+Administradores podem:
+
+* Gerenciar usuários
+* Gerenciar jogos
+* Gerenciar tópicos
+* Gerenciar posts
+* Gerenciar comentários
+
+---
+
+# Arquitetura
+
+O projeto foi desenvolvido seguindo uma arquitetura simples de cliente-servidor.
+
+```text
+React (Frontend)
+        │
+        │ HTTP
+        ▼
+Node.js (API)
+        │
+        ▼
+data/db.json
+```
+
+Por se tratar de um MVP acadêmico, a persistência dos dados é realizada utilizando um arquivo JSON local, simplificando a configuração do ambiente e permitindo foco na implementação das regras de negócio.
+
+---
+
+# Tecnologias utilizadas
+
+| Tecnologia      | Finalidade                              |
+| --------------- | --------------------------------------- |
+| React 19        | Interface da aplicação                  |
+| Vite 7          | Ambiente de desenvolvimento e build     |
+| SCSS            | Organização e modularização dos estilos |
+| Node.js         | Servidor HTTP e API                     |
+| JavaScript ES6+ | Lógica da aplicação                     |
+| JSON            | Persistência de dados do MVP            |
+
+---
+
+# Estrutura do projeto
+
+```text
+.
+├── data/
+│   └── db.json
+│
+├── src/
+│   ├── api/
+│   ├── components/
+│   ├── data/
+│   ├── styles/
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── utils.js
+│
+├── index.html
+├── package.json
+├── server.js
+└── vite.config.js
+```
+
+---
+
+# Como executar
+
+## Pré-requisitos
+
+* Node.js
+* npm
+
+---
+
+## Instalação
 
 ```bash
 npm install
 ```
 
-Em desenvolvimento, rode a API em um terminal:
+---
+
+## Ambiente de desenvolvimento
+
+Inicie a API:
 
 ```bash
 npm run api
 ```
 
-Em outro terminal, rode o frontend:
+Em outro terminal:
 
 ```bash
 npm run dev
@@ -58,10 +171,19 @@ Acesse:
 http://127.0.0.1:5173
 ```
 
-Para gerar e servir a versão de produção:
+---
+
+## Produção
+
+Gerar build:
 
 ```bash
 npm run build
+```
+
+Executar servidor:
+
+```bash
 npm start
 ```
 
@@ -71,76 +193,83 @@ Acesse:
 http://127.0.0.1:3000
 ```
 
-## Usuários iniciais
+---
 
-| Perfil | Usuário | Senha | Permissões |
-| --- | --- | --- | --- |
-| Jogador | `lorenzett3` | `123456` | Criar posts, comentar, curtir, fixar posts/tópicos, editar bio e excluir o que for permitido |
-| Administrador | `admin` | `admin123` | Gerenciar jogos, usuários, posts, comentários e tópicos |
-| Jogador | `malena0202` | `marina123` | Perfil de exemplo |
-| Jogador | `rafa` | `rafa123` | Perfil de exemplo |
-| Jogador | `bia` | `bia123` | Perfil de exemplo |
-| Jogador | `diego` | `diego123` | Perfil de exemplo |
-| Jogador | `camila` | `camila123` | Perfil de exemplo |
+# Usuários para demonstração
 
-## Estrutura do projeto
+| Perfil        | Usuário    | Senha     |
+| ------------- | ---------- | --------- |
+| Administrador | admin      | admin123  |
+| Jogador       | lorenzett3 | 123456    |
+| Jogador       | malena0202 | marina123 |
+| Jogador       | rafa       | rafa123   |
+| Jogador       | bia        | bia123    |
+| Jogador       | diego      | diego123  |
+| Jogador       | camila     | camila123 |
 
-```text
-.
-├── data/
-│   └── db.json              # Dados persistidos localmente
-├── src/
-│   ├── api/                 # Cliente HTTP da API
-│   ├── components/          # Componentes React da interface
-│   ├── data/                # Dados auxiliares do frontend
-│   ├── styles/              # SCSS dividido por base, layout e componentes
-│   ├── App.jsx              # Estado principal e navegação da aplicação
-│   ├── main.jsx             # Entrada React
-│   └── utils.js             # Helpers de avatar, data e bio
-├── index.html
-├── package.json
-├── server.js                # Servidor HTTP, API e regras de negócio
-└── vite.config.js           # Configuração do Vite e proxy da API
-```
+---
 
-## Principais rotas da API
+# Principais endpoints
 
-| Método | Rota | Descrição |
-| --- | --- | --- |
-| `POST` | `/api/login` | Autentica usuário |
-| `GET` | `/api/session` | Retorna o usuário da sessão |
-| `GET` | `/api/games` | Lista jogos/tópicos |
-| `POST` | `/api/games` | Cria jogo/tópico como admin |
-| `PATCH` | `/api/games/:id` | Edita jogo/tópico como admin |
-| `PATCH` | `/api/games/:id/pin` | Fixa ou desfixa tópico |
-| `DELETE` | `/api/games/:id` | Remove jogo/tópico como admin |
-| `GET` | `/api/posts` | Lista posts, com filtro opcional por `gameId` |
-| `POST` | `/api/posts` | Cria post |
-| `DELETE` | `/api/posts/:id` | Remove post com permissão |
-| `POST` | `/api/posts/:id/like` | Alterna curtida do post |
-| `PATCH` | `/api/posts/:id/pin` | Fixa ou desfixa post |
-| `POST` | `/api/posts/:id/comments` | Adiciona comentário |
-| `POST` | `/api/posts/:id/comments/:commentId/like` | Alterna curtida do comentário |
-| `DELETE` | `/api/posts/:id/comments/:commentId` | Remove comentário com permissão |
-| `PATCH` | `/api/users/me` | Atualiza a bio do usuário logado |
-| `GET` | `/api/users` | Lista usuários como admin |
-| `PATCH` | `/api/users/:id` | Edita usuário como admin |
-| `DELETE` | `/api/users/:id` | Remove usuário como admin |
+| Método | Endpoint                                  | Descrição             |
+| ------ | ----------------------------------------- | --------------------- |
+| POST   | `/api/login`                              | Autentica usuário     |
+| GET    | `/api/session`                            | Retorna sessão atual  |
+| GET    | `/api/games`                              | Lista jogos           |
+| POST   | `/api/games`                              | Cria jogo             |
+| PATCH  | `/api/games/:id`                          | Atualiza jogo         |
+| DELETE | `/api/games/:id`                          | Remove jogo           |
+| GET    | `/api/posts`                              | Lista posts           |
+| POST   | `/api/posts`                              | Cria post             |
+| DELETE | `/api/posts/:id`                          | Remove post           |
+| POST   | `/api/posts/:id/like`                     | Curtida em post       |
+| POST   | `/api/posts/:id/comments`                 | Adiciona comentário   |
+| POST   | `/api/posts/:id/comments/:commentId/like` | Curtida em comentário |
+| PATCH  | `/api/users/me`                           | Atualiza perfil       |
 
-## Persistência
+---
 
-Os dados ficam em `data/db.json`. O arquivo armazena usuários, jogos, posts, comentários, curtidas e estados de fixação. Por ser um MVP, não há banco de dados externo nem autenticação com senha criptografada.
+# Persistência de dados
 
-## Roteiro rápido de apresentação
+A aplicação utiliza um arquivo **`data/db.json`** para armazenar usuários, jogos, posts, comentários, curtidas e demais informações.
 
-1. Rodar `npm install`.
-2. Rodar `npm run build`.
-3. Rodar `npm start`.
-4. Abrir `http://127.0.0.1:3000`.
-5. Entrar como `lorenzett3` ou `admin`.
-6. Demonstrar busca, troca de tema, criação de post, comentários e curtidas.
-7. Abrir o painel admin e mostrar o gerenciamento de tópicos e usuários.
+Essa abordagem foi adotada por se tratar de um **MVP acadêmico**, reduzindo a complexidade da infraestrutura e permitindo concentrar o desenvolvimento na arquitetura da aplicação, regras de negócio e experiência do usuário.
 
-## Status
+Em uma evolução futura do projeto, a persistência poderá ser migrada para um banco de dados relacional, como PostgreSQL ou MySQL.
 
-MVP funcional para demonstração acadêmica, com frontend em React, estilos em SCSS, API em Node.js, responsividade, temas, busca global, perfis, comentários e painel administrativo.
+---
+
+# Demonstração rápida
+
+1. Execute `npm install`
+2. Execute `npm run build`
+3. Execute `npm start`
+4. Acesse `http://127.0.0.1:3000`
+5. Faça login como **admin** ou **lorenzett3**
+6. Demonstre:
+
+   * Busca
+   * Criação de post
+   * Comentários
+   * Curtidas
+   * Alteração de tema
+   * Perfil do usuário
+   * Painel administrativo
+
+---
+
+# Limitações atuais
+
+Por se tratar de um MVP, o projeto apresenta algumas limitações:
+
+* Persistência local em JSON
+* Ausência de criptografia de senhas
+* Sem upload de imagens
+* Sem notificações em tempo real
+* Sem autenticação OAuth
+* Sem banco de dados relacional
+---
+
+# Licença
+
+Este projeto foi desenvolvido para fins exclusivamente acadêmicos como MVP da disciplina **Projeto de Desenvolvimento II**.
