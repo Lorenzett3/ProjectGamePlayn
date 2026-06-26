@@ -17,7 +17,11 @@ O **GamePlayn** busca resolver isso oferecendo:
 - Curtidas tambem em comentarios dentro da pagina de discussao.
 - Perfil de usuario com avatar em emoji, nickname, bio e posts.
 - Bio personalizavel com limite de 200 caracteres.
+<<<<<<< HEAD
 - Busca com sugestoes de posts, topicos, jogos, generos, plataformas e usuarios.
+=======
+- Busca por posts, topicos, jogos, generos, plataformas e usuarios.
+>>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
 - Pagina dedicada para cada post, com foco na discussao e comentarios.
 - Painel lateral com posts recentes para facilitar a navegacao.
 - Criação de post em fluxo colapsado, abrindo o formulario apenas ao clicar em **Postar**.
@@ -96,7 +100,11 @@ http://127.0.0.1:3000
 - Login de usuario comum e administrador.
 - Feed geral com posts de todos os jogos.
 - Visualização de posts por jogo/topico.
+<<<<<<< HEAD
 - Busca global com sugestoes conforme a digitacao, sem filtrar automaticamente o feed.
+=======
+- Busca global filtrando posts, topicos, autores, generos e plataformas.
+>>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
 - Foto de capa tematica ao entrar em um topico de jogo.
 - Painel lateral de posts recentes com acesso rapido para discussoes.
 - Criação de posts por botao **Postar**, que abre selecao de topico, titulo e conteudo.
@@ -112,7 +120,11 @@ http://127.0.0.1:3000
 - Pagina de perfil com avatar fake em emoji, nickname, bio, contador de posts e posts do usuario.
 - Personalização da bio com limite de 200 caracteres.
 - Alternancia entre tema claro e escuro.
+<<<<<<< HEAD
 - Topicos fixados no topo da lista por qualquer usuario autenticado.
+=======
+- Topicos fixados no topo da lista.
+>>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
 - Painel administrativo com abas para usuarios e topicos.
 - Cadastro, edicao, fixacao e remocao de jogos/topicos pelo admin.
 - Edicao de usuarios pelo admin, incluindo nome, username, tipo e bio.
@@ -171,7 +183,11 @@ http://127.0.0.1:3000
 | `GET` | `/api/games` | Lista jogos do catalogo, com fixados primeiro |
 | `POST` | `/api/games` | Cadastra jogo novo, apenas admin |
 | `PATCH` | `/api/games/:id` | Edita nome, genero e plataforma de um jogo, apenas admin |
+<<<<<<< HEAD
 | `PATCH` | `/api/games/:id/pin` | Fixa ou desfixa topico para usuario autenticado |
+=======
+| `PATCH` | `/api/games/:id/pin` | Fixa ou desfixa topico, apenas admin |
+>>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
 | `DELETE` | `/api/games/:id` | Remove jogo, apenas admin |
 | `GET` | `/api/posts` | Lista posts, com filtro opcional por `gameId` |
 | `POST` | `/api/posts` | Cria novo post |
@@ -194,7 +210,11 @@ Os dados sao salvos em:
 data/db.json
 ```
 
+<<<<<<< HEAD
 Esse arquivo guarda usuarios, jogos, posts, posts fixados, curtidas em posts, curtidas em comentarios, comentarios e o estado de topicos fixados quando alterado pela interface.
+=======
+Esse arquivo guarda usuarios, jogos, posts, curtidas em posts, curtidas em comentarios, comentarios e o estado de topicos fixados quando alterado pela interface.
+>>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
 
 ## Roteiro rapido para apresentação
 
@@ -203,7 +223,11 @@ Esse arquivo guarda usuarios, jogos, posts, posts fixados, curtidas em posts, cu
 3. Rodar `npm start`.
 4. Abrir `http://127.0.0.1:3000`.
 5. Entrar como `lorenzo`.
+<<<<<<< HEAD
 6. Usar a busca para ver sugestoes de topicos, posts ou autores.
+=======
+6. Usar a busca para filtrar topicos, posts ou autores.
+>>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
 7. Alternar entre tema claro e escuro.
 8. Abrir um topico de jogo e mostrar a foto de capa.
 9. Clicar em **Postar** para abrir o formulario de novo post.
@@ -220,4 +244,8 @@ Esse arquivo guarda usuarios, jogos, posts, posts fixados, curtidas em posts, cu
 
 ## Status
 
+<<<<<<< HEAD
 MVP funcional para demonstração academica, agora com frontend em React, arquitetura de componentes, SCSS organizado, responsividade, animações, temas claro/escuro, busca global, capas tematicas por topico, compositor colapsado, pagina individual de discussao, posts recentes, curtidas em comentarios e painel administrativo mais completo para gerenciar topicos e usuarios.
+=======
+MVP funcional para demonstração academica, agora com frontend em React, arquitetura de componentes, SCSS organizado, responsividade aprimorada, animações, temas claro/escuro, busca global, capas tematicas por topico, compositor colapsado, pagina individual de discussao, posts recentes, curtidas em comentarios e painel administrativo mais completo para gerenciar topicos e usuarios.
+>>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
