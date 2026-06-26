@@ -14,14 +14,18 @@ O **GamePlayn** busca resolver isso oferecendo:
 - Topicos de discussao separados por jogo.
 - Posts textuais criados por usuarios.
 - Interação por curtidas e comentarios.
+- Curtidas tambem em comentarios dentro da pagina de discussao.
 - Perfil de usuario com avatar em emoji, nickname, bio e posts.
 - Bio personalizavel com limite de 200 caracteres.
+- Busca por posts, topicos, jogos, generos, plataformas e usuarios.
+- Pagina dedicada para cada post, com foco na discussao e comentarios.
+- Painel lateral com posts recentes para facilitar a navegacao.
 - Criação de post em fluxo colapsado, abrindo o formulario apenas ao clicar em **Postar**.
 - Editor textual com toolbar visual no estilo comunidade/reddit.
-- Menu estetico de anexos com opcoes de foto, video e camera.
+- Menu estetico de anexos com opcoes visuais de foto, video e camera.
 - Topicos fixados no topo da lista.
 - Tema claro e tema escuro.
-- Moderação e manutencao do catalogo por administrador.
+- Moderação e manutencao do catalogo e dos usuarios por administrador.
 
 ## Tecnologias utilizadas
 
@@ -81,7 +85,7 @@ http://127.0.0.1:3000
 | --- | --- | --- | --- |
 | Jogador normal | `lorenzo` | `123456` | Criar posts, comentar, curtir, editar bio e excluir seus comentarios |
 | Administrador | `admin` | `admin123` | Gerenciar jogos, usuarios, posts, comentarios e topicos fixados |
-| Jogador | `marina` | `marina123` | Perfil de exemplo com foco em RPG e mundo aberto |
+| Jogador | `malena0202` | `marina123` | Perfil de exemplo com foco em RPG e mundo aberto |
 | Jogador | `rafa` | `rafa123` | Perfil de exemplo com foco em FPS competitivo |
 | Jogador | `bia` | `bia123` | Perfil de exemplo com foco em sandbox e criatividade |
 | Jogador | `diego` | `diego123` | Perfil de exemplo com foco em exploração |
@@ -92,11 +96,15 @@ http://127.0.0.1:3000
 - Login de usuario comum e administrador.
 - Feed geral com posts de todos os jogos.
 - Visualização de posts por jogo/topico.
+- Busca global filtrando posts, topicos, autores, generos e plataformas.
 - Foto de capa tematica ao entrar em um topico de jogo.
+- Painel lateral de posts recentes com acesso rapido para discussoes.
 - Criação de posts por botao **Postar**, que abre selecao de topico, titulo e conteudo.
 - Editor de conteudo com icones esteticos de anexo, link, enquete, codigo e emoji.
 - Menu de anexo visual com opcoes de Foto, Video e Camera.
+- Pagina individual de post para leitura focada, curtidas e comentarios.
 - Comentarios em posts.
+- Curtidas em comentarios.
 - Exclusao de comentarios por autor, dono do post ou admin.
 - Exclusao de posts e comentarios por icone de lixeira.
 - Curtidas em posts.
@@ -104,7 +112,13 @@ http://127.0.0.1:3000
 - Personalização da bio com limite de 200 caracteres.
 - Alternancia entre tema claro e escuro.
 - Topicos fixados no topo da lista.
-- Painel administrativo para cadastrar/remover jogos, fixar/desfixar topicos e excluir usuarios.
+- Painel administrativo com abas para usuarios e topicos.
+- Cadastro, edicao, fixacao e remocao de jogos/topicos pelo admin.
+- Edicao de usuarios pelo admin, incluindo nome, username, tipo e bio.
+- Exclusao de usuarios pelo admin, removendo tambem posts, comentarios e curtidas relacionados.
+- Paginacao no painel administrativo para listas de usuarios e topicos.
+- Modal de cadastro/edicao com sugestoes de generos e plataformas.
+- Menu mobile responsivo para navegacao em telas menores.
 - Dados de demonstração com 7 usuarios, posts e comentarios em diferentes topicos de jogos.
 
 ## Estrutura do projeto
@@ -122,8 +136,10 @@ http://127.0.0.1:3000
 │   │   ├── FeedHeader.jsx
 │   │   ├── LoginPage.jsx
 │   │   ├── PostCard.jsx
+│   │   ├── PostPage.jsx
 │   │   ├── ProfilePage.jsx
 │   │   ├── ProfilePanel.jsx
+│   │   ├── RecentPostsPanel.jsx
 │   │   ├── Sidebar.jsx
 │   │   ├── StatsPanel.jsx
 │   │   └── ThemeToggle.jsx
@@ -153,16 +169,19 @@ http://127.0.0.1:3000
 | `GET` | `/api/session` | Retorna usuario logado |
 | `GET` | `/api/games` | Lista jogos do catalogo, com fixados primeiro |
 | `POST` | `/api/games` | Cadastra jogo novo, apenas admin |
+| `PATCH` | `/api/games/:id` | Edita nome, genero e plataforma de um jogo, apenas admin |
 | `PATCH` | `/api/games/:id/pin` | Fixa ou desfixa topico, apenas admin |
 | `DELETE` | `/api/games/:id` | Remove jogo, apenas admin |
-| `GET` | `/api/posts` | Lista posts |
+| `GET` | `/api/posts` | Lista posts, com filtro opcional por `gameId` |
 | `POST` | `/api/posts` | Cria novo post |
 | `DELETE` | `/api/posts/:id` | Remove post |
 | `POST` | `/api/posts/:id/like` | Curte ou remove curtida |
 | `POST` | `/api/posts/:id/comments` | Adiciona comentario |
+| `POST` | `/api/posts/:id/comments/:commentId/like` | Curte ou remove curtida de comentario |
 | `DELETE` | `/api/posts/:id/comments/:commentId` | Remove comentario com permissao |
 | `PATCH` | `/api/users/me` | Atualiza a bio do usuario logado |
 | `GET` | `/api/users` | Lista usuarios, apenas admin |
+| `PATCH` | `/api/users/:id` | Edita dados de usuario, apenas admin |
 | `DELETE` | `/api/users/:id` | Remove usuario, apenas admin |
 
 ## Persistencia dos dados
@@ -173,7 +192,7 @@ Os dados sao salvos em:
 data/db.json
 ```
 
-Esse arquivo guarda usuarios, jogos, posts, curtidas, comentarios e o estado de topicos fixados quando alterado pela interface.
+Esse arquivo guarda usuarios, jogos, posts, curtidas em posts, curtidas em comentarios, comentarios e o estado de topicos fixados quando alterado pela interface.
 
 ## Roteiro rapido para apresentação
 
@@ -182,16 +201,21 @@ Esse arquivo guarda usuarios, jogos, posts, curtidas, comentarios e o estado de 
 3. Rodar `npm start`.
 4. Abrir `http://127.0.0.1:3000`.
 5. Entrar como `lorenzo`.
-6. Alternar entre tema claro e escuro.
-7. Abrir um topico de jogo e mostrar a foto de capa.
-8. Clicar em **Postar** para abrir o formulario de novo post.
-9. Mostrar a toolbar visual do editor e o menu de anexos com Foto, Video e Camera.
-10. Criar post, curtir e comentar.
-11. Excluir comentario/post pelo icone de lixeira quando houver permissao.
-12. Editar a bio no perfil.
-13. Sair e entrar como `admin`.
-14. Fixar/desfixar topicos e excluir comentarios/posts quando necessario.
+6. Usar a busca para filtrar topicos, posts ou autores.
+7. Alternar entre tema claro e escuro.
+8. Abrir um topico de jogo e mostrar a foto de capa.
+9. Clicar em **Postar** para abrir o formulario de novo post.
+10. Mostrar a toolbar visual do editor e o menu de anexos com Foto, Video e Camera.
+11. Criar um post, curtir e abrir a pagina individual da discussao.
+12. Comentar no post e curtir um comentario.
+13. Abrir um post recente pelo painel lateral.
+14. Excluir comentario/post pelo icone de lixeira quando houver permissao.
+15. Editar a bio no perfil.
+16. Sair e entrar como `admin`.
+17. Abrir o painel admin e demonstrar abas, paginacao e modais.
+18. Cadastrar ou editar um topico usando sugestoes de genero/plataforma.
+19. Fixar/desfixar topicos e editar/excluir usuarios quando necessario.
 
 ## Status
 
-MVP funcional para demonstração academica, agora com frontend em React, arquitetura de componentes, SCSS organizado, responsividade aprimorada, animações, temas claro/escuro, capas tematicas por topico, compositor colapsado e dados de exemplo para preencher a comunidade.
+MVP funcional para demonstração academica, agora com frontend em React, arquitetura de componentes, SCSS organizado, responsividade aprimorada, animações, temas claro/escuro, busca global, capas tematicas por topico, compositor colapsado, pagina individual de discussao, posts recentes, curtidas em comentarios e painel administrativo mais completo para gerenciar topicos e usuarios.
