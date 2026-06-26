@@ -58,8 +58,8 @@
   overflow: hidden;
   padding: clamp(28px, 6vw, 58px);
   background:
-    linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--bg) 72%, transparent) 100%),
-    radial-gradient(circle at 68% 24%, color-mix(in srgb, var(--warning) 55%, transparent) 0 12%, transparent 32%),
+    linear-gradient(180deg, transparent 100%, color-mix(in srgb, var(--bg) 72%, transparent) 100%),
+    radial-gradient(circle at 68% 24%, color-mix(in srgb, var(--warning) 55%, transparent) 0 12%, transparent 80%),
     linear-gradient(135deg, color-mix(in srgb, var(--accent-2) 40%, transparent), color-mix(in srgb, var(--accent) 52%, transparent));
 
   &::before,

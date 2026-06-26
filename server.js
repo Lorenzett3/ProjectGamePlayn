@@ -251,6 +251,7 @@ function hydratePost(post, db) {
   const author = db.users.find(item => item.id === post.userId);
   return {
     ...post,
+    pinned: Boolean(post.pinned),
     game,
     author: publicUser(author),
     comments: post.comments.map(comment => ({
@@ -330,8 +331,8 @@ async function handleApi(req, res) {
 
     const gamePin = url.pathname.match(/^\/api\/games\/([^/]+)\/pin$/);
     if (req.method === "PATCH" && gamePin) {
-      const admin = requireAdmin(req, res, db);
-      if (!admin) return;
+      const user = requireAuth(req, res, db);
+      if (!user) return;
       const game = db.games.find(item => item.id === gamePin[1]);
       if (!game) return sendJson(res, 404, { error: "Jogo nao encontrado." });
       game.pinned = !Boolean(game.pinned);
@@ -368,7 +369,10 @@ async function handleApi(req, res) {
       const gameId = url.searchParams.get("gameId");
       const posts = db.posts
         .filter(post => !gameId || post.gameId === gameId)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .sort((a, b) => (
+          Number(Boolean(b.pinned)) - Number(Boolean(a.pinned))
+          || new Date(b.createdAt) - new Date(a.createdAt)
+        ))
         .map(post => hydratePost(post, db));
       return sendJson(res, 200, { posts });
     }
@@ -390,6 +394,7 @@ async function handleApi(req, res) {
         title: body.title.trim(),
         content: body.content.trim(),
         createdAt: new Date().toISOString(),
+        pinned: false,
         likes: [],
         comments: []
       };
@@ -408,6 +413,17 @@ async function handleApi(req, res) {
       db.posts = db.posts.filter(item => item.id !== post.id);
       writeDb(db);
       return sendJson(res, 200, { ok: true });
+    }
+
+    const postPin = url.pathname.match(/^\/api\/posts\/([^/]+)\/pin$/);
+    if (req.method === "PATCH" && postPin) {
+      const user = requireAuth(req, res, db);
+      if (!user) return;
+      const post = db.posts.find(item => item.id === postPin[1]);
+      if (!post) return sendJson(res, 404, { error: "Post nao encontrado." });
+      post.pinned = !Boolean(post.pinned);
+      writeDb(db);
+      return sendJson(res, 200, { post: hydratePost(post, db) });
     }
 
     const likeRoute = url.pathname.match(/^\/api\/posts\/([^/]+)\/like$/);

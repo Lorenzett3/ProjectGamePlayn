@@ -3,7 +3,7 @@ import { coverForGame } from "../data/gameCovers";
 export function FeedHeader({ selectedGame, currentUser, onPinGame }) {
   const title = selectedGame ? selectedGame.name : "Feed";
   const subtitle = selectedGame ? `${selectedGame.genre} - ${selectedGame.platform}` : "Todas as discussoes publicadas no GamePlayn.";
-  const canPin = selectedGame && currentUser.role === "admin";
+  const canPin = selectedGame && currentUser;
 
   return (
     <header className="game-cover" style={{ "--cover": `url(${coverForGame(selectedGame)})` }}>

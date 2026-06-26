@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { SearchBox } from "./SearchBox.jsx";
 import { ThemeToggle } from "./ThemeToggle.jsx";
 
 export function Sidebar({
   games,
   postsCount,
   searchQuery,
+  searchSuggestions,
   selectedGameId,
   theme,
   view,
@@ -16,11 +18,13 @@ export function Sidebar({
   onPinGame,
   onProfileSelect,
   onSearchChange,
+  onSearchSelect,
   onThemeToggle,
   onViewChange
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const isAdmin = currentUser.role === "admin";
+  const canPinTopic = Boolean(currentUser);
   const pinIcon = (
     <span className="pin-label" aria-label="Fixado" title="Fixado">
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -29,6 +33,22 @@ export function Sidebar({
     </span>
   );
   const mobileMenuId = "mobile-navigation";
+
+  useEffect(() => {
+    if (!mobileOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setMobileOpen(false);
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [mobileOpen]);
 
   function selectGame(gameId) {
     onGameSelect(gameId);
@@ -73,69 +93,74 @@ export function Sidebar({
         <span>{postsCount} posts</span>
       </div>
 
-      <div className="brand">
-        <h1>GamePlayn</h1>
-        <p>Sua comunidade Gamer</p>
-      </div>
+      {mobileOpen && (
+        <button
+          className="mobile-sidebar-backdrop"
+          type="button"
+          aria-label="Fechar menu lateral"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
 
-      <nav className="nav-list" aria-label="Navegação principal">
-        <button className={`nav-btn ${view === "feed" ? "active" : ""}`} type="button" onClick={showFeed}>Feed</button>
-        <button className={`nav-btn ${view === "profile" && profileUser?.id === currentUser.id ? "active" : ""}`} type="button" onClick={openOwnProfile}>Meu perfil</button>
-        {isAdmin && (
-          <button className={`nav-btn ${view === "admin" ? "active" : ""}`} type="button" onClick={openAdminPanel}>Painel admin</button>
-        )}
-      </nav>
+      <div className="sidebar-drawer" id={mobileMenuId}>
+        <div className="brand">
+          <h1>GamePlayn</h1>
+          <p>Sua comunidade Gamer</p>
+        </div>
 
-      <div className={`mobile-menu ${mobileOpen ? "open" : ""}`} id={mobileMenuId}>
-        <nav className="mobile-menu__actions" aria-label="Navegação mobile">
+        <nav className="nav-list" aria-label="Navegação principal">
           <button className={`nav-btn ${view === "feed" ? "active" : ""}`} type="button" onClick={showFeed}>Feed</button>
           <button className={`nav-btn ${view === "profile" && profileUser?.id === currentUser.id ? "active" : ""}`} type="button" onClick={openOwnProfile}>Meu perfil</button>
           {isAdmin && (
             <button className={`nav-btn ${view === "admin" ? "active" : ""}`} type="button" onClick={openAdminPanel}>Painel admin</button>
           )}
         </nav>
-      </div>
 
-      <div className="game-list">
-        <button className={`game-btn ${selectedGameId === "all" ? "active" : ""}`} type="button" onClick={() => selectGame("all")}>
-          <strong>Feed</strong>
-          <span>{postsCount} posts</span>
-        </button>
-        {games.map(game => (
-          <div className="game-item" key={game.id}>
-            <button className={`game-btn ${selectedGameId === game.id ? "active" : ""}`} type="button" onClick={() => selectGame(game.id)}>
-              <strong>{game.pinned && pinIcon}{game.name}</strong>
-              <span>{game.postCount} posts</span>
-            </button>
-            {isAdmin && (
-              <button
-                className={`icon-btn pin-topic-btn ${game.pinned ? "active" : ""}`}
-                type="button"
-                title={game.pinned ? "Desfixar topico" : "Fixar topico"}
-                aria-label={game.pinned ? `Desfixar ${game.name}` : `Fixar ${game.name}`}
-                onClick={() => onPinGame(game.id)}
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M14 4l6 6-3 1-4 4v4l-2 2-2-6-6-2 2-2h4l4-4 1-3z" />
-                </svg>
+        <div className="game-list">
+          <button className={`game-btn ${selectedGameId === "all" ? "active" : ""}`} type="button" onClick={() => selectGame("all")}>
+            <strong>Feed</strong>
+            <span>{postsCount} posts</span>
+          </button>
+          {games.map(game => (
+            <div className="game-item" key={game.id}>
+              <button className={`game-btn ${selectedGameId === game.id ? "active" : ""}`} type="button" onClick={() => selectGame(game.id)}>
+                <strong>{game.pinned && pinIcon}{game.name}</strong>
+                <span>{game.postCount} posts</span>
               </button>
-            )}
-          </div>
-        ))}
-      </div>
+              {canPinTopic && (
+                <button
+                  className={`icon-btn pin-topic-btn ${game.pinned ? "active" : ""}`}
+                  type="button"
+                  title={game.pinned ? "Desfixar topico" : "Fixar topico"}
+                  aria-label={game.pinned ? `Desfixar ${game.name}` : `Fixar ${game.name}`}
+                  onClick={() => onPinGame(game.id)}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M14 4l6 6-3 1-4 4v4l-2 2-2-6-6-2 2-2h4l4-4 1-3z" />
+                  </svg>
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
 
-      <label className="mobile-search">
-        <input
-          type="search"
-          value={searchQuery}
-          onChange={event => onSearchChange(event.target.value)}
-          placeholder="Buscar posts e tópicos"
-        />
-      </label>
+        <div className="mobile-search">
+          <SearchBox
+            query={searchQuery}
+            suggestions={searchSuggestions}
+            onQueryChange={onSearchChange}
+            onSelect={item => {
+              onSearchSelect(item);
+              setMobileOpen(false);
+            }}
+            placeholder="Buscar posts e tópicos"
+          />
+        </div>
 
-      <div className="mobile-menu__footer">
-        <ThemeToggle theme={theme} onToggle={onThemeToggle} />
-        <button className="btn" type="button" onClick={onLogout}>Sair</button>
+        <div className="mobile-menu__footer">
+          <ThemeToggle theme={theme} onToggle={onThemeToggle} />
+          <button className="btn" type="button" onClick={onLogout}>Sair</button>
+        </div>
       </div>
     </aside>
   );

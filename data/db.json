@@ -55,14 +55,14 @@
       "name": "Deux Ex: Mankind Divided",
       "genre": "Aventura, RPG, Ação, FPS, Estratégia",
       "platform": "PC, PlayStation, Xbox, Nintendo Switch",
-      "pinned": true
+      "pinned": false
     },
     {
       "id": "g473f81d0f6a0",
       "name": "Grand Theft Auto VI",
       "genre": "Ação",
       "platform": "PC, PS5, XBOX",
-      "pinned": false
+      "pinned": true
     },
     {
       "id": "g0c19395a3a70",
@@ -89,7 +89,8 @@
       "id": "g2",
       "name": "Minecraft",
       "genre": "Sandbox",
-      "platform": "Multiplataforma"
+      "platform": "Multiplataforma",
+      "pinned": false
     },
     {
       "id": "g3",
@@ -126,7 +127,8 @@
       "id": "g9",
       "name": "Red Dead Redemption 2",
       "genre": "ação e Aventura",
-      "platform": "PC, PlayStation, Xbox"
+      "platform": "PC, PlayStation, Xbox",
+      "pinned": true
     },
     {
       "id": "g10",
@@ -152,7 +154,8 @@
           "content": "realmente, nao aguento mais morar no bostil",
           "createdAt": "2026-06-26T15:57:06.697Z"
         }
-      ]
+      ],
+      "pinned": false
     },
     {
       "id": "p8af9159b2ef3",
@@ -362,6 +365,343 @@
         "u1"
       ],
       "comments": []
+    },
+    {
+      "id": "pfill-lorenzo-deusex-01",
+      "gameId": "g23266853b663",
+      "userId": "u1",
+      "title": "Deux Ex ainda e forte por causa das escolhas",
+      "content": "Gosto de como o jogo deixa resolver uma missao de varios jeitos: furtividade, conversa, hack ou combate direto. Isso faz a campanha parecer mais pessoal.",
+      "createdAt": "2026-06-26T12:15:00.000Z",
+      "likes": [
+        "u3",
+        "u6"
+      ],
+      "comments": [
+        {
+          "id": "cfill-lorenzo-deusex-01",
+          "userId": "u2",
+          "content": "Bom exemplo de RPG imersivo para comparar liberdade de abordagem.",
+          "createdAt": "2026-06-26T12:25:00.000Z",
+          "likes": [
+            "u1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pfill-lorenzo-zelda-01",
+      "gameId": "g1",
+      "userId": "u1",
+      "title": "Zelda mostra como curiosidade pode guiar o jogador",
+      "content": "O mapa nao precisa marcar tudo quando o mundo tem pontos interessantes no horizonte. Voce olha, fica curioso e naturalmente cria seu proprio objetivo.",
+      "createdAt": "2026-06-25T19:40:00.000Z",
+      "likes": [
+        "u3",
+        "u7"
+      ],
+      "comments": [
+        {
+          "id": "cfill-lorenzo-zelda-01",
+          "userId": "u6",
+          "content": "Isso funciona muito bem porque quase sempre tem recompensa visual ou mecanica.",
+          "createdAt": "2026-06-25T20:05:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pfill-lorenzo-gtavi-01",
+      "gameId": "g473f81d0f6a0",
+      "userId": "u1",
+      "title": "O que GTA VI precisa acertar no mundo aberto",
+      "content": "Mais do que tamanho de mapa, eu queria ver atividades com consequencia e NPCs menos repetitivos. Um mundo vivo depende de reacao, nao so de escala.",
+      "createdAt": "2026-06-24T21:10:00.000Z",
+      "likes": [
+        "u2",
+        "u4",
+        "u7"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pfill-admin-deathstranding-01",
+      "gameId": "g0c19395a3a70",
+      "userId": "u2",
+      "title": "Death Stranding e um bom topico sobre design diferente",
+      "content": "Ele e interessante para discutir porque transforma deslocamento em mecanica principal. Nao e so ir de um ponto ao outro, e planejar cada travessia.",
+      "createdAt": "2026-06-26T11:30:00.000Z",
+      "likes": [
+        "u1",
+        "u6"
+      ],
+      "comments": [
+        {
+          "id": "cfill-admin-deathstranding-01",
+          "userId": "u3",
+          "content": "Tambem gosto de como a cooperacao aparece sem virar multiplayer tradicional.",
+          "createdAt": "2026-06-26T11:55:00.000Z",
+          "likes": [
+            "u2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pfill-admin-lol-01",
+      "gameId": "g6",
+      "userId": "u2",
+      "title": "League of Legends ajuda a explicar moderacao de comunidade",
+      "content": "Jogos competitivos geram discussao constante sobre balanceamento, partidas ranqueadas e comportamento. E um bom exemplo para testar organizacao por topico.",
+      "createdAt": "2026-06-25T18:10:00.000Z",
+      "likes": [
+        "u4",
+        "u7"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pfill-admin-minecraft-01",
+      "gameId": "g2",
+      "userId": "u2",
+      "title": "Minecraft rende discussoes para iniciantes e veteranos",
+      "content": "O mesmo jogo abre conversa sobre construcao, sobrevivencia, servidores, mods e educacao. Por isso ele encaixa muito bem no catalogo inicial.",
+      "createdAt": "2026-06-24T17:20:00.000Z",
+      "likes": [
+        "u1",
+        "u3",
+        "u6"
+      ],
+      "comments": [
+        {
+          "id": "cfill-admin-minecraft-01",
+          "userId": "u1",
+          "content": "E um dos melhores exemplos de jogo que muda conforme a comunidade.",
+          "createdAt": "2026-06-24T17:44:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pfill-marina-sims-01",
+      "gameId": "ge4c53072a7aa",
+      "userId": "u3",
+      "title": "The Sims 4 funciona muito bem para criar historias",
+      "content": "Mesmo quando voce nao joga por desafio, da para criar personagens, rotinas e pequenos dramas. A parte social do jogo rende bastante assunto.",
+      "createdAt": "2026-06-26T10:45:00.000Z",
+      "likes": [
+        "u1",
+        "u7"
+      ],
+      "comments": [
+        {
+          "id": "cfill-marina-sims-01",
+          "userId": "u7",
+          "content": "Eu gosto quando a pessoa usa o jogo quase como ferramenta narrativa.",
+          "createdAt": "2026-06-26T10:58:00.000Z",
+          "likes": [
+            "u3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pfill-marina-rdr2-01",
+      "gameId": "g9",
+      "userId": "u3",
+      "title": "Red Dead Redemption 2 tem ritmo de serie longa",
+      "content": "Nem todo mundo gosta do ritmo lento, mas ele combina com a proposta. O jogo deixa voce viver o mundo antes de empurrar a proxima missao.",
+      "createdAt": "2026-06-25T16:30:00.000Z",
+      "likes": [
+        "u6",
+        "u1"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pfill-marina-elden-01",
+      "gameId": "g3",
+      "userId": "u3",
+      "title": "Elden Ring fica melhor quando voce aceita se perder",
+      "content": "A primeira reacao e procurar caminho certo, mas o jogo melhora quando voce para de tratar tudo como checklist e segue a propria curiosidade.",
+      "createdAt": "2026-06-24T15:15:00.000Z",
+      "likes": [
+        "u1",
+        "u2",
+        "u6"
+      ],
+      "comments": [
+        {
+          "id": "cfill-marina-elden-01",
+          "userId": "u1",
+          "content": "Esse e exatamente o ponto que prende o jogador por horas.",
+          "createdAt": "2026-06-24T15:39:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pfill-rafa-valorant-01",
+      "gameId": "g10",
+      "userId": "u4",
+      "title": "Valorant pune time que joga sem plano",
+      "content": "Da para ganhar round na mira, mas partida consistente vem de entrada coordenada, troca de informacao e uso de utilidade no tempo certo.",
+      "createdAt": "2026-06-26T09:50:00.000Z",
+      "likes": [
+        "u2",
+        "u7"
+      ],
+      "comments": [
+        {
+          "id": "cfill-rafa-valorant-01",
+          "userId": "u7",
+          "content": "Principalmente quando o time para de gastar tudo nos primeiros dez segundos.",
+          "createdAt": "2026-06-26T10:02:00.000Z",
+          "likes": [
+            "u4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pfill-rafa-deusex-01",
+      "gameId": "g23266853b663",
+      "userId": "u4",
+      "title": "Mesmo em RPG, Deus Ex recompensa leitura de mapa",
+      "content": "O legal e perceber rotas alternativas, ventilacao, terminais e pontos cegos. Parece quase um jogo tatico quando voce planeja antes de agir.",
+      "createdAt": "2026-06-25T14:45:00.000Z",
+      "likes": [
+        "u1",
+        "u2"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pfill-rafa-fortnite-01",
+      "gameId": "g5",
+      "userId": "u4",
+      "title": "Fortnite muda o meta sem medo",
+      "content": "Como jogo competitivo casual, ele se reinventa o tempo todo. Isso pode irritar quem quer estabilidade, mas mantem a comunidade sempre comentando.",
+      "createdAt": "2026-06-24T13:35:00.000Z",
+      "likes": [
+        "u3",
+        "u7"
+      ],
+      "comments": [
+        {
+          "id": "cfill-rafa-fortnite-01",
+          "userId": "u2",
+          "content": "Esse ritmo de temporada tambem ajuda a testar topicos ativos no forum.",
+          "createdAt": "2026-06-24T14:01:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pfill-diego-deathstranding-01",
+      "gameId": "g0c19395a3a70",
+      "userId": "u6",
+      "title": "Death Stranding faz a viagem importar",
+      "content": "Eu gosto quando atravessar o mapa e parte real do desafio. Peso, terreno e clima viram decisao, nao so animacao entre objetivos.",
+      "createdAt": "2026-06-26T08:40:00.000Z",
+      "likes": [
+        "u1",
+        "u3"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pfill-diego-gtav-01",
+      "gameId": "g8",
+      "userId": "u6",
+      "title": "GTA V ainda tem um mapa facil de reconhecer",
+      "content": "Los Santos funciona porque cada regiao tem identidade. Mesmo depois de anos, voce lembra caminhos, bairros e pontos de encontro.",
+      "createdAt": "2026-06-25T12:25:00.000Z",
+      "likes": [
+        "u1",
+        "u4"
+      ],
+      "comments": [
+        {
+          "id": "cfill-diego-gtav-01",
+          "userId": "u1",
+          "content": "Isso e algo que GTA VI vai precisar superar, nao apenas aumentar.",
+          "createdAt": "2026-06-25T12:48:00.000Z",
+          "likes": [
+            "u6"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pfill-diego-zelda-01",
+      "gameId": "g1",
+      "userId": "u6",
+      "title": "Explorar em Zelda parece mais natural que seguir marcador",
+      "content": "Quando vejo uma montanha, uma torre ou uma ruina, eu ja quero ir ate la. Esse tipo de direcao visual e muito mais elegante que um mapa cheio de icones.",
+      "createdAt": "2026-06-24T11:05:00.000Z",
+      "likes": [
+        "u3",
+        "u7"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pfill-camila-fortnite-01",
+      "gameId": "g5",
+      "userId": "u7",
+      "title": "Fortnite e quase uma rede social jogavel",
+      "content": "Eventos, skins, shows e temporadas fazem o jogo virar assunto mesmo fora da partida. Isso ajuda a manter comunidade ativa.",
+      "createdAt": "2026-06-26T07:55:00.000Z",
+      "likes": [
+        "u3",
+        "u4"
+      ],
+      "comments": [
+        {
+          "id": "cfill-camila-fortnite-01",
+          "userId": "u4",
+          "content": "Concordo. Muita gente acompanha as novidades mesmo sem jogar todo dia.",
+          "createdAt": "2026-06-26T08:12:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pfill-camila-lol-01",
+      "gameId": "g6",
+      "userId": "u7",
+      "title": "League of Legends precisa de conversa sobre macro",
+      "content": "Muita discussao fica em campeao forte ou fraco, mas wave, visao e tempo de objetivo explicam melhor por que uma partida foi perdida.",
+      "createdAt": "2026-06-25T10:35:00.000Z",
+      "likes": [
+        "u2",
+        "u4"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pfill-camila-sims-01",
+      "gameId": "ge4c53072a7aa",
+      "userId": "u7",
+      "title": "The Sims 4 tambem e jogo de criatividade",
+      "content": "A parte de construir casa, criar personagem e montar rotina e tao importante quanto cumprir objetivos. E um sandbox social bem acessivel.",
+      "createdAt": "2026-06-24T09:20:00.000Z",
+      "likes": [
+        "u3",
+        "u6"
+      ],
+      "comments": [
+        {
+          "id": "cfill-camila-sims-01",
+          "userId": "u3",
+          "content": "Sim, e por isso ele conversa bem com publico casual e criativo.",
+          "createdAt": "2026-06-24T09:49:00.000Z",
+          "likes": [
+            "u7"
+          ]
+        }
+      ]
     }
   ]
 }

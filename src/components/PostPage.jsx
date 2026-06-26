@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { avatarFor, formatDate } from "../utils";
 
-export function PostPage({ post, currentUser, onAuthorClick, onBack, onComment, onDeleteComment, onDeletePost, onLike, onLikeComment }) {
+export function PostPage({ post, currentUser, onAuthorClick, onBack, onComment, onDeleteComment, onDeletePost, onLike, onLikeComment, onPinPost }) {
   const [comment, setComment] = useState("");
   const canDeletePost = currentUser.role === "admin" || currentUser.id === post?.userId;
   const liked = post?.likes.includes(currentUser.id);
@@ -25,24 +25,31 @@ export function PostPage({ post, currentUser, onAuthorClick, onBack, onComment, 
     <section className="post-page">
       <header className="post-page__bar">
         <button className="btn post-page__back" type="button" onClick={onBack}>Voltar</button>
-        <span className="meta">Discussão</span>
       </header>
 
       <article className="post post-detail">
         <div className="post-head">
           <div>
             <span className="tag"># {post.game?.name || "Jogo removido"}</span>
+            {post.pinned && <span className="tag pinned-post-tag">Fixado</span>}
             <button className="author-link post-detail__author" type="button" onClick={() => onAuthorClick(post.author?.id)}>
               <span className="avatar" aria-hidden="true">{avatarFor(post.author)}</span>
               <span>por @{post.author?.username || "usuario removido"} - {formatDate(post.createdAt)}</span>
             </button>
             <h2>{post.title}</h2>
           </div>
-          {canDeletePost && (
-            <button className="icon-btn danger" type="button" onClick={() => onDeletePost(post.id)} aria-label="Excluir post" title="Excluir post">
-              🗑
+          <div className="post-head-actions">
+            <button className={`icon-btn ${post.pinned ? "active" : ""}`} type="button" onClick={() => onPinPost(post.id)} aria-label={post.pinned ? "Desfixar post" : "Fixar post"} title={post.pinned ? "Desfixar post" : "Fixar post"}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14 4l6 6-3 1-4 4v4l-2 2-2-6-6-2 2-2h4l4-4 1-3z" />
+              </svg>
             </button>
-          )}
+            {canDeletePost && (
+              <button className="icon-btn danger" type="button" onClick={() => onDeletePost(post.id)} aria-label="Excluir post" title="Excluir post">
+                🗑
+              </button>
+            )}
+          </div>
         </div>
         <p>{post.content}</p>
         <div className="post-actions">

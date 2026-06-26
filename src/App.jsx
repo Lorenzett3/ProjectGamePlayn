@@ -8,6 +8,7 @@ import { PostCard } from "./components/PostCard.jsx";
 import { PostPage } from "./components/PostPage.jsx";
 import { ProfilePage } from "./components/ProfilePage.jsx";
 import { RecentPostsPanel } from "./components/RecentPostsPanel.jsx";
+import { SearchBox } from "./components/SearchBox.jsx";
 import { Sidebar } from "./components/Sidebar.jsx";
 import { ThemeToggle } from "./components/ThemeToggle.jsx";
 
@@ -44,32 +45,65 @@ export default function App() {
     allPosts.find(post => post.id === selectedPostId) || posts.find(post => post.id === selectedPostId) || null
   ), [allPosts, posts, selectedPostId]);
 
-  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const searchSuggestions = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return [];
 
-  const filteredGames = useMemo(() => {
-    if (!normalizedSearch) return games;
-    return games.filter(game => [
-      game.name,
-      game.genre,
-      game.platform
-    ].some(value => String(value || "").toLowerCase().includes(normalizedSearch)));
-  }, [games, normalizedSearch]);
+    const matches = values => values.some(value => String(value || "").toLowerCase().includes(query));
+    const authors = new Map();
+    if (user) authors.set(user.id, user);
+    users.forEach(item => authors.set(item.id, item));
+    allPosts.forEach(post => {
+      if (post.author?.id) authors.set(post.author.id, post.author);
+    });
 
-  const filteredPosts = useMemo(() => {
-    if (!normalizedSearch) return posts;
-    return posts.filter(post => {
-      const game = games.find(item => item.id === post.gameId);
-      return [
+    const gameResults = games
+      .filter(game => matches([game.name, game.genre, game.platform]))
+      .slice(0, 4)
+      .map(game => ({
+        type: "game",
+        id: game.id,
+        title: game.name,
+        meta: `${game.genre || "Genero nao informado"} - ${game.platform || "Plataforma nao informada"}`
+      }));
+
+    const postResults = allPosts
+      .filter(post => matches([
         post.title,
         post.content,
         post.author?.name,
         post.author?.username,
-        game?.name,
-        game?.genre,
-        game?.platform
-      ].some(value => String(value || "").toLowerCase().includes(normalizedSearch));
-    });
-  }, [games, normalizedSearch, posts]);
+        post.game?.name,
+        post.game?.genre,
+        post.game?.platform
+      ]))
+      .slice(0, 5)
+      .map(post => ({
+        type: "post",
+        id: post.id,
+        title: post.title,
+        meta: `@${post.author?.username || "usuario removido"} em ${post.game?.name || "jogo removido"}`
+      }));
+
+    const userResults = [...authors.values()]
+      .filter(author => matches([author.name, author.username, author.bio, author.role]))
+      .slice(0, 4)
+      .map(author => ({
+        type: "user",
+        id: author.id,
+        title: `@${author.username}`,
+        meta: author.name || "Usuario"
+      }));
+
+    return [...gameResults, ...postResults, ...userResults].slice(0, 10);
+  }, [allPosts, games, searchQuery, user, users]);
+
+  function selectSearchSuggestion(item) {
+    setSearchQuery("");
+    if (item.type === "game") openGame(item.id);
+    if (item.type === "post") openPost(item.id);
+    if (item.type === "user") openProfile(item.id);
+  }
 
   const recentPosts = useMemo(() => (
     [...allPosts]
@@ -170,6 +204,11 @@ export default function App() {
     await refresh();
   }
 
+  async function pinPost(postId) {
+    await request(`/api/posts/${postId}/pin`, { method: "PATCH" });
+    await refresh();
+  }
+
   async function addComment(postId, content) {
     await request(`/api/posts/${postId}/comments`, { method: "POST", body: JSON.stringify({ content }) });
     await refresh();
@@ -216,6 +255,7 @@ export default function App() {
     if (!confirm("Excluir jogo e todos os posts desse topico?")) return;
     await request(`/api/games/${gameId}`, { method: "DELETE" });
     setSelectedGameId("all");
+    scrollMainToTop();
     await loadData("all");
   }
 
@@ -239,6 +279,7 @@ export default function App() {
   function openProfile(userId) {
     setSelectedProfileId(userId);
     setView("profile");
+    scrollMainToTop();
   }
 
   function openPost(postId) {
@@ -261,6 +302,18 @@ export default function App() {
     setSelectedGameId(gameId);
     setSelectedPostId("");
     setView("feed");
+    scrollMainToTop();
+  }
+
+  function showFeed() {
+    setView("feed");
+    scrollMainToTop();
+  }
+
+  function scrollMainToTop() {
+    window.setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    }, 0);
   }
 
   if (loading) return <main className="loading-screen">Carregando...</main>;
@@ -274,7 +327,8 @@ export default function App() {
     onDeletePost: deletePost,
     onLikeComment: toggleCommentLike,
     onLike: toggleLike,
-    onOpenPost: openPost
+    onOpenPost: openPost,
+    onPinPost: pinPost
   };
 
   const isAdminView = view === "admin" && user.role === "admin";
@@ -284,9 +338,10 @@ export default function App() {
     <div className={`app-shell ${isFocusedView ? "admin-shell" : ""}`}>
       {!isFocusedView && (
         <Sidebar
-          games={filteredGames}
-          postsCount={filteredPosts.length}
+          games={games}
+          postsCount={posts.length}
           searchQuery={searchQuery}
+          searchSuggestions={searchSuggestions}
           selectedGameId={selectedGameId}
           theme={theme}
           view={view}
@@ -298,22 +353,30 @@ export default function App() {
           onPinGame={pinGame}
           onProfileSelect={openProfile}
           onSearchChange={setSearchQuery}
+          onSearchSelect={selectSearchSuggestion}
           onThemeToggle={() => setTheme(theme === "dark" ? "light" : "dark")}
-          onViewChange={setView}
+          onViewChange={nextView => {
+            if (nextView === "feed") {
+              showFeed();
+              return;
+            }
+            setView(nextView);
+          }}
         />
       )}
 
       <main className="main-view">
         <div className="top-actions">
           {!isFocusedView && (
-            <label className="desktop-search">
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={event => setSearchQuery(event.target.value)}
+            <div className="desktop-search">
+              <SearchBox
+                query={searchQuery}
+                suggestions={searchSuggestions}
+                onQueryChange={setSearchQuery}
+                onSelect={selectSearchSuggestion}
                 placeholder="Buscar posts, tópicos ou pessoas"
               />
-            </label>
+            </div>
           )}
           <ThemeToggle theme={theme} onToggle={() => setTheme(theme === "dark" ? "light" : "dark")} />
           <button className="btn" type="button" onClick={logout}>Sair</button>
@@ -338,7 +401,7 @@ export default function App() {
             user={profileUser}
             currentUser={user}
             posts={allPosts.filter(post => post.userId === profileUser?.id)}
-            onBack={() => setView("feed")}
+            onBack={showFeed}
             onSaveBio={saveBio}
             postProps={commonPostProps}
           />
@@ -353,6 +416,7 @@ export default function App() {
             onDeletePost={deletePost}
             onLike={toggleLike}
             onLikeComment={toggleCommentLike}
+            onPinPost={pinPost}
           />
         ) : (
           <>
@@ -363,7 +427,7 @@ export default function App() {
             />
             <Composer games={games} selectedGame={selectedGame} onSubmit={createPost} />
             <section className="feed">
-              {filteredPosts.length ? filteredPosts.map(post => <PostCard key={post.id} post={post} {...commonPostProps} />) : (
+              {posts.length ? posts.map(post => <PostCard key={post.id} post={post} {...commonPostProps} />) : (
                 <div className="empty">Nenhum post neste topico ainda.</div>
               )}
             </section>
