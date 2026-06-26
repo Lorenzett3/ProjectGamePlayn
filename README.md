@@ -1,64 +1,52 @@
-# GamePlayn - MVP
+# GamePlayn
 
-Projeto academico desenvolvido por **Lorenzett3** como MVP de uma rede social/forum voltada ao universo dos games.
+MVP acadêmico de uma rede social/fórum para jogadores, desenvolvido por **Lorenzett3**. A aplicação organiza discussões por jogo, permitindo publicar posts, comentar, curtir, buscar tópicos e administrar o catálogo.
 
-A proposta e criar uma plataforma onde jogadores possam publicar opinioes, recomendações, dicas, curiosidades e discussoes sobre jogos digitais em topicos separados por jogo, seguindo uma ideia parecida com comunidades/subreddits.
+## Visão geral
 
-## Objetivo do projeto
+O GamePlayn centraliza conversas sobre games em tópicos separados por jogo, em vez de espalhar discussões por redes sociais genéricas. A ideia segue um modelo próximo de comunidades: cada jogo funciona como um espaço próprio para recomendações, opiniões, dicas e debates.
 
-O problema identificado e a falta de uma plataforma centralizada e organizada exclusivamente para troca de experiencias sobre jogos. Hoje, jogadores costumam usar redes sociais genericas, foruns espalhados ou plataformas de avaliação que nao foram pensadas especificamente para esse tipo de interação.
+## Funcionalidades principais
 
-O **GamePlayn** busca resolver isso oferecendo:
+- Login de usuários comuns e administrador.
+- Feed geral e feed filtrado por jogo.
+- Criação, exclusão, curtida e fixação de posts.
+- Página individual de post com comentários e curtidas em comentários.
+- Busca por posts, jogos, gêneros, plataformas e usuários.
+- Perfil de usuário com avatar visual, bio editável e posts publicados.
+- Temas claro e escuro.
+- Painel lateral com posts recentes.
+- Painel administrativo para gerenciar jogos/tópicos e usuários.
+- Persistência local em arquivo JSON.
 
-- Catalogo de jogos organizado.
-- Topicos de discussao separados por jogo.
-- Posts textuais criados por usuarios.
-- Interação por curtidas e comentarios.
-- Curtidas tambem em comentarios dentro da pagina de discussao.
-- Perfil de usuario com avatar em emoji, nickname, bio e posts.
-- Bio personalizavel com limite de 200 caracteres.
-<<<<<<< HEAD
-- Busca com sugestoes de posts, topicos, jogos, generos, plataformas e usuarios.
-=======
-- Busca por posts, topicos, jogos, generos, plataformas e usuarios.
->>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
-- Pagina dedicada para cada post, com foco na discussao e comentarios.
-- Painel lateral com posts recentes para facilitar a navegacao.
-- Criação de post em fluxo colapsado, abrindo o formulario apenas ao clicar em **Postar**.
-- Editor textual com toolbar visual no estilo comunidade/reddit.
-- Menu estetico de anexos com opcoes visuais de foto, video e camera.
-- Topicos fixados no topo da lista.
-- Tema claro e tema escuro.
-- Moderação e manutencao do catalogo e dos usuarios por administrador.
+## Tecnologias
 
-## Tecnologias utilizadas
-
-- **Node.js** com HTTP nativo para servidor, API e persistencia simples.
-- **React** para a interface em componentes.
-- **Vite** para build e servidor de desenvolvimento do frontend.
-- **SCSS/Sass** para estilos, variaveis, temas e organização visual.
-- **JSON local** para armazenamento simples em `data/db.json`.
+- **React 19** para a interface.
+- **Vite 7** para desenvolvimento e build.
+- **SCSS/Sass** para estilos organizados por base, layout e componentes.
+- **Node.js HTTP nativo** para servir a API e o build de produção.
+- **JSON local** em `data/db.json` como banco simples para o MVP.
 
 ## Como executar
 
 Requisitos:
 
-- Node.js instalado.
-- NPM instalado.
+- Node.js
+- NPM
 
-Instale as dependencias:
+Instale as dependências:
 
 ```bash
 npm install
 ```
 
-Para desenvolvimento, rode a API em um terminal:
+Em desenvolvimento, rode a API em um terminal:
 
 ```bash
 npm run api
 ```
 
-E o frontend React em outro terminal:
+Em outro terminal, rode o frontend:
 
 ```bash
 npm run dev
@@ -70,182 +58,89 @@ Acesse:
 http://127.0.0.1:5173
 ```
 
-Para gerar a versao final e servir pelo Node:
+Para gerar e servir a versão de produção:
 
 ```bash
 npm run build
 npm start
 ```
 
-Depois acesse:
+Acesse:
 
 ```text
 http://127.0.0.1:3000
 ```
 
-## Usuarios iniciais
+## Usuários iniciais
 
-| Perfil | Usuario | Senha | Permissoes |
+| Perfil | Usuário | Senha | Permissões |
 | --- | --- | --- | --- |
-| Jogador normal | `lorenzo` | `123456` | Criar posts, comentar, curtir, fixar posts e topicos, editar bio e excluir seus comentarios |
-| Administrador | `admin` | `admin123` | Gerenciar jogos, usuarios, posts, comentarios e topicos fixados |
-| Jogador | `malena0202` | `marina123` | Perfil de exemplo com foco em RPG e mundo aberto |
-| Jogador | `rafa` | `rafa123` | Perfil de exemplo com foco em FPS competitivo |
-| Jogador | `bia` | `bia123` | Perfil de exemplo com foco em sandbox e criatividade |
-| Jogador | `diego` | `diego123` | Perfil de exemplo com foco em exploração |
-| Jogador | `camila` | `camila123` | Perfil de exemplo com foco em MOBA e battle royale |
-
-## Funcionalidades
-
-- Login de usuario comum e administrador.
-- Feed geral com posts de todos os jogos.
-- Visualização de posts por jogo/topico.
-<<<<<<< HEAD
-- Busca global com sugestoes conforme a digitacao, sem filtrar automaticamente o feed.
-=======
-- Busca global filtrando posts, topicos, autores, generos e plataformas.
->>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
-- Foto de capa tematica ao entrar em um topico de jogo.
-- Painel lateral de posts recentes com acesso rapido para discussoes.
-- Criação de posts por botao **Postar**, que abre selecao de topico, titulo e conteudo.
-- Editor de conteudo com icones esteticos de anexo, link, enquete, codigo e emoji.
-- Menu de anexo visual com opcoes de Foto, Video e Camera.
-- Pagina individual de post para leitura focada, curtidas e comentarios.
-- Comentarios em posts.
-- Curtidas em comentarios.
-- Exclusao de comentarios por autor, dono do post ou admin.
-- Exclusao de posts e comentarios por icone de lixeira.
-- Curtidas em posts.
-- Fixacao de posts por qualquer usuario autenticado, mantendo mensagens importantes no topo.
-- Pagina de perfil com avatar fake em emoji, nickname, bio, contador de posts e posts do usuario.
-- Personalização da bio com limite de 200 caracteres.
-- Alternancia entre tema claro e escuro.
-<<<<<<< HEAD
-- Topicos fixados no topo da lista por qualquer usuario autenticado.
-=======
-- Topicos fixados no topo da lista.
->>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
-- Painel administrativo com abas para usuarios e topicos.
-- Cadastro, edicao, fixacao e remocao de jogos/topicos pelo admin.
-- Edicao de usuarios pelo admin, incluindo nome, username, tipo e bio.
-- Exclusao de usuarios pelo admin, removendo tambem posts, comentarios e curtidas relacionados.
-- Paginacao no painel administrativo para listas de usuarios e topicos.
-- Modal de cadastro/edicao com sugestoes de generos e plataformas.
-- Menu mobile responsivo para navegacao em telas menores.
-- Dados de demonstração com 7 usuarios, posts e comentarios em diferentes topicos de jogos.
+| Jogador | `lorenzett3` | `123456` | Criar posts, comentar, curtir, fixar posts/tópicos, editar bio e excluir o que for permitido |
+| Administrador | `admin` | `admin123` | Gerenciar jogos, usuários, posts, comentários e tópicos |
+| Jogador | `malena0202` | `marina123` | Perfil de exemplo |
+| Jogador | `rafa` | `rafa123` | Perfil de exemplo |
+| Jogador | `bia` | `bia123` | Perfil de exemplo |
+| Jogador | `diego` | `diego123` | Perfil de exemplo |
+| Jogador | `camila` | `camila123` | Perfil de exemplo |
 
 ## Estrutura do projeto
 
 ```text
 .
 ├── data/
-│   └── db.json                    # Dados persistidos localmente
+│   └── db.json              # Dados persistidos localmente
 ├── src/
-│   ├── api/
-│   │   └── client.js              # Cliente HTTP da API
-│   ├── components/
-│   │   ├── AdminPanel.jsx
-│   │   ├── Composer.jsx
-│   │   ├── FeedHeader.jsx
-│   │   ├── LoginPage.jsx
-│   │   ├── PostCard.jsx
-│   │   ├── PostPage.jsx
-│   │   ├── ProfilePage.jsx
-│   │   ├── ProfilePanel.jsx
-│   │   ├── RecentPostsPanel.jsx
-│   │   ├── Sidebar.jsx
-│   │   ├── StatsPanel.jsx
-│   │   └── ThemeToggle.jsx
-│   ├── data/
-│   │   └── gameCovers.js          # Capas tematicas dos topicos
-│   ├── styles/
-│   │   ├── abstracts/             # Variaveis e mixins SCSS
-│   │   ├── base/                  # Reset e animações
-│   │   ├── components/            # Estilos por componente
-│   │   ├── layout/                # Grid principal responsivo
-│   │   └── main.scss
-│   ├── App.jsx                    # Estado principal e orquestração
-│   ├── main.jsx                   # Entrada React
-│   └── utils.js                   # Helpers de avatar, data e bio
-├── index.html                     # Entrada do Vite
-├── package.json                   # Scripts e dependencias
-├── package-lock.json              # Versoes travadas das dependencias
-├── server.js                      # Servidor, API e regras de negocio
-└── vite.config.js                 # Configuração do Vite e proxy da API
+│   ├── api/                 # Cliente HTTP da API
+│   ├── components/          # Componentes React da interface
+│   ├── data/                # Dados auxiliares do frontend
+│   ├── styles/              # SCSS dividido por base, layout e componentes
+│   ├── App.jsx              # Estado principal e navegação da aplicação
+│   ├── main.jsx             # Entrada React
+│   └── utils.js             # Helpers de avatar, data e bio
+├── index.html
+├── package.json
+├── server.js                # Servidor HTTP, API e regras de negócio
+└── vite.config.js           # Configuração do Vite e proxy da API
 ```
 
 ## Principais rotas da API
 
-| Metodo | Rota | Descricao |
+| Método | Rota | Descrição |
 | --- | --- | --- |
-| `POST` | `/api/login` | Autentica usuario |
-| `GET` | `/api/session` | Retorna usuario logado |
-| `GET` | `/api/games` | Lista jogos do catalogo, com fixados primeiro |
-| `POST` | `/api/games` | Cadastra jogo novo, apenas admin |
-| `PATCH` | `/api/games/:id` | Edita nome, genero e plataforma de um jogo, apenas admin |
-<<<<<<< HEAD
-| `PATCH` | `/api/games/:id/pin` | Fixa ou desfixa topico para usuario autenticado |
-=======
-| `PATCH` | `/api/games/:id/pin` | Fixa ou desfixa topico, apenas admin |
->>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
-| `DELETE` | `/api/games/:id` | Remove jogo, apenas admin |
+| `POST` | `/api/login` | Autentica usuário |
+| `GET` | `/api/session` | Retorna o usuário da sessão |
+| `GET` | `/api/games` | Lista jogos/tópicos |
+| `POST` | `/api/games` | Cria jogo/tópico como admin |
+| `PATCH` | `/api/games/:id` | Edita jogo/tópico como admin |
+| `PATCH` | `/api/games/:id/pin` | Fixa ou desfixa tópico |
+| `DELETE` | `/api/games/:id` | Remove jogo/tópico como admin |
 | `GET` | `/api/posts` | Lista posts, com filtro opcional por `gameId` |
-| `POST` | `/api/posts` | Cria novo post |
-| `DELETE` | `/api/posts/:id` | Remove post |
-| `POST` | `/api/posts/:id/like` | Curte ou remove curtida |
-| `PATCH` | `/api/posts/:id/pin` | Fixa ou desfixa post para usuario autenticado |
-| `POST` | `/api/posts/:id/comments` | Adiciona comentario |
-| `POST` | `/api/posts/:id/comments/:commentId/like` | Curte ou remove curtida de comentario |
-| `DELETE` | `/api/posts/:id/comments/:commentId` | Remove comentario com permissao |
-| `PATCH` | `/api/users/me` | Atualiza a bio do usuario logado |
-| `GET` | `/api/users` | Lista usuarios, apenas admin |
-| `PATCH` | `/api/users/:id` | Edita dados de usuario, apenas admin |
-| `DELETE` | `/api/users/:id` | Remove usuario, apenas admin |
+| `POST` | `/api/posts` | Cria post |
+| `DELETE` | `/api/posts/:id` | Remove post com permissão |
+| `POST` | `/api/posts/:id/like` | Alterna curtida do post |
+| `PATCH` | `/api/posts/:id/pin` | Fixa ou desfixa post |
+| `POST` | `/api/posts/:id/comments` | Adiciona comentário |
+| `POST` | `/api/posts/:id/comments/:commentId/like` | Alterna curtida do comentário |
+| `DELETE` | `/api/posts/:id/comments/:commentId` | Remove comentário com permissão |
+| `PATCH` | `/api/users/me` | Atualiza a bio do usuário logado |
+| `GET` | `/api/users` | Lista usuários como admin |
+| `PATCH` | `/api/users/:id` | Edita usuário como admin |
+| `DELETE` | `/api/users/:id` | Remove usuário como admin |
 
-## Persistencia dos dados
+## Persistência
 
-Os dados sao salvos em:
+Os dados ficam em `data/db.json`. O arquivo armazena usuários, jogos, posts, comentários, curtidas e estados de fixação. Por ser um MVP, não há banco de dados externo nem autenticação com senha criptografada.
 
-```text
-data/db.json
-```
-
-<<<<<<< HEAD
-Esse arquivo guarda usuarios, jogos, posts, posts fixados, curtidas em posts, curtidas em comentarios, comentarios e o estado de topicos fixados quando alterado pela interface.
-=======
-Esse arquivo guarda usuarios, jogos, posts, curtidas em posts, curtidas em comentarios, comentarios e o estado de topicos fixados quando alterado pela interface.
->>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
-
-## Roteiro rapido para apresentação
+## Roteiro rápido de apresentação
 
 1. Rodar `npm install`.
 2. Rodar `npm run build`.
 3. Rodar `npm start`.
 4. Abrir `http://127.0.0.1:3000`.
-5. Entrar como `lorenzo`.
-<<<<<<< HEAD
-6. Usar a busca para ver sugestoes de topicos, posts ou autores.
-=======
-6. Usar a busca para filtrar topicos, posts ou autores.
->>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
-7. Alternar entre tema claro e escuro.
-8. Abrir um topico de jogo e mostrar a foto de capa.
-9. Clicar em **Postar** para abrir o formulario de novo post.
-10. Mostrar a toolbar visual do editor e o menu de anexos com Foto, Video e Camera.
-11. Criar um post, curtir e abrir a pagina individual da discussao.
-12. Comentar no post e curtir um comentario.
-13. Abrir um post recente pelo painel lateral.
-14. Excluir comentario/post pelo icone de lixeira quando houver permissao.
-15. Editar a bio no perfil.
-16. Sair e entrar como `admin`.
-17. Abrir o painel admin e demonstrar abas, paginacao e modais.
-18. Cadastrar ou editar um topico usando sugestoes de genero/plataforma.
-19. Fixar/desfixar topicos e editar/excluir usuarios quando necessario.
+5. Entrar como `lorenzett3` ou `admin`.
+6. Demonstrar busca, troca de tema, criação de post, comentários e curtidas.
+7. Abrir o painel admin e mostrar o gerenciamento de tópicos e usuários.
 
 ## Status
 
-<<<<<<< HEAD
-MVP funcional para demonstração academica, agora com frontend em React, arquitetura de componentes, SCSS organizado, responsividade, animações, temas claro/escuro, busca global, capas tematicas por topico, compositor colapsado, pagina individual de discussao, posts recentes, curtidas em comentarios e painel administrativo mais completo para gerenciar topicos e usuarios.
-=======
-MVP funcional para demonstração academica, agora com frontend em React, arquitetura de componentes, SCSS organizado, responsividade aprimorada, animações, temas claro/escuro, busca global, capas tematicas por topico, compositor colapsado, pagina individual de discussao, posts recentes, curtidas em comentarios e painel administrativo mais completo para gerenciar topicos e usuarios.
->>>>>>> 0f1f6c3bf2c2a7fd81b852679439d3ba1b7ae5b9
+MVP funcional para demonstração acadêmica, com frontend em React, estilos em SCSS, API em Node.js, responsividade, temas, busca global, perfis, comentários e painel administrativo.
