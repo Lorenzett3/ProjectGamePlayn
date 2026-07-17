@@ -1,214 +1,34 @@
+require("dotenv").config({ quiet: true });
+
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const database = require("./database");
+const appDatabase = createAppDatabase();
 
 const PORT = process.env.PORT || 3000;
 const HOST = process.env.HOST || "127.0.0.1";
 const ROOT = __dirname;
-const DATA_DIR = path.join(ROOT, "data");
-const DB_FILE = path.join(DATA_DIR, "db.json");
 const DIST_DIR = path.join(ROOT, "dist");
+const MAX_BODY_BYTES = 6_000_000;
+const MAX_IMAGE_BYTES = 2_000_000;
+const ALLOWED_IMAGE_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);
 
-const initialData = {
-  users: [
-    {
-      id: "u1",
-      name: "Lorenzo",
-      username: "lorenzett3",
-      password: "123456",
-      role: "user",
-      bio: "Jogador, estudante e criador do projeto GameHub Forum."
-    },
-    {
-      id: "u2",
-      name: "Administrador",
-      username: "admin",
-      password: "admin123",
-      role: "admin",
-      bio: "Conta administrativa para moderação e gestao do catalogo."
-    },
-    {
-      id: "u3",
-      name: "Malena",
-      username: "malena0202",
-      password: "marina123",
-      role: "user",
-      bio: "Fas de RPG, jogos indie e mundos abertos. Sempre procurando uma boa historia para discutir."
-    },
-    {
-      id: "u4",
-      name: "Rafael Costa",
-      username: "rafa",
-      password: "rafa123",
-      role: "user",
-      bio: "Jogador competitivo de FPS, viciado em mapas taticos, mira limpa e boas callouts."
-    },
-    {
-      id: "u5",
-      name: "Bianca Souza",
-      username: "bia",
-      password: "bia123",
-      role: "user",
-      bio: "Curto sandbox, construcao, sobrevivencia e qualquer jogo que deixe criar coisas do zero."
-    },
-    {
-      id: "u6",
-      name: "Diego Martins",
-      username: "diego",
-      password: "diego123",
-      role: "user",
-      bio: "Explorador de mapas gigantes, side quests e segredos escondidos."
-    },
-    {
-      id: "u7",
-      name: "Camila Rocha",
-      username: "camila",
-      password: "camila123",
-      role: "user",
-      bio: "Jogo MOBA, battle royale e aventuras narrativas. Gosto de comparar mecanicas e balanceamento."
-    }
-  ],
-  games: [
-    { id: "g1", name: "The Legend of Zelda: Breath of the Wild", genre: "Aventura", platform: "Nintendo Switch", pinned: false },
-    { id: "g2", name: "Minecraft", genre: "Sandbox", platform: "Multiplataforma", pinned: false },
-    { id: "g3", name: "Elden Ring", genre: "RPG de ação", platform: "PC, PlayStation, Xbox", pinned: true },
-    { id: "g4", name: "God of War Ragnarok", genre: "ação e Aventura", platform: "PlayStation, PC", pinned: false },
-    { id: "g5", name: "Fortnite", genre: "Battle Royale", platform: "Multiplataforma", pinned: false },
-    { id: "g6", name: "League of Legends", genre: "MOBA", platform: "PC", pinned: false },
-    { id: "g7", name: "Counter-Strike 2", genre: "FPS", platform: "PC", pinned: false },
-    { id: "g8", name: "Grand Theft Auto V", genre: "Mundo Aberto", platform: "Multiplataforma", pinned: false },
-    { id: "g9", name: "Red Dead Redemption 2", genre: "ação e Aventura", platform: "PC, PlayStation, Xbox", pinned: false },
-    { id: "g10", name: "Valorant", genre: "FPS Tatico", platform: "PC", pinned: false }
-  ],
-  posts: [
-    {
-      id: "p1",
-      gameId: "g3",
-      userId: "u1",
-      title: "Elden Ring recompensa exploração como poucos jogos",
-      content: "A melhor parte para mim e como o jogo deixa o jogador descobrir caminhos, chefes e historias sem ficar explicando tudo o tempo todo.",
-      createdAt: new Date().toISOString(),
-      likes: ["u2", "u3", "u6"],
-      comments: [
-        { id: "c1", userId: "u2", content: "Boa abertura para demonstrar o formato de discussao por jogo.", createdAt: new Date().toISOString() },
-        { id: "cseed02", userId: "u6", content: "Concordo. O mapa parece enorme, mas sempre tem algum detalhe guiando sem virar tutorial.", createdAt: new Date().toISOString() }
-      ]
-    },
-    {
-      id: "p2",
-      gameId: "g2",
-      userId: "u2",
-      title: "Minecraft continua forte por causa da criatividade",
-      content: "Mesmo sendo antigo, o jogo continua relevante porque cada servidor e cada mundo vira uma experiencia diferente.",
-      createdAt: new Date().toISOString(),
-      likes: ["u1", "u5", "u6"],
-      comments: [
-        { id: "cseed01", userId: "u5", content: "O modo sobrevivencia ainda rende muita historia boa com amigos.", createdAt: new Date().toISOString() }
-      ]
-    },
-    {
-      id: "pseed02",
-      gameId: "g10",
-      userId: "u4",
-      title: "Valorant recompensa comunicação mais do que mira pura",
-      content: "Mira ajuda, mas o round muda quando o time usa utilidade junto, troca informação e sabe esperar o retake.",
-      createdAt: new Date().toISOString(),
-      likes: ["u2", "u7"],
-      comments: [
-        { id: "cseed04", userId: "u7", content: "Principalmente em mapa fechado. Uma smoke boa vale mais que sair correndo.", createdAt: new Date().toISOString() }
-      ]
-    },
-    {
-      id: "pseed03",
-      gameId: "g4",
-      userId: "u6",
-      title: "God of War Ragnarok mistura combate e narrativa muito bem",
-      content: "O jogo consegue alternar momentos cinematograficos, exploração e lutas pesadas sem perder ritmo.",
-      createdAt: new Date().toISOString(),
-      likes: ["u1", "u3", "u5"],
-      comments: [
-        { id: "cseed05", userId: "u3", content: "A evolucao dos personagens e o que mais prende. Nao e so pancadaria bonita.", createdAt: new Date().toISOString() },
-        { id: "cseed06", userId: "u2", content: "Bom topico para discutir narrativa em jogos de ação.", createdAt: new Date().toISOString() }
-      ]
-    },
-    {
-      id: "pseed04",
-      gameId: "g6",
-      userId: "u7",
-      title: "League of Legends precisa de paciencia para aprender macro",
-      content: "Muita gente foca so em mecanica, mas wave, visao e tempo de objetivo decidem a partida antes da luta comecar.",
-      createdAt: new Date().toISOString(),
-      likes: ["u4", "u5"],
-      comments: [
-        { id: "cseed07", userId: "u4", content: "Isso vale para quase todo competitivo. Posicionamento ganha jogo.", createdAt: new Date().toISOString() }
-      ]
-    },
-    {
-      id: "pseed05",
-      gameId: "g9",
-      userId: "u3",
-      title: "Red Dead Redemption 2 e lento de um jeito necessario",
-      content: "O ritmo mais calmo faz o mundo parecer vivo. Cacar, cavalgar e conversar com NPC vira parte da experiencia.",
-      createdAt: new Date().toISOString(),
-      likes: ["u6", "u1"],
-      comments: [
-        { id: "cseed08", userId: "u6", content: "Esse e um dos poucos mundos abertos em que eu gosto de andar devagar.", createdAt: new Date().toISOString() }
-      ]
-    },
-    {
-      id: "pseed06",
-      gameId: "g7",
-      userId: "u4",
-      title: "Counter-Strike 2 ainda vive de fundamentos",
-      content: "Mesmo com mudancas tecnicas, o basico segue decidindo: mira na altura certa, granada bem usada e economia organizada.",
-      createdAt: new Date().toISOString(),
-      likes: ["u2", "u7", "u1"],
-      comments: [
-        { id: "cseed09", userId: "u7", content: "Economia e o detalhe que iniciante mais ignora.", createdAt: new Date().toISOString() }
-      ]
-    },
-    {
-      id: "pseed07",
-      gameId: "g5",
-      userId: "u5",
-      title: "Fortnite muda tanto que sempre parece uma temporada nova",
-      content: "As colaborações, eventos e mecanicas novas fazem o jogo continuar comentavel mesmo para quem joga casualmente.",
-      createdAt: new Date().toISOString(),
-      likes: ["u7", "u3"],
-      comments: [
-        { id: "cseed10", userId: "u3", content: "Eu nem jogo todo dia, mas sempre vejo gente falando da temporada atual.", createdAt: new Date().toISOString() }
-      ]
-    },
-    {
-      id: "pseed08",
-      gameId: "g1",
-      userId: "u6",
-      title: "Zelda Breath of the Wild ensina pela curiosidade",
-      content: "O jogo quase nunca interrompe. Ele coloca um ponto estranho no horizonte e deixa voce decidir se quer ir ate la.",
-      createdAt: new Date().toISOString(),
-      likes: ["u1", "u3", "u5"],
-      comments: [
-        { id: "cseed11", userId: "u5", content: "Esse tipo de liberdade combina muito com fisica emergente.", createdAt: new Date().toISOString() }
-      ]
-    }
-  ]
-};
-
-function ensureDb() {
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-  if (!fs.existsSync(DB_FILE)) {
-    fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2));
+function createAppDatabase() {
+  if (process.env.GAMEPLAYN_SQLITE_DB === "1") {
+    return require("./database-sqlite").createSqliteDatabase();
   }
+  if (process.env.GAMEPLAYN_MEMORY_DB === "1") {
+    return database.createMemoryDatabase();
+  }
+  return database;
 }
 
-function readDb() {
-  ensureDb();
-  return JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
-}
-
-function writeDb(db) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
+function requestError(message, status) {
+  const error = new Error(message);
+  error.status = status;
+  return error;
 }
 
 function sendJson(res, status, data) {
@@ -219,18 +39,25 @@ function sendJson(res, status, data) {
 function readBody(req) {
   return new Promise((resolve, reject) => {
     let body = "";
+    let tooLarge = false;
     req.on("data", chunk => {
+      if (tooLarge) return;
       body += chunk;
-      if (body.length > 1_000_000) req.destroy();
+      if (Buffer.byteLength(body) > MAX_BODY_BYTES) {
+        tooLarge = true;
+        body = "";
+      }
     });
     req.on("end", () => {
+      if (tooLarge) return reject(requestError("Payload muito grande.", 413));
       if (!body) return resolve({});
       try {
         resolve(JSON.parse(body));
       } catch (error) {
-        reject(error);
+        reject(requestError("JSON invalido.", 400));
       }
     });
+    req.on("error", reject);
   });
 }
 
@@ -286,16 +113,77 @@ function sortPinnedFirst(items) {
   return [...items].sort((a, b) => Number(Boolean(b.pinned)) - Number(Boolean(a.pinned)));
 }
 
-async function handleApi(req, res) {
+function normalizeImageData(imageData) {
+  const value = String(imageData || "").trim();
+  if (!value) return "";
+
+  const match = value.match(/^data:(image\/(?:png|jpeg|webp|gif));base64,([a-zA-Z0-9+/=]+)$/);
+  if (!match) {
+    throw new Error("Imagem invalida. Use PNG, JPG, WEBP ou GIF.");
+  }
+
+  const mimeType = match[1];
+  const base64 = match[2];
+  if (!ALLOWED_IMAGE_TYPES.has(mimeType)) {
+    throw new Error("Tipo de imagem nao permitido.");
+  }
+
+  const bytes = Buffer.byteLength(base64, "base64");
+  if (bytes > MAX_IMAGE_BYTES) {
+    throw new Error("A imagem deve ter no maximo 2 MB.");
+  }
+
+  return `data:${mimeType};base64,${base64}`;
+}
+
+async function handleApi(req, res, dbAdapter = appDatabase) {
   const url = new URL(req.url, `http://${req.headers.host}`);
-  const db = readDb();
 
   try {
+    const db = await dbAdapter.readDb();
+
     if (req.method === "POST" && url.pathname === "/api/login") {
       const body = await readBody(req);
-      const user = db.users.find(item => item.username === body.username && item.password === body.password);
+      const username = String(body.username || "").trim().toLowerCase();
+      const password = String(body.password || "");
+      const user = db.users.find(item => item.username.toLowerCase() === username && item.password === password);
       if (!user) return sendJson(res, 401, { error: "Usuario ou senha invalidos." });
       return sendJson(res, 200, { token: user.id, user: publicUser(user) });
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/register") {
+      const body = await readBody(req);
+      const name = String(body.name || "").trim();
+      const username = String(body.username || "").trim().toLowerCase();
+      const password = String(body.password || "");
+
+      if (!name || !username || !password) {
+        return sendJson(res, 400, { error: "Nome, usuario e senha sao obrigatorios." });
+      }
+      if (username.length < 3) {
+        return sendJson(res, 400, { error: "O usuario deve ter pelo menos 3 caracteres." });
+      }
+      if (!/^[a-z0-9_.-]+$/.test(username)) {
+        return sendJson(res, 400, { error: "Use apenas letras, numeros, ponto, hifen ou underline no usuario." });
+      }
+      if (password.length < 6) {
+        return sendJson(res, 400, { error: "A senha deve ter pelo menos 6 caracteres." });
+      }
+      if (db.users.some(item => item.username.toLowerCase() === username)) {
+        return sendJson(res, 409, { error: "Nome de usuario ja existe." });
+      }
+
+      const user = {
+        id: id("u"),
+        name,
+        username,
+        password,
+        role: "user",
+        bio: ""
+      };
+      db.users.push(user);
+      await dbAdapter.writeDb(db);
+      return sendJson(res, 201, { token: user.id, user: publicUser(user) });
     }
 
     if (req.method === "GET" && url.pathname === "/api/session") {
@@ -325,7 +213,7 @@ async function handleApi(req, res) {
         pinned: false
       };
       db.games.unshift(game);
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 201, { game });
     }
 
@@ -336,7 +224,7 @@ async function handleApi(req, res) {
       const game = db.games.find(item => item.id === gamePin[1]);
       if (!game) return sendJson(res, 404, { error: "Jogo nao encontrado." });
       game.pinned = !Boolean(game.pinned);
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { game });
     }
 
@@ -351,7 +239,7 @@ async function handleApi(req, res) {
       game.name = body.name.trim();
       game.genre = body.genre?.trim() || "Nao informado";
       game.platform = body.platform?.trim() || "Nao informado";
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { game });
     }
 
@@ -361,7 +249,7 @@ async function handleApi(req, res) {
       const gameId = gameRoute[1];
       db.games = db.games.filter(game => game.id !== gameId);
       db.posts = db.posts.filter(post => post.gameId !== gameId);
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { ok: true });
     }
 
@@ -387,19 +275,26 @@ async function handleApi(req, res) {
       if (!db.games.some(game => game.id === body.gameId)) {
         return sendJson(res, 400, { error: "Jogo nao encontrado." });
       }
+      let imageData = "";
+      try {
+        imageData = normalizeImageData(body.imageData);
+      } catch (error) {
+        return sendJson(res, 400, { error: error.message });
+      }
       const post = {
         id: id("p"),
         gameId: body.gameId,
         userId: user.id,
         title: body.title.trim(),
         content: body.content.trim(),
+        imageData,
         createdAt: new Date().toISOString(),
         pinned: false,
         likes: [],
         comments: []
       };
       db.posts.unshift(post);
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 201, { post: hydratePost(post, db) });
     }
 
@@ -411,7 +306,7 @@ async function handleApi(req, res) {
       if (!post) return sendJson(res, 404, { error: "Post nao encontrado." });
       if (post.userId !== user.id && user.role !== "admin") return sendJson(res, 403, { error: "Sem permissao." });
       db.posts = db.posts.filter(item => item.id !== post.id);
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { ok: true });
     }
 
@@ -422,7 +317,7 @@ async function handleApi(req, res) {
       const post = db.posts.find(item => item.id === postPin[1]);
       if (!post) return sendJson(res, 404, { error: "Post nao encontrado." });
       post.pinned = !Boolean(post.pinned);
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { post: hydratePost(post, db) });
     }
 
@@ -435,7 +330,7 @@ async function handleApi(req, res) {
       post.likes = post.likes.includes(user.id)
         ? post.likes.filter(item => item !== user.id)
         : [...post.likes, user.id];
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { post: hydratePost(post, db) });
     }
 
@@ -454,7 +349,7 @@ async function handleApi(req, res) {
         createdAt: new Date().toISOString(),
         likes: []
       });
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 201, { post: hydratePost(post, db) });
     }
 
@@ -470,7 +365,7 @@ async function handleApi(req, res) {
       comment.likes = likes.includes(user.id)
         ? likes.filter(item => item !== user.id)
         : [...likes, user.id];
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { post: hydratePost(post, db) });
     }
 
@@ -485,7 +380,7 @@ async function handleApi(req, res) {
       const canDelete = user.role === "admin" || user.id === post.userId || user.id === comment.userId;
       if (!canDelete) return sendJson(res, 403, { error: "Sem permissao." });
       post.comments = post.comments.filter(item => item.id !== comment.id);
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { post: hydratePost(post, db) });
     }
 
@@ -496,7 +391,7 @@ async function handleApi(req, res) {
       const bio = String(body.bio || "").trim();
       if (bio.length > 200) return sendJson(res, 400, { error: "A bio deve ter no maximo 200 caracteres." });
       user.bio = bio;
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { user: publicUser(user) });
     }
 
@@ -534,7 +429,7 @@ async function handleApi(req, res) {
       target.username = username;
       target.role = role;
       target.bio = bio;
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { user: publicUser(target) });
     }
 
@@ -554,13 +449,17 @@ async function handleApi(req, res) {
             likes: Array.isArray(comment.likes) ? comment.likes.filter(like => like !== userId) : []
           }))
       }));
-      writeDb(db);
+      await dbAdapter.writeDb(db);
       return sendJson(res, 200, { ok: true });
     }
 
     return sendJson(res, 404, { error: "Rota nao encontrada." });
   } catch (error) {
-    return sendJson(res, 500, { error: "Erro interno.", details: error.message });
+    const status = Number.isInteger(error.status) ? error.status : 500;
+    return sendJson(res, status, {
+      error: status >= 500 ? "Erro interno." : error.message,
+      ...(status >= 500 ? { details: error.message } : {})
+    });
   }
 }
 
@@ -603,12 +502,39 @@ function serveStatic(req, res) {
   });
 }
 
-ensureDb();
+function createAppServer(dbAdapter = appDatabase) {
+  return http.createServer((req, res) => {
+    if (req.url.startsWith("/api/")) return handleApi(req, res, dbAdapter);
+    return serveStatic(req, res);
+  });
+}
 
-http.createServer((req, res) => {
-  if (req.url.startsWith("/api/")) return handleApi(req, res);
-  return serveStatic(req, res);
-}).listen(PORT, HOST, () => {
-  console.log(`GamePlayn rodando em http://${HOST}:${PORT}`);
-  console.log("Usuarios: lorenzo/123456 e admin/admin123");
-});
+async function start() {
+  await appDatabase.initDb();
+
+  createAppServer(appDatabase).listen(PORT, HOST, () => {
+    console.log(`GamePlayn rodando em http://${HOST}:${PORT}`);
+    console.log(`Banco: ${databaseLabel()}`);
+    console.log("Admin inicial: lorenzo/lorenzoadmin");
+  });
+}
+
+function databaseLabel() {
+  if (process.env.GAMEPLAYN_SQLITE_DB === "1") return "SQLite local (data/gameplayn.sqlite)";
+  if (process.env.GAMEPLAYN_MEMORY_DB === "1") return "PostgreSQL em memoria (dev/teste)";
+  return "PostgreSQL";
+}
+
+if (require.main === module) {
+  start().catch(error => {
+    console.error("Falha ao iniciar o GamePlayn:", error.message);
+    console.error("Configure DATABASE_URL ou PGHOST, PGPORT, PGDATABASE, PGUSER e PGPASSWORD.");
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  createAppServer,
+  handleApi,
+  start
+};

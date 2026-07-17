@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "./api/client";
 import { AdminPanel } from "./components/AdminPanel.jsx";
 import { Composer } from "./components/Composer.jsx";
@@ -28,7 +28,10 @@ export default function App() {
   const [theme, setTheme] = useState(initialTheme);
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
+  const [authNotice, setAuthNotice] = useState("");
+  const [feedback, setFeedback] = useState({ message: "", type: "info" });
   const [loading, setLoading] = useState(true);
+  const feedbackTimerRef = useRef(null);
 
   const selectedGame = useMemo(
     () => games.find(game => game.id === selectedGameId),
@@ -128,6 +131,8 @@ export default function App() {
     if (user?.role === "admin") {
       const usersData = await request("/api/users");
       setUsers(usersData.users);
+    } else {
+      setUsers([]);
     }
   }
 
@@ -156,20 +161,68 @@ export default function App() {
   }, [token]);
 
   useEffect(() => {
-    if (!user) return;
-    loadData().catch(error => setError(error.message));
-  }, [user, selectedGameId]);
+    if (loading) return;
+    loadData().catch(error => {
+      setError(error.message);
+      showFeedback(error.message, "error");
+    });
+  }, [loading, user?.role, selectedGameId]);
+
+  useEffect(() => () => {
+    if (feedbackTimerRef.current) window.clearTimeout(feedbackTimerRef.current);
+  }, []);
+
+  function showFeedback(message, type = "info") {
+    if (!message) return;
+    if (feedbackTimerRef.current) window.clearTimeout(feedbackTimerRef.current);
+    setFeedback({ message, type });
+    feedbackTimerRef.current = window.setTimeout(() => {
+      setFeedback({ message: "", type: "info" });
+    }, 4200);
+  }
+
+  function clearFeedback() {
+    if (feedbackTimerRef.current) window.clearTimeout(feedbackTimerRef.current);
+    setFeedback({ message: "", type: "info" });
+  }
+
+  function showActionError(error, fallback = "Nao foi possivel concluir a acao.") {
+    showFeedback(error?.message || fallback, "error");
+  }
 
   async function login(username, password) {
     try {
       setError("");
+      setAuthNotice("");
+      clearFeedback();
       const data = await api("/api/login", {
         method: "POST",
         body: JSON.stringify({ username, password })
       });
       setToken(data.token);
       setUser(data.user);
+      setView("feed");
       localStorage.setItem("gamehub_token", data.token);
+      showFeedback(`Bem-vindo, ${data.user.name}.`, "success");
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
+  async function register(payload) {
+    try {
+      setError("");
+      setAuthNotice("");
+      clearFeedback();
+      const data = await api("/api/register", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      setToken(data.token);
+      setUser(data.user);
+      setView("feed");
+      localStorage.setItem("gamehub_token", data.token);
+      showFeedback("Conta criada com sucesso.", "success");
     } catch (error) {
       setError(error.message);
     }
@@ -179,104 +232,205 @@ export default function App() {
     localStorage.removeItem("gamehub_token");
     setToken("");
     setUser(null);
-    setGames([]);
-    setPosts([]);
-    setAllPosts([]);
     setUsers([]);
     setSelectedGameId("all");
     setSelectedProfileId("");
     setSelectedPostId("");
     setSearchQuery("");
+    setError("");
+    setAuthNotice("");
     setView("feed");
+    showFeedback("Voce saiu da conta.", "info");
   }
 
   async function refresh() {
     await loadData();
   }
 
+  function requireAuthAction(message = "Faca login ou crie uma conta para continuar.") {
+    setError("");
+    setAuthNotice(message);
+    showFeedback(message, "info");
+    setView("auth");
+    scrollMainToTop();
+    return false;
+  }
+
   async function createPost(payload) {
-    await request("/api/posts", { method: "POST", body: JSON.stringify(payload) });
-    await refresh();
+    if (!user) {
+      const message = "Faca login ou crie uma conta para publicar posts.";
+      requireAuthAction(message);
+      throw new Error(message);
+    }
+    try {
+      await request("/api/posts", { method: "POST", body: JSON.stringify(payload) });
+      await refresh();
+      showFeedback("Post publicado com sucesso.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel publicar o post.");
+      throw error;
+    }
   }
 
   async function toggleLike(postId) {
-    await request(`/api/posts/${postId}/like`, { method: "POST" });
-    await refresh();
+    if (!user) return requireAuthAction("Faca login ou crie uma conta para curtir posts.");
+    try {
+      await request(`/api/posts/${postId}/like`, { method: "POST" });
+      await refresh();
+    } catch (error) {
+      showActionError(error, "Nao foi possivel curtir o post.");
+    }
   }
 
   async function pinPost(postId) {
-    await request(`/api/posts/${postId}/pin`, { method: "PATCH" });
-    await refresh();
+    if (!user) return requireAuthAction("Faca login para fixar posts.");
+    try {
+      await request(`/api/posts/${postId}/pin`, { method: "PATCH" });
+      await refresh();
+      showFeedback("Post atualizado.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel fixar o post.");
+    }
   }
 
   async function addComment(postId, content) {
-    await request(`/api/posts/${postId}/comments`, { method: "POST", body: JSON.stringify({ content }) });
-    await refresh();
+    if (!user) return requireAuthAction("Faca login ou crie uma conta para comentar.");
+    try {
+      await request(`/api/posts/${postId}/comments`, { method: "POST", body: JSON.stringify({ content }) });
+      await refresh();
+      showFeedback("Comentario publicado.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel comentar.");
+      throw error;
+    }
   }
 
   async function toggleCommentLike(postId, commentId) {
-    await request(`/api/posts/${postId}/comments/${commentId}/like`, { method: "POST" });
-    await refresh();
+    if (!user) return requireAuthAction("Faca login para curtir comentarios.");
+    try {
+      await request(`/api/posts/${postId}/comments/${commentId}/like`, { method: "POST" });
+      await refresh();
+    } catch (error) {
+      showActionError(error, "Nao foi possivel curtir o comentario.");
+    }
   }
 
   async function deletePost(postId) {
+    if (!user) return requireAuthAction("Faca login para excluir posts.");
     if (!confirm("Excluir este post?")) return;
-    await request(`/api/posts/${postId}`, { method: "DELETE" });
-    if (selectedPostId === postId) {
-      setSelectedPostId("");
-      setView("feed");
+    try {
+      await request(`/api/posts/${postId}`, { method: "DELETE" });
+      if (selectedPostId === postId) {
+        setSelectedPostId("");
+        setView("feed");
+      }
+      await refresh();
+      showFeedback("Post excluido.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel excluir o post.");
     }
-    await refresh();
   }
 
   async function deleteComment(postId, commentId) {
+    if (!user) return requireAuthAction("Faca login para excluir comentarios.");
     if (!confirm("Excluir este comentario?")) return;
-    await request(`/api/posts/${postId}/comments/${commentId}`, { method: "DELETE" });
-    await refresh();
+    try {
+      await request(`/api/posts/${postId}/comments/${commentId}`, { method: "DELETE" });
+      await refresh();
+      showFeedback("Comentario excluido.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel excluir o comentario.");
+    }
   }
 
   async function saveBio(bio) {
-    const data = await request("/api/users/me", { method: "PATCH", body: JSON.stringify({ bio }) });
-    setUser(data.user);
-    await refresh();
+    if (!user) return requireAuthAction("Faca login para editar seu perfil.");
+    try {
+      const data = await request("/api/users/me", { method: "PATCH", body: JSON.stringify({ bio }) });
+      setUser(data.user);
+      await refresh();
+      showFeedback("Perfil atualizado.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel atualizar o perfil.");
+    }
   }
 
   async function createGame(payload) {
-    await request("/api/games", { method: "POST", body: JSON.stringify(payload) });
-    await refresh();
+    if (!user) return requireAuthAction("Faca login como administrador para criar topicos.");
+    try {
+      await request("/api/games", { method: "POST", body: JSON.stringify(payload) });
+      await refresh();
+      showFeedback("Topico criado.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel criar o topico.");
+      throw error;
+    }
   }
 
   async function updateGame(gameId, payload) {
-    await request(`/api/games/${gameId}`, { method: "PATCH", body: JSON.stringify(payload) });
-    await refresh();
+    if (!user) return requireAuthAction("Faca login como administrador para editar topicos.");
+    try {
+      await request(`/api/games/${gameId}`, { method: "PATCH", body: JSON.stringify(payload) });
+      await refresh();
+      showFeedback("Topico atualizado.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel atualizar o topico.");
+      throw error;
+    }
   }
 
   async function deleteGame(gameId) {
+    if (!user) return requireAuthAction("Faca login como administrador para excluir topicos.");
     if (!confirm("Excluir jogo e todos os posts desse topico?")) return;
-    await request(`/api/games/${gameId}`, { method: "DELETE" });
-    setSelectedGameId("all");
-    scrollMainToTop();
-    await loadData("all");
+    try {
+      await request(`/api/games/${gameId}`, { method: "DELETE" });
+      setSelectedGameId("all");
+      scrollMainToTop();
+      await loadData("all");
+      showFeedback("Topico excluido.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel excluir o topico.");
+    }
   }
 
   async function pinGame(gameId) {
-    await request(`/api/games/${gameId}/pin`, { method: "PATCH" });
-    await refresh();
+    if (!user) return requireAuthAction("Faca login para fixar topicos.");
+    try {
+      await request(`/api/games/${gameId}/pin`, { method: "PATCH" });
+      await refresh();
+      showFeedback("Topico atualizado.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel fixar o topico.");
+    }
   }
 
   async function deleteUser(userId) {
+    if (!user) return requireAuthAction("Faca login como administrador para gerenciar usuarios.");
     if (!confirm("Excluir este usuario e seus posts?")) return;
-    await request(`/api/users/${userId}`, { method: "DELETE" });
-    await refresh();
+    try {
+      await request(`/api/users/${userId}`, { method: "DELETE" });
+      await refresh();
+      showFeedback("Usuario excluido.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel excluir o usuario.");
+    }
   }
 
   async function updateUser(userId, payload) {
-    const data = await request(`/api/users/${userId}`, { method: "PATCH", body: JSON.stringify(payload) });
-    if (userId === user.id) setUser(data.user);
-    await refresh();
+    if (!user) return requireAuthAction("Faca login como administrador para gerenciar usuarios.");
+    try {
+      const data = await request(`/api/users/${userId}`, { method: "PATCH", body: JSON.stringify(payload) });
+      if (userId === user.id) setUser(data.user);
+      await refresh();
+      showFeedback("Usuario atualizado.", "success");
+    } catch (error) {
+      showActionError(error, "Nao foi possivel atualizar o usuario.");
+      throw error;
+    }
   }
 
   function openProfile(userId) {
+    if (!user) return requireAuthAction("Faca login ou crie uma conta para ver perfis.");
     setSelectedProfileId(userId);
     setView("profile");
     scrollMainToTop();
@@ -291,7 +445,11 @@ export default function App() {
   }
 
   function openAdmin() {
-    if (user?.role !== "admin") return;
+    if (!user) return requireAuthAction("Faca login como administrador para acessar o painel.");
+    if (user.role !== "admin") {
+      showFeedback("Apenas administradores podem acessar esse painel.", "error");
+      return;
+    }
     setView("admin");
     window.setTimeout(() => {
       document.getElementById("adminPanel")?.scrollIntoView({ block: "start" });
@@ -306,6 +464,8 @@ export default function App() {
   }
 
   function showFeed() {
+    setError("");
+    setAuthNotice("");
     setView("feed");
     scrollMainToTop();
   }
@@ -317,7 +477,19 @@ export default function App() {
   }
 
   if (loading) return <main className="loading-screen">Carregando...</main>;
-  if (!user) return <LoginPage error={error} theme={theme} onThemeToggle={() => setTheme(theme === "dark" ? "light" : "dark")} onLogin={login} />;
+  if (view === "auth" && !user) {
+    return (
+      <LoginPage
+        error={error}
+        notice={authNotice}
+        theme={theme}
+        onBack={showFeed}
+        onRegister={register}
+        onThemeToggle={() => setTheme(theme === "dark" ? "light" : "dark")}
+        onLogin={login}
+      />
+    );
+  }
 
   const commonPostProps = {
     currentUser: user,
@@ -331,7 +503,7 @@ export default function App() {
     onPinPost: pinPost
   };
 
-  const isAdminView = view === "admin" && user.role === "admin";
+  const isAdminView = view === "admin" && user?.role === "admin";
   const isFocusedView = isAdminView || view === "post";
 
   return (
@@ -350,6 +522,7 @@ export default function App() {
           onAdminOpen={openAdmin}
           onGameSelect={openGame}
           onLogout={logout}
+          onLoginOpen={requireAuthAction}
           onPinGame={pinGame}
           onProfileSelect={openProfile}
           onSearchChange={setSearchQuery}
@@ -379,7 +552,7 @@ export default function App() {
             </div>
           )}
           <ThemeToggle theme={theme} onToggle={() => setTheme(theme === "dark" ? "light" : "dark")} />
-          <button className="btn" type="button" onClick={logout}>Sair</button>
+          <button className="btn" type="button" onClick={user ? logout : () => requireAuthAction("Entre ou crie uma conta para continuar.")}>{user ? "Sair" : "Entrar"}</button>
         </div>
 
         {view === "admin" && user.role === "admin" ? (
@@ -396,7 +569,7 @@ export default function App() {
             onUpdateGame={updateGame}
             onUpdateUser={updateUser}
           />
-        ) : view === "profile" ? (
+        ) : view === "profile" && user ? (
           <ProfilePage
             user={profileUser}
             currentUser={user}
@@ -425,7 +598,23 @@ export default function App() {
               currentUser={user}
               onPinGame={pinGame}
             />
-            <Composer games={games} selectedGame={selectedGame} onSubmit={createPost} />
+            {user ? (
+              <Composer games={games} selectedGame={selectedGame} onSubmit={createPost} />
+            ) : (
+              <section className="composer composer-closed">
+                <button className="post-trigger" type="button" onClick={() => requireAuthAction("Faca login ou crie uma conta para publicar posts.")}>
+                  <span className="post-trigger__avatar" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M12 5v14M5 12h14" />
+                    </svg>
+                  </span>
+                  <span>
+                    <strong>Entrar para postar</strong>
+                    <small>Leia livremente. Para publicar, curtir ou comentar, use uma conta.</small>
+                  </span>
+                </button>
+              </section>
+            )}
             <section className="feed">
               {posts.length ? posts.map(post => <PostCard key={post.id} post={post} {...commonPostProps} />) : (
                 <div className="empty">Nenhum post neste topico ainda.</div>
@@ -439,6 +628,13 @@ export default function App() {
         <aside className="right-column">
           <RecentPostsPanel posts={recentPosts} onOpenPost={openPost} />
         </aside>
+      )}
+
+      {feedback.message && (
+        <div className={`app-feedback app-feedback--${feedback.type}`} role={feedback.type === "error" ? "alert" : "status"}>
+          <span>{feedback.message}</span>
+          <button type="button" onClick={clearFeedback} aria-label="Fechar aviso">x</button>
+        </div>
       )}
     </div>
   );

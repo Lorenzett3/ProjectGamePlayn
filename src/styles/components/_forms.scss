@@ -195,6 +195,10 @@ select:focus {
   position: relative;
 }
 
+.attachment-input {
+  display: none;
+}
+
 .attachment-popover {
   position: absolute;
   left: 0;
@@ -259,6 +263,49 @@ select:focus {
   }
 }
 
+.attachment-error {
+  color: var(--danger);
+  font-size: 0.82rem;
+}
+
+.image-preview {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  background: var(--surface-2);
+
+  img {
+    width: 92px;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: $radius-sm;
+    border: 1px solid var(--line);
+  }
+
+  div {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  strong {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--text);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .text-danger {
+    justify-self: start;
+  }
+}
+
 .form-footer {
   display: flex;
   align-items: center;
@@ -308,5 +355,13 @@ select:focus {
 
   .attachment-popover {
     bottom: calc(100% + 6px);
+  }
+
+  .image-preview {
+    grid-template-columns: 76px minmax(0, 1fr);
+
+    img {
+      width: 76px;
+    }
   }
 }

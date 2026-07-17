@@ -4,8 +4,8 @@
       "id": "u1",
       "name": "Lorenzett3",
       "username": "lorenzo",
-      "password": "123456",
-      "role": "user",
+      "password": "lorenzoadmin",
+      "role": "admin",
       "bio": "Jogador, estudante e criador do projeto GameHub Forum. Al�m de futuro GameDev. dwadwadadwa"
     },
     {
@@ -13,7 +13,7 @@
       "name": "admin",
       "username": "admin",
       "password": "admin123",
-      "role": "admin",
+      "role": "user",
       "bio": "Conta administrativa para moderação e gestao do catalogo."
     },
     {
@@ -47,6 +47,102 @@
       "password": "camila123",
       "role": "user",
       "bio": "Jogo MOBA, battle royale e aventuras narrativas. Gosto de comparar mecanicas e balanceamento."
+    },
+    {
+      "id": "u5",
+      "name": "Bianca Souza",
+      "username": "bia",
+      "password": "bia123",
+      "role": "user",
+      "bio": "Curte sandbox, construcao, sobrevivencia e comunidades criativas."
+    },
+    {
+      "id": "u8",
+      "name": "Pedro Nascimento",
+      "username": "pedro",
+      "password": "pedro123",
+      "role": "user",
+      "bio": "Jogador de corrida, futebol, Rocket League e jogos cooperativos."
+    },
+    {
+      "id": "u9",
+      "name": "Julia Fernandes",
+      "username": "julia",
+      "password": "julia123",
+      "role": "user",
+      "bio": "Fas de RPG, simuladores e jogos com escolhas narrativas."
+    },
+    {
+      "id": "u10",
+      "name": "Mateus Lima",
+      "username": "mateus",
+      "password": "mateus123",
+      "role": "user",
+      "bio": "Gosta de jogos competitivos, treino mecanico e analise de meta."
+    },
+    {
+      "id": "u11",
+      "name": "Ana Clara",
+      "username": "anaclara",
+      "password": "anaclara123",
+      "role": "user",
+      "bio": "Prefere jogos relaxantes, cooperativos e experiencias acessiveis."
+    },
+    {
+      "id": "u12",
+      "name": "Bruno Pereira",
+      "username": "bruno",
+      "password": "bruno123",
+      "role": "user",
+      "bio": "Joga FPS tatico, survival horror e qualquer coisa com gerenciamento de recursos."
+    },
+    {
+      "id": "u13",
+      "name": "Sofia Mendes",
+      "username": "sofia",
+      "password": "sofia123",
+      "role": "user",
+      "bio": "Apaixonada por roguelikes, metroidvanias e trilhas sonoras marcantes."
+    },
+    {
+      "id": "u14",
+      "name": "Thiago Ramos",
+      "username": "thiago",
+      "password": "thiago123",
+      "role": "user",
+      "bio": "Explora mapas, chefes opcionais, builds estranhas e segredos escondidos."
+    },
+    {
+      "id": "u15",
+      "name": "Lara Oliveira",
+      "username": "lara",
+      "password": "lara123",
+      "role": "user",
+      "bio": "Gosta de terror, narrativa cinematografica e direcao de arte."
+    },
+    {
+      "id": "u16",
+      "name": "Vinicius Castro",
+      "username": "vini",
+      "password": "vini123",
+      "role": "user",
+      "bio": "Focado em performance no PC, mundo aberto e jogos futuristas."
+    },
+    {
+      "id": "u17",
+      "name": "Nina Barbosa",
+      "username": "nina",
+      "password": "nina123",
+      "role": "user",
+      "bio": "Curte indies, puzzles, jogos curtos e recomendacoes fora do obvio."
+    },
+    {
+      "id": "u18",
+      "name": "Gustavo Henrique",
+      "username": "gustavo",
+      "password": "gustavo123",
+      "role": "user",
+      "bio": "Joga cooperativo, survival, esporte e jogos para reunir amigos."
     }
   ],
   "games": [
@@ -103,25 +199,29 @@
       "id": "g4",
       "name": "God of War Ragnarok",
       "genre": "ação e Aventura",
-      "platform": "PlayStation, PC"
+      "platform": "PlayStation, PC",
+      "pinned": false
     },
     {
       "id": "g5",
       "name": "Fortnite",
       "genre": "BattleRoyale",
-      "platform": "Multiplataforma"
+      "platform": "Multiplataforma",
+      "pinned": false
     },
     {
       "id": "g6",
       "name": "League of Legends",
       "genre": "MOBA",
-      "platform": "PC"
+      "platform": "PC",
+      "pinned": false
     },
     {
       "id": "g8",
       "name": "Grand Theft Auto V",
       "genre": "Mundo Aberto",
-      "platform": "Multiplataforma"
+      "platform": "Multiplataforma",
+      "pinned": false
     },
     {
       "id": "g9",
@@ -135,6 +235,83 @@
       "name": "Valorant",
       "genre": "FPS Tatico",
       "platform": "PC",
+      "pinned": false
+    },
+    {
+      "id": "g7",
+      "name": "Counter-Strike 2",
+      "genre": "FPS Tatico",
+      "platform": "PC",
+      "pinned": false
+    },
+    {
+      "id": "g11",
+      "name": "Baldur's Gate 3",
+      "genre": "RPG",
+      "platform": "PC, PlayStation, Xbox",
+      "pinned": false
+    },
+    {
+      "id": "g12",
+      "name": "Cyberpunk 2077",
+      "genre": "RPG, Mundo Aberto",
+      "platform": "PC, PlayStation, Xbox",
+      "pinned": false
+    },
+    {
+      "id": "g13",
+      "name": "Stardew Valley",
+      "genre": "Simulador, Fazenda",
+      "platform": "Multiplataforma",
+      "pinned": false
+    },
+    {
+      "id": "g14",
+      "name": "Hades",
+      "genre": "Roguelike, Acao",
+      "platform": "Multiplataforma",
+      "pinned": false
+    },
+    {
+      "id": "g15",
+      "name": "Hollow Knight",
+      "genre": "Metroidvania, Indie",
+      "platform": "Multiplataforma",
+      "pinned": false
+    },
+    {
+      "id": "g16",
+      "name": "Forza Horizon 5",
+      "genre": "Corrida",
+      "platform": "PC, Xbox",
+      "pinned": false
+    },
+    {
+      "id": "g17",
+      "name": "Resident Evil 4 Remake",
+      "genre": "Terror, Acao",
+      "platform": "PC, PlayStation, Xbox",
+      "pinned": false
+    },
+    {
+      "id": "g18",
+      "name": "Terraria",
+      "genre": "Sandbox, Sobrevivencia",
+      "platform": "Multiplataforma",
+      "pinned": false
+    },
+    {
+      "id": "g19",
+      "name": "Apex Legends",
+      "genre": "Battle Royale, FPS",
+      "platform": "Multiplataforma",
+      "pinned": false
+    },
+    {
+      "id": "g20",
+      "name": "Rocket League",
+      "genre": "Esporte, Competitivo",
+      "platform": "Multiplataforma",
       "pinned": false
     }
   ],
@@ -152,10 +329,12 @@
           "id": "c0a292e40549e",
           "userId": "u2",
           "content": "realmente, nao aguento mais morar no bostil",
-          "createdAt": "2026-06-26T15:57:06.697Z"
+          "createdAt": "2026-06-26T15:57:06.697Z",
+          "likes": []
         }
       ],
-      "pinned": false
+      "pinned": false,
+      "imageData": ""
     },
     {
       "id": "p8af9159b2ef3",
@@ -173,9 +352,12 @@
           "id": "cb291ddbe6ff1",
           "userId": "u1",
           "content": "ah eu gostei",
-          "createdAt": "2026-05-16T00:29:19.018Z"
+          "createdAt": "2026-05-16T00:29:19.018Z",
+          "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "p3fafc726de04",
@@ -187,7 +369,9 @@
       "likes": [
         "u2"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pe124a6d94a6c",
@@ -199,7 +383,9 @@
       "likes": [
         "u1"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "peaf30105b50c",
@@ -216,9 +402,12 @@
           "id": "c99db8ffeb455",
           "userId": "u1",
           "content": "EU AE",
-          "createdAt": "2026-05-14T20:16:24.814Z"
+          "createdAt": "2026-05-14T20:16:24.814Z",
+          "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "p2",
@@ -236,9 +425,12 @@
           "id": "cf29f19772949",
           "userId": "u1",
           "content": "Melhor game da galaxia",
-          "createdAt": "2026-05-14T20:14:52.084Z"
+          "createdAt": "2026-05-14T20:14:52.084Z",
+          "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pseed01",
@@ -258,15 +450,19 @@
           "id": "cseed02",
           "userId": "u6",
           "content": "Concordo. O mapa parece enorme, mas sempre tem algum detalhe guiando sem virar tutorial.",
-          "createdAt": "2026-05-14T20:22:00.000Z"
+          "createdAt": "2026-05-14T20:22:00.000Z",
+          "likes": []
         },
         {
           "id": "cseed03",
           "userId": "u4",
           "content": "Eu sofri no comeco, mas quando entendi a liberdade ficou absurdo.",
-          "createdAt": "2026-05-14T20:23:00.000Z"
+          "createdAt": "2026-05-14T20:23:00.000Z",
+          "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pseed02",
@@ -284,9 +480,12 @@
           "id": "cseed04",
           "userId": "u7",
           "content": "Principalmente em mapa fechado. Uma smoke boa vale mais que sair correndo.",
-          "createdAt": "2026-05-14T20:25:00.000Z"
+          "createdAt": "2026-05-14T20:25:00.000Z",
+          "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pseed03",
@@ -304,15 +503,19 @@
           "id": "cseed05",
           "userId": "u3",
           "content": "A evolucao dos personagens e o que mais prende. Nao e so pancadaria bonita.",
-          "createdAt": "2026-05-14T20:27:00.000Z"
+          "createdAt": "2026-05-14T20:27:00.000Z",
+          "likes": []
         },
         {
           "id": "cseed06",
           "userId": "u2",
           "content": "Bom topico para discutir narrativa em jogos de ação.",
-          "createdAt": "2026-05-14T20:28:00.000Z"
+          "createdAt": "2026-05-14T20:28:00.000Z",
+          "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pseed04",
@@ -329,9 +532,12 @@
           "id": "cseed07",
           "userId": "u4",
           "content": "Isso vale para quase todo competitivo. Posicionamento ganha jogo.",
-          "createdAt": "2026-05-14T20:30:00.000Z"
+          "createdAt": "2026-05-14T20:30:00.000Z",
+          "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pseed05",
@@ -349,9 +555,12 @@
           "id": "cseed08",
           "userId": "u6",
           "content": "Esse e um dos poucos mundos abertos em que eu gosto de andar devagar.",
-          "createdAt": "2026-05-14T20:32:00.000Z"
+          "createdAt": "2026-05-14T20:32:00.000Z",
+          "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pseed08",
@@ -364,7 +573,9 @@
         "u3",
         "u1"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-lorenzo-deusex-01",
@@ -387,7 +598,9 @@
             "u1"
           ]
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-lorenzo-zelda-01",
@@ -408,7 +621,9 @@
           "createdAt": "2026-06-25T20:05:00.000Z",
           "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-lorenzo-gtavi-01",
@@ -422,7 +637,9 @@
         "u4",
         "u7"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-admin-deathstranding-01",
@@ -445,7 +662,9 @@
             "u2"
           ]
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-admin-lol-01",
@@ -458,7 +677,9 @@
         "u4",
         "u7"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-admin-minecraft-01",
@@ -480,7 +701,9 @@
           "createdAt": "2026-06-24T17:44:00.000Z",
           "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-marina-sims-01",
@@ -503,7 +726,9 @@
             "u3"
           ]
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-marina-rdr2-01",
@@ -516,7 +741,9 @@
         "u6",
         "u1"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-marina-elden-01",
@@ -538,7 +765,9 @@
           "createdAt": "2026-06-24T15:39:00.000Z",
           "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-rafa-valorant-01",
@@ -561,7 +790,9 @@
             "u4"
           ]
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-rafa-deusex-01",
@@ -574,7 +805,9 @@
         "u1",
         "u2"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-rafa-fortnite-01",
@@ -595,7 +828,9 @@
           "createdAt": "2026-06-24T14:01:00.000Z",
           "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-diego-deathstranding-01",
@@ -608,7 +843,9 @@
         "u1",
         "u3"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-diego-gtav-01",
@@ -631,7 +868,9 @@
             "u6"
           ]
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-diego-zelda-01",
@@ -644,7 +883,9 @@
         "u3",
         "u7"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-camila-fortnite-01",
@@ -665,7 +906,9 @@
           "createdAt": "2026-06-26T08:12:00.000Z",
           "likes": []
         }
-      ]
+      ],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-camila-lol-01",
@@ -678,7 +921,9 @@
         "u2",
         "u4"
       ],
-      "comments": []
+      "comments": [],
+      "imageData": "",
+      "pinned": false
     },
     {
       "id": "pfill-camila-sims-01",
@@ -701,7 +946,765 @@
             "u7"
           ]
         }
+      ],
+      "imageData": "",
+      "pinned": false
+    },
+    {
+      "id": "pdemo-cs2-economia-01",
+      "gameId": "g7",
+      "userId": "u12",
+      "title": "Economia no Counter-Strike 2 decide muito round",
+      "content": "Muita partida e perdida porque o time compra separado. Guardar uma rodada para comprar junto costuma valer mais que forcar arma ruim.",
+      "imageData": "",
+      "createdAt": "2026-07-17T09:10:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u4",
+        "u8",
+        "u10"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-cs2-economia-01",
+          "userId": "u4",
+          "content": "Quando o time sincroniza granada e colete, o jogo muda bastante.",
+          "createdAt": "2026-07-17T09:32:00.000Z",
+          "likes": [
+            "u12"
+          ]
+        }
       ]
+    },
+    {
+      "id": "pdemo-cs2-smokes-01",
+      "gameId": "g7",
+      "userId": "u4",
+      "title": "Smokes simples ja melhoram muito o CS2",
+      "content": "Nao precisa decorar vinte lineups no comeco. Duas smokes por mapa e uma flash bem usada ja ajudam o time a entrar melhor.",
+      "imageData": "",
+      "createdAt": "2026-07-16T20:45:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u12",
+        "u16"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-cs2-smokes-01",
+          "userId": "u10",
+          "content": "Boa pauta para iniciantes que acham que tudo depende so de mira.",
+          "createdAt": "2026-07-16T21:06:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-bg3-escolhas-01",
+      "gameId": "g11",
+      "userId": "u9",
+      "title": "Baldur's Gate 3 faz escolhas pequenas parecerem importantes",
+      "content": "O legal e que uma conversa aparentemente simples pode mudar combate, relacionamento e caminho de missao horas depois.",
+      "imageData": "",
+      "createdAt": "2026-07-17T08:35:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u3",
+        "u11",
+        "u15"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-bg3-escolhas-01",
+          "userId": "u11",
+          "content": "Isso deixa a campanha com cara de mesa de RPG mesmo.",
+          "createdAt": "2026-07-17T08:58:00.000Z",
+          "likes": [
+            "u9"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdemo-bg3-coop-01",
+      "gameId": "g11",
+      "userId": "u3",
+      "title": "Coop em Baldur's Gate 3 vira caos organizado",
+      "content": "Jogar com amigos cria decisoes absurdas, mas tambem momentos que uma campanha solo nunca teria.",
+      "imageData": "",
+      "createdAt": "2026-07-15T18:20:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u9",
+        "u18"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-bg3-coop-01",
+          "userId": "u18",
+          "content": "O melhor e quando alguem inicia conversa enquanto outro rouba tudo ao redor.",
+          "createdAt": "2026-07-15T18:43:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-bg3-builds-01",
+      "gameId": "g11",
+      "userId": "u11",
+      "title": "Build de suporte tambem carrega campanha em RPG",
+      "content": "Curar, controlar terreno e dar vantagem nos testes pode parecer menos chamativo, mas muda completamente encontros dificeis.",
+      "imageData": "",
+      "createdAt": "2026-07-13T14:50:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u9",
+        "u13"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-cyberpunk-performance-01",
+      "gameId": "g12",
+      "userId": "u16",
+      "title": "Cyberpunk 2077 ficou bem mais estavel no PC",
+      "content": "Depois das atualizacoes, o jogo virou outro exemplo de como performance e polimento mudam a percepcao de um mundo aberto.",
+      "imageData": "",
+      "createdAt": "2026-07-16T19:30:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u1",
+        "u15",
+        "u8"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-cyberpunk-performance-01",
+          "userId": "u1",
+          "content": "Tambem e bom assunto para falar de lancamento problemático e recuperacao depois.",
+          "createdAt": "2026-07-16T19:48:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-cyberpunk-nightcity-01",
+      "gameId": "g12",
+      "userId": "u15",
+      "title": "Night City funciona melhor nas missoes pequenas",
+      "content": "As side quests com personagens especificos deixam a cidade mais viva do que simplesmente atravessar o mapa correndo.",
+      "imageData": "",
+      "createdAt": "2026-07-15T16:05:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u3",
+        "u16"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-cyberpunk-builds-01",
+      "gameId": "g12",
+      "userId": "u2",
+      "title": "Cyberpunk permite discutir estilo de jogo",
+      "content": "Da para comparar build de hack, katana, furtividade e arma pesada no mesmo topico sem a conversa ficar repetitiva.",
+      "imageData": "",
+      "createdAt": "2026-07-12T10:15:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u16",
+        "u12"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-cyberpunk-builds-01",
+          "userId": "u12",
+          "content": "Build de hack muda o ritmo do combate completamente.",
+          "createdAt": "2026-07-12T10:38:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-stardew-rotina-01",
+      "gameId": "g13",
+      "userId": "u5",
+      "title": "Stardew Valley e relaxante porque deixa criar rotina",
+      "content": "Plantar, minerar, pescar e conversar com moradores cria um ciclo simples, mas sempre tem algo pequeno para melhorar.",
+      "imageData": "",
+      "createdAt": "2026-07-17T07:25:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u9",
+        "u11",
+        "u18"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-stardew-rotina-01",
+          "userId": "u11",
+          "content": "E um dos melhores jogos para mostrar comunidade mais tranquila.",
+          "createdAt": "2026-07-17T07:44:00.000Z",
+          "likes": [
+            "u5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdemo-stardew-coop-01",
+      "gameId": "g13",
+      "userId": "u9",
+      "title": "Fazenda coop em Stardew muda a experiencia",
+      "content": "Quando cada pessoa assume uma tarefa, o jogo fica quase uma rotina de equipe: alguem pesca, outro minera e outro cuida da plantacao.",
+      "imageData": "",
+      "createdAt": "2026-07-14T12:40:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u5",
+        "u18"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-stardew-iniciantes-01",
+      "gameId": "g13",
+      "userId": "u11",
+      "title": "Stardew e bom para quem nao joga muito",
+      "content": "Ele nao exige reflexo rapido nem punicao pesada. A pessoa aprende no proprio ritmo e ainda sente progresso todo dia.",
+      "imageData": "",
+      "createdAt": "2026-07-11T09:10:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u5",
+        "u17"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-stardew-iniciantes-01",
+          "userId": "u17",
+          "content": "Tambem e facil recomendar para quem quer sair de jogo competitivo.",
+          "createdAt": "2026-07-11T09:29:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-hades-builds-01",
+      "gameId": "g14",
+      "userId": "u13",
+      "title": "Hades fica viciante por causa das combinacoes",
+      "content": "Cada tentativa muda conforme os boons aparecem. Mesmo perdendo, voce aprende um combo novo e ja quer tentar de novo.",
+      "imageData": "",
+      "createdAt": "2026-07-16T13:25:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u14",
+        "u15",
+        "u17"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-hades-builds-01",
+          "userId": "u14",
+          "content": "O jogo faz derrota parecer parte natural da evolucao.",
+          "createdAt": "2026-07-16T13:47:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-hades-narrativa-01",
+      "gameId": "g14",
+      "userId": "u15",
+      "title": "Hades usa repeticao para contar historia",
+      "content": "A ideia de morrer e voltar combina com a narrativa. Cada run entrega dialogo novo sem quebrar o ritmo.",
+      "imageData": "",
+      "createdAt": "2026-07-13T20:10:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u13",
+        "u9"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-hades-acessivel-01",
+      "gameId": "g14",
+      "userId": "u17",
+      "title": "Hades e uma boa porta de entrada para roguelike",
+      "content": "Ele tem acao rapida, mas explica bem a progressao. Mesmo quem nao conhece o genero entende por que repetir faz sentido.",
+      "imageData": "",
+      "createdAt": "2026-07-10T11:05:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u13",
+        "u11"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-hollow-mapa-01",
+      "gameId": "g15",
+      "userId": "u14",
+      "title": "Hollow Knight usa mapa como recompensa",
+      "content": "Comprar mapa, achar banco e descobrir atalho faz a exploracao parecer perigosa sem ser injusta.",
+      "imageData": "",
+      "createdAt": "2026-07-15T22:15:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u6",
+        "u13"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-hollow-mapa-01",
+          "userId": "u13",
+          "content": "A trilha tambem ajuda muito a marcar cada area.",
+          "createdAt": "2026-07-15T22:39:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-hollow-chefes-01",
+      "gameId": "g15",
+      "userId": "u6",
+      "title": "Chefes opcionais em Hollow Knight ensinam paciencia",
+      "content": "A luta dificil parece impossivel ate voce entender padrao, distancia e momento certo de curar.",
+      "imageData": "",
+      "createdAt": "2026-07-12T18:55:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u14",
+        "u1"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-hollow-trilha-01",
+      "gameId": "g15",
+      "userId": "u13",
+      "title": "A trilha de Hollow Knight vende a melancolia do mundo",
+      "content": "O jogo nao precisa explicar tudo quando musica, cenario e inimigos ja passam a sensacao de reino abandonado.",
+      "imageData": "",
+      "createdAt": "2026-07-09T16:20:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u15",
+        "u17"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-forza-controle-01",
+      "gameId": "g16",
+      "userId": "u10",
+      "title": "Forza Horizon 5 fica muito melhor no controle",
+      "content": "No teclado da para jogar, mas controle deixa aceleracao e curva bem mais suaves. Para corrida arcade isso muda bastante.",
+      "imageData": "",
+      "createdAt": "2026-07-17T06:50:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u8",
+        "u16"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-forza-controle-01",
+          "userId": "u8",
+          "content": "Controle ajuda principalmente em carro mais forte.",
+          "createdAt": "2026-07-17T07:05:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-forza-mapa-01",
+      "gameId": "g16",
+      "userId": "u16",
+      "title": "O mapa do Mexico em Forza e otimo para variedade",
+      "content": "Tem estrada, terra, cidade, selva e deserto. Isso ajuda a corrida nao parecer sempre a mesma prova.",
+      "imageData": "",
+      "createdAt": "2026-07-14T17:35:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u8",
+        "u10"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-forza-online-01",
+      "gameId": "g16",
+      "userId": "u8",
+      "title": "Corrida online precisa de etiqueta tambem",
+      "content": "Nao adianta ser rapido e bater em todo mundo na primeira curva. Comunidade de corrida tambem precisa discutir comportamento.",
+      "imageData": "",
+      "createdAt": "2026-07-10T19:15:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u10",
+        "u18"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-re4-recursos-01",
+      "gameId": "g17",
+      "userId": "u12",
+      "title": "Resident Evil 4 Remake trabalha bem a tensao dos recursos",
+      "content": "A decisao de gastar munição agora ou guardar para depois cria medo mesmo quando voce ja conhece o inimigo.",
+      "imageData": "",
+      "createdAt": "2026-07-16T22:05:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u15",
+        "u14"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-re4-recursos-01",
+          "userId": "u15",
+          "content": "O inventario vira parte do terror, nao so menu.",
+          "createdAt": "2026-07-16T22:20:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-re4-atmosfera-01",
+      "gameId": "g17",
+      "userId": "u15",
+      "title": "O remake de RE4 equilibra acao e terror",
+      "content": "Ele e mais cinematografico, mas ainda segura tensao com som, ritmo e inimigos pressionando o jogador.",
+      "imageData": "",
+      "createdAt": "2026-07-13T21:40:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u12",
+        "u17"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-re4-chefes-01",
+      "gameId": "g17",
+      "userId": "u14",
+      "title": "Chefes de RE4 funcionam porque mudam regra da sala",
+      "content": "A luta fica memoravel quando o espaco, municao e movimento obrigam voce a pensar diferente.",
+      "imageData": "",
+      "createdAt": "2026-07-08T15:50:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u12",
+        "u15"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-terraria-progressao-01",
+      "gameId": "g18",
+      "userId": "u5",
+      "title": "Terraria tem uma progressao enorme para um jogo 2D",
+      "content": "Voce comeca cortando arvore e termina enfrentando boss gigante com arena preparada. A escala cresce muito bem.",
+      "imageData": "",
+      "createdAt": "2026-07-16T12:30:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u6",
+        "u18",
+        "u14"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-terraria-progressao-01",
+          "userId": "u18",
+          "content": "Preparar arena com amigos e metade da graca.",
+          "createdAt": "2026-07-16T12:55:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-terraria-coop-01",
+      "gameId": "g18",
+      "userId": "u18",
+      "title": "Terraria coop vira divisao natural de tarefas",
+      "content": "Um minera, outro constroi, outro procura boss. Quando todo mundo volta para base, parece que o mundo andou.",
+      "imageData": "",
+      "createdAt": "2026-07-12T13:30:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u5",
+        "u6"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-terraria-exploracao-01",
+      "gameId": "g18",
+      "userId": "u6",
+      "title": "Explorar caverna em Terraria sempre rende surpresa",
+      "content": "Mesmo depois de conhecer o jogo, cair em bioma estranho ou achar item raro continua criando historia boa.",
+      "imageData": "",
+      "createdAt": "2026-07-07T18:15:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u5",
+        "u14"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-apex-movimento-01",
+      "gameId": "g19",
+      "userId": "u7",
+      "title": "Apex Legends se diferencia pelo movimento",
+      "content": "Deslizar, escalar e reposicionar rapido faz a troca de tiro parecer mais dinamica que em muitos battle royales.",
+      "imageData": "",
+      "createdAt": "2026-07-15T11:25:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u10",
+        "u12"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-apex-movimento-01",
+          "userId": "u10",
+          "content": "E por isso personagem com mobilidade muda tanto o meta.",
+          "createdAt": "2026-07-15T11:41:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-apex-ranked-01",
+      "gameId": "g19",
+      "userId": "u12",
+      "title": "Ranked em Apex precisa de chamada curta",
+      "content": "Informacao demais confunde. Falar dano, posicao e decisao de recuar ja resolve metade da comunicacao.",
+      "imageData": "",
+      "createdAt": "2026-07-11T20:05:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u7",
+        "u4"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-apex-lendas-01",
+      "gameId": "g19",
+      "userId": "u10",
+      "title": "Balancear lendas em Apex e dificil porque tudo afeta trio",
+      "content": "Uma habilidade forte sozinha ja pesa, mas o verdadeiro problema e quando combina com outras duas lendas.",
+      "imageData": "",
+      "createdAt": "2026-07-06T14:35:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u7",
+        "u12"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-rocket-treino-01",
+      "gameId": "g20",
+      "userId": "u8",
+      "title": "Rocket League prova que mecanica simples pode ser profunda",
+      "content": "E so carro, bola e gol, mas controle aereo, rotacao e leitura de quique criam uma curva de aprendizado enorme.",
+      "imageData": "",
+      "createdAt": "2026-07-17T05:55:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u10",
+        "u18"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-rocket-treino-01",
+          "userId": "u10",
+          "content": "Treinar rotacao ajuda mais que tentar fazer freestyle cedo.",
+          "createdAt": "2026-07-17T06:17:00.000Z",
+          "likes": [
+            "u8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pdemo-rocket-fisica-01",
+      "gameId": "g20",
+      "userId": "u10",
+      "title": "A fisica de Rocket League deixa cada gol diferente",
+      "content": "Mesmo com poucas regras, a bola nunca parece exatamente igual. Isso cria jogada improvisada o tempo todo.",
+      "imageData": "",
+      "createdAt": "2026-07-13T08:45:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u8",
+        "u18"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-rocket-casual-01",
+      "gameId": "g20",
+      "userId": "u18",
+      "title": "Rocket League casual e perfeito para jogar com amigos",
+      "content": "Partidas curtas ajudam a entrar e sair sem compromisso, mas ainda da para levar a serio quando o grupo quer competir.",
+      "imageData": "",
+      "createdAt": "2026-07-09T20:30:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u8",
+        "u11"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-minecraft-mods-01",
+      "gameId": "g2",
+      "userId": "u5",
+      "title": "Mods fazem Minecraft virar varios jogos diferentes",
+      "content": "Com modpack certo, o jogo pode virar automacao, RPG, exploracao ou desafio tecnico. Isso explica por que ele dura tanto.",
+      "imageData": "",
+      "createdAt": "2026-07-14T09:30:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u1",
+        "u18",
+        "u11"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-minecraft-mods-01",
+          "userId": "u1",
+          "content": "Esse e um bom exemplo para mostrar comunidade criando conteudo.",
+          "createdAt": "2026-07-14T09:52:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-elden-dlc-builds-01",
+      "gameId": "g3",
+      "userId": "u14",
+      "title": "Elden Ring incentiva testar arma estranha",
+      "content": "As melhores descobertas aparecem quando voce para de copiar build pronta e tenta uma arma que parece ruim no começo.",
+      "imageData": "",
+      "createdAt": "2026-07-12T22:10:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u3",
+        "u6",
+        "u13"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-gta6-expectativa-01",
+      "gameId": "g473f81d0f6a0",
+      "userId": "u16",
+      "title": "GTA VI precisa equilibrar realismo e diversao",
+      "content": "Grafico impressiona, mas o jogo precisa ser divertido fora das missoes principais: transito, lojas, policia e atividades precisam reagir bem.",
+      "imageData": "",
+      "createdAt": "2026-07-11T18:00:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u1",
+        "u2",
+        "u8"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-sims-construcao-01",
+      "gameId": "ge4c53072a7aa",
+      "userId": "u11",
+      "title": "The Sims 4 tem um publico forte de construcao",
+      "content": "Tem gente que quase nao joga com os Sims e passa horas montando casa. Isso tambem e uma forma valida de jogar.",
+      "imageData": "",
+      "createdAt": "2026-07-08T10:40:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u3",
+        "u5",
+        "u7"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-lol-toxicidade-01",
+      "gameId": "g6",
+      "userId": "u10",
+      "title": "League of Legends precisa de ferramentas contra toxicidade",
+      "content": "Como a partida depende de equipe, comportamento ruim estraga o jogo mesmo quando o balanceamento esta bom.",
+      "imageData": "",
+      "createdAt": "2026-07-07T21:10:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u7",
+        "u4"
+      ],
+      "comments": [
+        {
+          "id": "cdemo-lol-toxicidade-01",
+          "userId": "u7",
+          "content": "Esse assunto combina muito com painel de moderacao.",
+          "createdAt": "2026-07-07T21:33:00.000Z",
+          "likes": []
+        }
+      ]
+    },
+    {
+      "id": "pdemo-valorant-utilidade-01",
+      "gameId": "g10",
+      "userId": "u12",
+      "title": "Valorant ensina que utilidade tambem e habilidade",
+      "content": "Usar smoke, flash e molotov no tempo certo exige tanto treino quanto mirar. A diferenca e que o time inteiro sente o impacto.",
+      "imageData": "",
+      "createdAt": "2026-07-06T19:25:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u4",
+        "u10"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-deathstranding-social-01",
+      "gameId": "g0c19395a3a70",
+      "userId": "u17",
+      "title": "Death Stranding tem multiplayer sem pressao direta",
+      "content": "Ajudar outros jogadores com ponte, placa e recurso cria uma sensacao social diferente, sem precisar conversar em tempo real.",
+      "imageData": "",
+      "createdAt": "2026-07-05T12:15:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u6",
+        "u3",
+        "u2"
+      ],
+      "comments": []
+    },
+    {
+      "id": "pdemo-rdr2-detalhes-01",
+      "gameId": "g9",
+      "userId": "u15",
+      "title": "Red Dead Redemption 2 impressiona nos detalhes pequenos",
+      "content": "Animacoes, clima, dialogos aleatorios e rotina dos NPCs fazem o mundo parecer vivo mesmo quando nada grande esta acontecendo.",
+      "imageData": "",
+      "createdAt": "2026-07-04T17:10:00.000Z",
+      "pinned": false,
+      "likes": [
+        "u3",
+        "u6",
+        "u16"
+      ],
+      "comments": []
     }
   ]
 }

@@ -205,6 +205,39 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
     }
   }
 
+  async function changeUserRole(targetUser, role) {
+    if (targetUser.role === role) return;
+
+    try {
+      setAdminError("");
+      await onUpdateUser(targetUser.id, {
+        name: targetUser.name,
+        username: targetUser.username,
+        role,
+        bio: targetUser.bio || ""
+      });
+    } catch (error) {
+      setAdminError(error.message);
+    }
+  }
+
+  function UserRoleSelect({ user }) {
+    const isCurrentUser = user.id === currentUser.id;
+
+    return (
+      <select
+        aria-label={`Alterar privilegio de ${user.name}`}
+        disabled={isCurrentUser}
+        title={isCurrentUser ? "O admin logado nao pode remover o proprio acesso" : "Alterar privilegio do usuario"}
+        value={user.role}
+        onChange={event => changeUserRole(user, event.target.value)}
+      >
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+      </select>
+    );
+  }
+
   function closeDialog() {
     setEditDialog(null);
     setEditingGameId("");
@@ -374,7 +407,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
                         <option className="select-tipo" value="admin">admin</option>
                       </select>
                     ) : (
-                      user.role
+                      <UserRoleSelect user={user} />
                     )}
                   </td>
                   <td data-label="ações">
@@ -409,6 +442,7 @@ export function AdminPanel({ games, users, currentUser, onBack, onCreateGame, on
                 </span>
               </button>
               <div className="admin-mobile-card__actions">
+                <UserRoleSelect user={user} />
                 <button className="icon-btn" type="button" title="Editar" aria-label={`Editar ${user.name}`} onClick={() => startUserEdit(user)}>{icons.edit}</button>
                 {user.id === currentUser.id ? <span className="muted" style={{ padding: "0.3rem", color: "green" }}>Logado</span> : <button className="icon-btn danger" type="button" title="Excluir" aria-label={`Excluir ${user.name}`} onClick={() => onDeleteUser(user.id)}>{icons.delete}</button>}
               </div>

@@ -1,23 +1,71 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const MAX_IMAGE_BYTES = 2_000_000;
+const ALLOWED_IMAGE_TYPES = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);
 
 export function Composer({ games, selectedGame, onSubmit }) {
   const [gameId, setGameId] = useState(selectedGame?.id || "");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [imageData, setImageData] = useState("");
+  const [imageName, setImageName] = useState("");
+  const [imageError, setImageError] = useState("");
   const [open, setOpen] = useState(false);
   const [attachOpen, setAttachOpen] = useState(false);
+  const imageInputRef = useRef(null);
 
   useEffect(() => {
     setGameId(selectedGame?.id || "");
   }, [selectedGame?.id]);
 
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault();
-    onSubmit({ gameId, title, content });
+    setImageError("");
+    try {
+      await onSubmit({ gameId, title, content, imageData });
+    } catch (error) {
+      setImageError(error.message || "Nao foi possivel publicar o post.");
+      return;
+    }
     setTitle("");
     setContent("");
+    clearImage();
     setAttachOpen(false);
     setOpen(false);
+  }
+
+  function selectImage(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    setImageError("");
+    if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+      setImageError("Use uma imagem PNG, JPG, WEBP ou GIF.");
+      return;
+    }
+
+    if (file.size > MAX_IMAGE_BYTES) {
+      setImageError("A imagem deve ter no maximo 2 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageData(String(reader.result || ""));
+      setImageName(file.name);
+      setAttachOpen(false);
+    };
+    reader.onerror = () => {
+      setImageError("Nao foi possivel carregar a imagem.");
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function clearImage() {
+    setImageData("");
+    setImageName("");
+    setImageError("");
   }
 
   if (!open) {
@@ -67,6 +115,13 @@ export function Composer({ games, selectedGame, onSubmit }) {
           <textarea value={content} onChange={event => setContent(event.target.value)} placeholder="Escreva sua opiniao, dica, tutorial ou pergunta..." required />
           <div className="editor-toolbar" aria-label="Ferramentas visuais do editor">
             <div className="attachment-menu">
+              <input
+                ref={imageInputRef}
+                className="attachment-input"
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                onChange={selectImage}
+              />
               <button
                 className="toolbar-btn"
                 type="button"
@@ -79,7 +134,7 @@ export function Composer({ games, selectedGame, onSubmit }) {
               </button>
               {attachOpen && (
                 <div className="attachment-popover">
-                  <button type="button" onClick={() => setAttachOpen(false)}>
+                  <button type="button" onClick={() => imageInputRef.current?.click()}>
                     <span className="menu-icon" aria-hidden="true">
                       <svg viewBox="0 0 24 24" focusable="false">
                         <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -116,6 +171,16 @@ export function Composer({ games, selectedGame, onSubmit }) {
             <button className="toolbar-btn" type="button" title="Emoji decorativo" aria-label="Emoji decorativo">☺</button>
           </div>
         </div>
+        {imageError && <span className="attachment-error">{imageError}</span>}
+        {imageData && (
+          <div className="image-preview">
+            <img src={imageData} alt={`Previa de ${imageName}`} />
+            <div>
+              <strong>{imageName}</strong>
+              <button className="text-danger" type="button" onClick={clearImage}>Remover imagem</button>
+            </div>
+          </div>
+        )}
       </label>
       <div className="composer-actions">
         <button className="btn" type="button" onClick={() => setOpen(false)}>Cancelar</button>

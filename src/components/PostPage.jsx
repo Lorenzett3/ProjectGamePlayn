@@ -3,13 +3,17 @@ import { avatarFor, formatDate } from "../utils";
 
 export function PostPage({ post, currentUser, onAuthorClick, onBack, onComment, onDeleteComment, onDeletePost, onLike, onLikeComment, onPinPost }) {
   const [comment, setComment] = useState("");
-  const canDeletePost = currentUser.role === "admin" || currentUser.id === post?.userId;
-  const liked = post?.likes.includes(currentUser.id);
+  const canDeletePost = currentUser && (currentUser.role === "admin" || currentUser.id === post?.userId);
+  const liked = currentUser && post?.likes.includes(currentUser.id);
 
   async function submitComment(event) {
     event.preventDefault();
-    await onComment(post.id, comment);
-    setComment("");
+    try {
+      await onComment(post.id, comment);
+      setComment("");
+    } catch {
+      // The global feedback message already explains why the action failed.
+    }
   }
 
   if (!post) {
@@ -39,11 +43,13 @@ export function PostPage({ post, currentUser, onAuthorClick, onBack, onComment, 
             <h2>{post.title}</h2>
           </div>
           <div className="post-head-actions">
-            <button className={`icon-btn ${post.pinned ? "active" : ""}`} type="button" onClick={() => onPinPost(post.id)} aria-label={post.pinned ? "Desfixar post" : "Fixar post"} title={post.pinned ? "Desfixar post" : "Fixar post"}>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M14 4l6 6-3 1-4 4v4l-2 2-2-6-6-2 2-2h4l4-4 1-3z" />
-              </svg>
-            </button>
+            {currentUser && (
+              <button className={`icon-btn ${post.pinned ? "active" : ""}`} type="button" onClick={() => onPinPost(post.id)} aria-label={post.pinned ? "Desfixar post" : "Fixar post"} title={post.pinned ? "Desfixar post" : "Fixar post"}>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M14 4l6 6-3 1-4 4v4l-2 2-2-6-6-2 2-2h4l4-4 1-3z" />
+                </svg>
+              </button>
+            )}
             {canDeletePost && (
               <button className="icon-btn danger" type="button" onClick={() => onDeletePost(post.id)} aria-label="Excluir post" title="Excluir post">
                 🗑
@@ -52,6 +58,9 @@ export function PostPage({ post, currentUser, onAuthorClick, onBack, onComment, 
           </div>
         </div>
         <p>{post.content}</p>
+        {post.imageData && (
+          <img className="post-image post-image--detail" src={post.imageData} alt={`Imagem do post ${post.title}`} />
+        )}
         <div className="post-actions">
           <button className="btn" type="button" onClick={() => onLike(post.id)}>{liked ? "Curtido" : "Curtir"} ({post.likes.length})</button>
           <span className="meta">{post.comments.length} comentários</span>
@@ -65,17 +74,21 @@ export function PostPage({ post, currentUser, onAuthorClick, onBack, onComment, 
         </header>
 
         <div className="comment-composer">
-          <form className="comment-form" onSubmit={submitComment}>
-            <textarea value={comment} onChange={event => setComment(event.target.value)} placeholder="Comentar neste post" required />
-            <button className="btn primary" type="submit">Comentar</button>
-          </form>
+          {currentUser ? (
+            <form className="comment-form" onSubmit={submitComment}>
+              <textarea value={comment} onChange={event => setComment(event.target.value)} placeholder="Comentar neste post" required />
+              <button className="btn primary" type="submit">Comentar</button>
+            </form>
+          ) : (
+            <button className="btn primary" type="button" onClick={() => onComment(post.id, "")}>Entrar para comentar</button>
+          )}
         </div>
 
         <div className="comments">
           {post.comments.length ? post.comments.map(item => {
             const likes = Array.isArray(item.likes) ? item.likes : [];
-            const commentLiked = likes.includes(currentUser.id);
-            const canDeleteComment = currentUser.role === "admin" || currentUser.id === post.userId || currentUser.id === item.userId;
+            const commentLiked = currentUser ? likes.includes(currentUser.id) : false;
+            const canDeleteComment = currentUser && (currentUser.role === "admin" || currentUser.id === post.userId || currentUser.id === item.userId);
 
             return (
               <div className="comment" key={item.id}>

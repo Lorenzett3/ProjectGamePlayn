@@ -14,6 +14,7 @@ export function Sidebar({
   currentUser,
   onAdminOpen,
   onGameSelect,
+  onLoginOpen,
   onLogout,
   onPinGame,
   onProfileSelect,
@@ -23,7 +24,7 @@ export function Sidebar({
   onViewChange
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isAdmin = currentUser.role === "admin";
+  const isAdmin = currentUser?.role === "admin";
   const canPinTopic = Boolean(currentUser);
   const pinIcon = (
     <span className="pin-label" aria-label="Fixado" title="Fixado">
@@ -56,6 +57,11 @@ export function Sidebar({
   }
 
   function openOwnProfile() {
+    if (!currentUser) {
+      onLoginOpen();
+      setMobileOpen(false);
+      return;
+    }
     onProfileSelect(currentUser.id);
     setMobileOpen(false);
   }
@@ -110,7 +116,7 @@ export function Sidebar({
 
         <nav className="nav-list" aria-label="Navegação principal">
           <button className={`nav-btn ${view === "feed" ? "active" : ""}`} type="button" onClick={showFeed}>Feed</button>
-          <button className={`nav-btn ${view === "profile" && profileUser?.id === currentUser.id ? "active" : ""}`} type="button" onClick={openOwnProfile}>Meu perfil</button>
+          <button className={`nav-btn ${view === "profile" && profileUser?.id === currentUser?.id ? "active" : ""}`} type="button" onClick={openOwnProfile}>{currentUser ? "Meu perfil" : "Entrar"}</button>
           {isAdmin && (
             <button className={`nav-btn ${view === "admin" ? "active" : ""}`} type="button" onClick={openAdminPanel}>Painel admin</button>
           )}
@@ -159,7 +165,7 @@ export function Sidebar({
 
         <div className="mobile-menu__footer">
           <ThemeToggle theme={theme} onToggle={onThemeToggle} />
-          <button className="btn" type="button" onClick={onLogout}>Sair</button>
+          <button className="btn" type="button" onClick={currentUser ? onLogout : onLoginOpen}>{currentUser ? "Sair" : "Entrar"}</button>
         </div>
       </div>
     </aside>

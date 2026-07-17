@@ -1,0 +1,59 @@
+@use "../abstracts/variables" as *;
+
+.notice {
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent-2) 14%, var(--surface-3));
+  border: 1px solid color-mix(in srgb, var(--accent-2) 48%, var(--line));
+  padding: 10px;
+  border-radius: $radius;
+}
+
+.app-feedback {
+  position: fixed;
+  right: clamp(12px, 3vw, 28px);
+  bottom: clamp(12px, 3vw, 28px);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(420px, calc(100vw - 24px));
+  padding: 12px 14px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  box-shadow: var(--shadow);
+}
+
+.app-feedback--success {
+  border-color: color-mix(in srgb, #21d37b 58%, var(--line));
+}
+
+.app-feedback--error {
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  border-color: var(--danger-border);
+}
+
+.app-feedback span {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.app-feedback button {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: $radius;
+}
+
+.app-feedback button:hover {
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}

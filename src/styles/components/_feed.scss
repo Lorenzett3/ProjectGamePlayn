@@ -101,6 +101,21 @@
   }
 }
 
+.post-image {
+  width: 100%;
+  max-height: 420px;
+  margin-top: 14px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: $radius;
+  background: var(--surface-3);
+}
+
+.post-image--detail {
+  max-height: 620px;
+  object-fit: contain;
+}
+
 .post-head {
   display: flex;
   justify-content: space-between;
